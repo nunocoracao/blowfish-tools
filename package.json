@@ -20,9 +20,6 @@
     "github": "https://github.com/nunocoracao",
     "url": "https://n9o.xyz"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/nunocoracao/blowfish-init/issues"
