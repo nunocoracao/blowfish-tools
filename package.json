@@ -1,6 +1,6 @@
 {
   "name": "blowfish-init",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "CLI to initialize a Blowfish project",
   "main": "cli.js",
   "bin": {
@@ -21,7 +21,7 @@
     "url": "https://n9o.xyz"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org/"
   },
   "license": "MIT",
   "bugs": {
