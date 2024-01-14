@@ -1,5 +1,4 @@
-# [Blowfish Tools](https://blowfish.page/) &middot; 
-
+# [Blowfish Tools](https://blowfish.page/)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nunocoracao/blowfish-tools/blob/main/LICENSE)
 [![Node.js Package](https://github.com/nunocoracao/blowfish-tools/actions/workflows/release-package.yml/badge.svg)](https://github.com/nunocoracao/blowfish-tools/actions/workflows/release-package.yml)
 [![npm version](https://img.shields.io/npm/v/blowfish-tools.svg?style=flat-square)](https://www.npmjs.org/package/blowfish-tools)
@@ -9,7 +8,37 @@
 CLI to initialize and configure a [Blowfish](https://blowfish.page) project. Install the CLI globally and run `blowfish-init` to start the interactive prompt that will walk you through setting up a Blowfish from scratch or configure an existing project.
 
 ## Installation
+Install globally using:
 
 ```bash
 npm install -g blowfish-tools
+```
+
+## Interactive run
+
+Start an interactive run with
+
+```bash
+blowfish-tools
+```
+
+## Non-interactive run
+
+Use this package as part of scripts or CI/CD actions
+
+```bash
+blowfish-tools -h
+Usage: blowfish-tools [options] [command]
+
+CLI to initialize and configure a Blowfish project.
+Use `blowfish-tools` to start the interactive prompt.
+Run `blowfish-tools --help` for more information.
+
+Options:
+  -V, --version  output the version number
+  -h, --help     display help for command
+
+Commands:
+  new <folder>   Creates a new Blowfish project from scratch on the selected folder
+  install        Installs Blowfish on an existing Hugo project (assumes current directory).
 ```
