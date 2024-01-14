@@ -7,5 +7,5 @@ CLI to initialize and configure a [Blowfish](https://blowfish.page) project. Ins
 ## Installation
 
 ```bash
-npm install -g blowfish-init
+npm install -g blowfish-tools
 ```
