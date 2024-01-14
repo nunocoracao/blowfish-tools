@@ -1,6 +1,6 @@
 {
   "name": "blowfish-init",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "CLI to initialize a Blowfish project",
   "main": "cli.js",
   "bin": {

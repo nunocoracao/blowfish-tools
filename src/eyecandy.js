@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import ora from 'ora';
 import terminalImage from 'terminal-image';
 import got from 'got';
@@ -6,10 +8,10 @@ export default class eyecandy {
 
     static async showWelcome() {
         const spinner = ora('Loading awesomeness...').start();
-        const image = await got('https://github.com/nunocoracao/blowfish/blob/main/blowfish_logo.png?raw=true').buffer();
+        const image = await got('https://github.com/nunocoracao/blowfish-init/blob/main/logo.png?raw=true').buffer();
         spinner.succeed('Awesomeness loaded');
         console.clear();
-        console.log(await terminalImage.buffer(image, {width: '30%'}));
+        console.log(await terminalImage.buffer(buffer, {width: '30%'}));
         console.log('Welcome to Blowfish initializer.');
         console.log('I can help you setup a new project from scratch or configure an existing one (or both).');
         console.log('Please choose one of the options below:');

@@ -4,8 +4,6 @@ import commandExists from 'command-exists';
 
 export default class utils {
 
-
-
     static run(cmd, params, callback) {
         const child = spawn(cmd, params);
         child.stdout.pipe(process.stdout);

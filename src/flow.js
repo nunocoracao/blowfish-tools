@@ -16,8 +16,8 @@ export default class flow {
             initial: 0,
             choices: [
                 '1) Setup a new website with Blowfish',
-                '2) Configure an existing website with Blowfish',
-                '3) Configure the menu structure',
+                //'2) Configure an existing website with Blowfish',
+                //'3) Configure the menu structure',
                 '4) Exit'
             ]
         });
