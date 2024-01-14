@@ -1,6 +1,6 @@
 # Blowfish Init
 
-CLI to initialize a Blowfish project
+CLI to initialize a [Blowfish](https://blowfish.page) project
 
 ## Installation
 
