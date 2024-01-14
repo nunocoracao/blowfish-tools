@@ -1,17 +1,19 @@
 import fs from 'fs';
 import path from 'path';
 import ora from 'ora';
-import terminalImage from 'terminal-image';
-import got from 'got';
+import terminalImage from 'terminal-image'
+import utils from './utils.js';
+
+var buffer = fs.readFileSync(path.join(utils.getDirname(import.meta.url), '../logo.png'));
+
 
 export default class eyecandy {
 
     static async showWelcome() {
         const spinner = ora('Loading awesomeness...').start();
-        const image = await got('https://github.com/nunocoracao/blowfish-init/blob/main/logo.png?raw=true').buffer();
         spinner.succeed('Awesomeness loaded');
         console.clear();
-        console.log(await terminalImage.buffer(buffer, {width: '30%'}));
+        console.log(await terminalImage.buffer(buffer, {width: '20%'}));
         console.log('Welcome to Blowfish initializer.');
         console.log('I can help you setup a new project from scratch or configure an existing one (or both).');
         console.log('Please choose one of the options below:');
