@@ -1,7 +1,7 @@
 {
   "name": "blowfish-init",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "CLI to initialize a Blowfish project",
   "main": "cli.js",
   "bin": {
     "blowfish-init": "cli.js"
@@ -14,8 +14,12 @@
     "type": "git",
     "url": "git+https://github.com/nunocoracao/blowfish-init.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": {
+    "name": "Nuno Coração",
+    "github": "https://github.com/nunocoracao",
+    "url": "https://n9o.xyz"
+  },
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/nunocoracao/blowfish-init/issues"
   },
