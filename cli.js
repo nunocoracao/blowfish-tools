@@ -1,23 +1,51 @@
 #! /usr/bin/env node
 
-import { spawn } from 'child_process'
+import eyecandy from "./src/eyecandy.js";
+import flow from "./src/flow.js";
+
+eyecandy.showWelcome()
+.then(() => {
+    flow.showMain();
+});
+
+//import path from 'path';
+//import utils from './src/utils.js';
 
 
-var run = (cmd, params) => {
 
-    const child = spawn(cmd, params);
-    child.stdout.pipe(process.stdout);
-    child.stderr.pipe(process.stderr);
-    child.on('close', (code) => {
-        console.log(`child process exited with code ${code}`);
-    });
 
-}
+// 2 run options - config or new
 
-run(`hugo`, ['new', 'site', 'test'])
+// check software needed is available: git, hugo, etc, other commands to replace the files
+// check if there is a hugo project in the target folder
+// check if the theme is blowfish
+// gather information for folder
+// init hugo project
+// Install theme
+// start configuration steps
+// ask for information regarding the site
+
+/*
+import pkg from 'enquirer';
+const { prompt } = pkg;
+
+const response = await prompt({
+  type: 'input',
+  name: 'username',
+  default: 'jonschlinkert',
+  message: 'What is your username?'
+});
+
+console.log(response);
+*/
+
+//utils.run(`hugo`, ['new', 'site', 'test'])
+//utils.run(`git`, ['init'])
+//utils.run(`git`, ['submodule', 'add', '-b', 'main', 'https://github.com/nunocoracao/blowfish.git', 'themes/blowfish'])
+
+//open browser
 
 /*import ora from 'ora';
-import commandExists from 'command-exists';
 
 
 
@@ -42,7 +70,7 @@ detectCommand('brew');
 detectCommand('hugsso');
 detectCommand('git');*/
 
-console.log(process.platform)
+//console.log(process.platform)
 
 
 //start new hugo project
