@@ -2,6 +2,8 @@
 import ora from 'ora';
 import pkg from 'enquirer';
 const { prompt } = pkg;
+import toml from 'toml-patch';
+
 import eyecandy from "./eyecandy.js";
 import utils from './utils.js';
 
@@ -17,7 +19,7 @@ export default class flow {
         }
     }
 
-    static async showMain() {
+    static async showMain(message) {
 
         var blowfishIsInstalled = await flow.detectBlowfish();
 
@@ -26,12 +28,16 @@ export default class flow {
         var choices = [];
 
         for (var i in options) {
-            if (!options[i].hasOwnProperty('blowfishIsInstalled') )
+            if (!options[i].hasOwnProperty('blowfishIsInstalled'))
                 choices.push(options[i].text);
             else if (options[i].blowfishIsInstalled && blowfishIsInstalled)
                 choices.push(options[i].text);
             else if (!options[i].blowfishIsInstalled && !blowfishIsInstalled)
-                choices.push(options[i].text); 
+                choices.push(options[i].text);
+        }
+
+        if (message) {
+            console.log(message);
         }
 
         const response = await prompt({
@@ -48,27 +54,6 @@ export default class flow {
                 options[i].action();
                 return
             }
-        }
-    }
-
-    static async showPost(message) {
-        console.log(message)
-        const response = await prompt({
-            type: 'AutoComplete',
-            name: 'option',
-            message: 'Do you need help with anything else?',
-            limit: 10,
-            initial: 0,
-            choices: [
-                'Take me to the main menu',
-                'Exit'
-            ]
-        });
-
-        if (response.option === 'Exit') {
-            eyecandy.showBye();
-        } else if (response.option === 'Take me to the main menu') {
-            flow.showMain();
         }
     }
 
@@ -130,14 +115,14 @@ export default class flow {
         if (exitAfterRun)
             process.exit(0);
         else
-            flow.showPost('Blowfish configured in ' + response.directory + '. cd into it and run "hugo server" to start your website.', { dir: response.directory });
+            flow.showMain('Blowfish configured in ' + response.directory + '. cd into it and run "hugo server" to start your website.', { dir: response.directory });
 
     }
 
     static async configureExisting(exitAfterRun) {
 
         var blowfishIsInstalled = await flow.detectBlowfish();
-        if(blowfishIsInstalled) {
+        if (blowfishIsInstalled) {
             console.log('Blowfish is already installed in this folder.');
             process.exit(0);
         }
@@ -162,7 +147,7 @@ export default class flow {
         if (exitAfterRun)
             process.exit(0);
         else
-            flow.showPost('Blowfish installed. Run "hugo server" to start your website.', { dir: response.directory });
+            flow.showMain('Blowfish installed. Run "hugo server" to start your website.', { dir: response.directory });
     }
 
     static async runServer() {
@@ -212,6 +197,160 @@ export default class flow {
         });
     }
 
+    static async configureMeta(exitAfterRun) {
+        var blowfishIsInstalled = await flow.detectBlowfish();
+        if (!blowfishIsInstalled) {
+            console.log('Blowfish is not yet installed.');
+            process.exit(0);
+        }
+
+        const fileToConfigure = './config/_default/languages.en.toml';
+
+        if (!utils.fileExists(fileToConfigure)) {
+            console.log('File ' + fileToConfigure + ' does not exist.');
+            process.exit(0);
+        }
+
+        var data = toml.parse(utils.openFile(fileToConfigure).toString());
+
+        const response = await prompt([
+            {
+                type: 'input',
+                name: 'title',
+                default: data.title ? data.title : 'a title',
+                message: 'What is the title of your site?'
+            },
+            {
+                type: 'input',
+                name: 'description',
+                default: data.description ? data.description : 'a description',
+                message: 'What is the description of your site?'
+            },
+            {
+                type: 'input',
+                name: 'logo',
+                default: data.params && data.params.logo ? data.params.logo : 'logo.png',
+                message: 'Do you have a logo for your website? - please place the file in the assets folder and type the filename here.'
+            }
+        ]);
+
+        data.title = response.title;
+        if (!data.params)
+            data.params = {};
+
+        data.params.description = response.description;
+        data.params.logo = response.logo;
+
+        utils.saveFileSync(fileToConfigure, toml.stringify(data));
+
+        if (exitAfterRun)
+            process.exit(0);
+        else
+            flow.showMain('Configurations applied. Run server to check changes.');
+    }
+
+    static async configureAuthor(exitAfterRun) {
+
+        var blowfishIsInstalled = await flow.detectBlowfish();
+        if (!blowfishIsInstalled) {
+            console.log('Blowfish is not yet installed.');
+            process.exit(0);
+        }
+
+        const fileToConfigure = './config/_default/languages.en.toml';
+
+        if (!utils.fileExists(fileToConfigure)) {
+            console.log('File ' + fileToConfigure + ' does not exist.');
+            process.exit(0);
+        }
+
+        var data = toml.parse(utils.openFile(fileToConfigure).toString());
+
+        const response = await prompt([
+            {
+                type: 'input',
+                name: 'name',
+                default: data.author && data.author.name ? data.author.name : 'a name',
+                message: 'What is your name?'
+            },
+            {
+                type: 'input',
+                name: 'image',
+                default: data.author && data.author.image ? data.author.image : 'profile.png',
+                message: 'Do you have a profile for your website? - please place the file in the assets folder and type the filename here.'
+            },
+            {
+                type: 'input',
+                name: 'headline',
+                default: data.author && data.author.headline ? data.author.headline : 'a headline',
+                message: 'What is your headline - displayed below name in main page?'
+            },
+            {
+                type: 'input',
+                name: 'bio',
+                default: data.author && data.author.bio ? data.author.bio : 'a bio',
+                message: 'What is your bio - displayed in author pages?'
+            },
+            {
+                type: 'multiselect',
+                name: 'value',
+                message: 'Which links to you want to configure for your profile?\nSelect using spacebar and press enter when done.',
+                choices: [
+                    { name: 'email' },
+                    { name: 'link' },
+                    { name: 'bluesky' },
+                    { name: 'discord' },
+                    { name: 'github' },
+                    { name: 'instagram' },
+                    { name: 'keybase' },
+                    { name: 'linkedin' },
+                    { name: 'mastodon' },
+                    { name: 'medium' },
+                    { name: 'reddit' },
+                    { name: 'telegram' },
+                    { name: 'tiktok' },
+                    { name: 'twitter' },
+                    { name: 'x-twitter' },
+                    { name: 'whatsapp' },
+                    { name: 'youtube' }
+                ]
+            }
+        ]);
+
+
+        var linksQuestions = [];
+        for (var i in response.value) {
+            linksQuestions.push({
+                type: 'input',
+                name: response.value[i],
+                message: 'What URL do you want to configure for ' + response.value[i] + '?'
+            });
+        }
+
+        const responseLinks = await prompt(linksQuestions);
+
+        if (!data.author)
+            data.author = {};
+        data.author.name = response.name;
+        data.author.image = response.image;
+        data.author.headline = response.headline;
+        data.author.bio = response.bio;
+        data.author.links = [];
+
+        for (const [key, value] of Object.entries(responseLinks)) {
+            var obj = {}
+            obj[key] = value;
+            data.author.links.push(obj);
+        }
+
+        utils.saveFileSync(fileToConfigure, toml.stringify(data));
+
+        if (exitAfterRun)
+            process.exit(0);
+        else
+            flow.showMain('Configurations applied. Run server to check changes.');
+    }
+
 }
 
 
@@ -225,6 +364,16 @@ var options = [
         text: 'Install Blowfish on an existing website',
         blowfishIsInstalled: false,
         action: flow.configureExisting
+    },
+    {
+        text: 'Configure site\'s main information - title, description, etc',
+        blowfishIsInstalled: true,
+        action: flow.configureMeta
+    },
+    {
+        text: 'Configure site\'s author - name, bio, links, etc',
+        blowfishIsInstalled: true,
+        action: flow.configureAuthor
     },
     {
         text: 'Run a local server with Blowfish',

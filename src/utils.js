@@ -26,7 +26,6 @@ export default class utils {
         });
     }
 
-
     static detectCommand(cmd) {
         return new Promise((resolve, reject) => {
             commandExists(cmd, function (err, commandExists) {
@@ -37,6 +36,14 @@ export default class utils {
                 }
             });
         });
+    }
+
+    static fileExists(path) {
+        try {
+            return fs.existsSync(path);
+        } catch (err) {
+            return false;
+        }
     }
 
     static directoryExists(path) {
@@ -52,6 +59,23 @@ export default class utils {
             return fs.readdirSync(path).length === 0;
         } catch (err) {
             return false;
+        }
+    }
+
+    static openFile(path) {
+        try {
+            return fs.readFileSync(path);
+        } catch (err) {
+            return false;
+        }
+    }
+
+    static saveFileSync(path, data) {
+        try {
+            fs.writeFileSync(path, data);
+            // file written successfully
+        } catch (err) {
+            console.error(err);
         }
     }
 }
