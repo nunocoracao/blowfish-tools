@@ -56,7 +56,7 @@ export default class flow {
     }
 
     static async configureNew(directory, exitAfterRun) {
-        const spinner = ora('Checking for depedencies').start();
+        const spinner = ora('Checking for dependencies').start();
         await flow.checkHugo(spinner);
         await flow.checkGit(spinner);
 
