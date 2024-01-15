@@ -118,7 +118,7 @@ export default class flow {
     }
 
     static async configureExisting(exitAfterRun) {
-        const spinner = ora('Checking for depedencies').start();
+        const spinner = ora('Checking for dependencies').start();
         await flow.checkGit(spinner);
 
         const gitspinner = ora('Initializing Git').start();
