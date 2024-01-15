@@ -42,5 +42,17 @@ program.command('generate')
         flow.generateSite(true);
     });
 
+program.command('configMeta')
+    .description('Configure site\'s main information - title, description, etc')
+    .action((str, options) => {
+        flow.configureMeta(true);
+    });
+
+program.command('configAuthor')
+    .description('Configure site\'s author - name, bio, links, etc')
+    .action((str, options) => {
+        flow.configureAuthor(true);
+    });
+
 
 program.parse();
