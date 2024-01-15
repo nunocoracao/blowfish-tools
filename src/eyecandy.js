@@ -1,11 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import ora from 'ora';
-import terminalImage from 'terminal-image'
 import utils from './utils.js';
 
-var buffer = fs.readFileSync(path.join(utils.getDirname(import.meta.url), '../logo.png'));
-
+var buffer = fs.readFileSync(path.join(utils.getDirname(import.meta.url), '../logo.txt'));
 
 export default class eyecandy {
 
@@ -13,8 +11,8 @@ export default class eyecandy {
         const spinner = ora('Loading awesomeness...').start();
         spinner.succeed('Awesomeness loaded');
         console.clear();
-        console.log(await terminalImage.buffer(buffer, {width: '20%'}));
-        console.log('Welcome to Blowfish initializer.');
+        console.log(buffer.toString());
+        console.log('Welcome to Blowfish tools.');
         console.log('I can help you setup a new project from scratch or configure an existing one (or both).');
         console.log('Please choose one of the options below:');
 

@@ -5,7 +5,13 @@
 [![install size](https://img.shields.io/badge/dynamic/json?url=https://packagephobia.com/v2/api.json?p=blowfish-tools&query=$.install.pretty&label=install%20size&style=flat-square)](https://packagephobia.now.sh/result?p=blowfish-tools)
 [![npm downloads](https://img.shields.io/npm/dm/blowfish-tools.svg?style=flat-square)](https://npm-stat.com/charts.html?package=blowfish-tools)
 
+![blowfish logo](https://github.com/nunocoracao/blowfish-tools/blob/main/banner.png?raw=true)
+
 CLI to initialize and configure a [Blowfish](https://blowfish.page) project. Install the CLI globally and run `blowfish-init` to start the interactive prompt that will walk you through setting up a Blowfish from scratch or configure an existing project.
+
+## Features
+- Create a new Blowfish project from scratch
+- Configure an existing Hugo project to use Blowfish
 
 ## Installation
 Install globally using:

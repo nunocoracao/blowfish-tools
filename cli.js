@@ -32,4 +32,3 @@ program.command('new')
 
 
 program.parse();
-
