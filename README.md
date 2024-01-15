@@ -12,6 +12,8 @@ CLI to initialize and configure a [Blowfish](https://blowfish.page) project. Ins
 ## Features
 - Create a new Blowfish project from scratch
 - Configure an existing Hugo project to use Blowfish
+- Run a local server with Blowfish
+- Generate the static site with Hugo
 
 ## Installation
 Install globally using:
@@ -47,4 +49,6 @@ Options:
 Commands:
   new <folder>   Creates a new Blowfish project from scratch on the selected folder
   install        Installs Blowfish on an existing Hugo project (assumes current directory).
+  run            Run a local server with Blowfish in the current directory. Requires Hugo to be installed and Blowfish configured in current directory.
+  generate       Generates site assets in public folder in the current directory. Requires Hugo to be installed and Blowfish configured in current directory.
 ```

@@ -10,9 +10,9 @@ const metadata = JSON.parse(data)
 
 program
     .name(metadata.name)
-    .description(metadata.description+'\nUse `'+metadata.name+'` to start the interactive prompt.\nRun `'+metadata.name+' --help` for more information.')
+    .description(metadata.description + '\nUse `' + metadata.name + '` to start the interactive prompt.\nRun `' + metadata.name + ' --help` for more information.')
     .version(metadata.version)
-    .action(() => {        
+    .action(() => {
         flow.showMain();
     });
 
@@ -24,10 +24,22 @@ program.command('new')
         flow.configureNew(str, true);
     });
 
-    program.command('install')
+program.command('install')
     .description('Installs Blowfish on an existing Hugo project (assumes current directory).')
     .action((str, options) => {
         flow.configureExisting(true);
+    });
+
+program.command('run')
+    .description('Run a local server with Blowfish in the current directory. Requires Hugo to be installed and Blowfish configured in current directory.')
+    .action((str, options) => {
+        flow.runServer(true);
+    });
+
+program.command('generate')
+    .description('Generates site assets in public folder in the current directory. Requires Hugo to be installed and Blowfish configured in current directory.')
+    .action((str, options) => {
+        flow.generateSite(true);
     });
 
 
