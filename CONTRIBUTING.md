@@ -1,4 +1,4 @@
-## How to contribute to Blowfish Init
+## How to contribute to Blowfish Tools
 
 ### Bugs & other issues
 
