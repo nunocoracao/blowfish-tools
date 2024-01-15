@@ -7,7 +7,20 @@ import utils from './utils.js';
 
 export default class flow {
 
+    //detects whether blowfish is installed on the current folder
+    static async detectBlowfish() {
+        var exists = utils.directoryExists('./themes/blowfish');
+        if (exists) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     static async showMain() {
+
+        var blowfishIsInstalled = await flow.detectBlowfish();
+
 
         await eyecandy.showWelcome();
 
