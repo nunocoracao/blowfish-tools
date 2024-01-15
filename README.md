@@ -7,7 +7,7 @@
 
 ![blowfish logo](https://github.com/nunocoracao/blowfish-tools/blob/main/banner.png?raw=true)
 
-CLI to initialize and configure a [Blowfish](https://blowfish.page) project. Install the CLI globally and run `blowfish-init` to start the interactive prompt that will walk you through setting up a Blowfish from scratch or configure an existing project.
+CLI to initialize and configure a [Blowfish](https://blowfish.page) project. Install the CLI globally and run `blowfish-tools` to start the interactive prompt that will walk you through setting up a Blowfish from scratch or configure an existing project.
 
 ## Features
 - Create a new Blowfish project from scratch
