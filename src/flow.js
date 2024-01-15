@@ -21,13 +21,17 @@ export default class flow {
 
         var blowfishIsInstalled = await flow.detectBlowfish();
 
-
         await eyecandy.showWelcome();
 
         var choices = [];
 
         for (var i in options) {
-            choices.push(options[i].text);
+            if (!options[i].hasOwnProperty('blowfishIsInstalled') )
+                choices.push(options[i].text);
+            else if (options[i].blowfishIsInstalled && blowfishIsInstalled)
+                choices.push(options[i].text);
+            else if (!options[i].blowfishIsInstalled && !blowfishIsInstalled)
+                choices.push(options[i].text); 
         }
 
         const response = await prompt({
@@ -47,7 +51,7 @@ export default class flow {
         }
     }
 
-    static async showPost(message, options) {
+    static async showPost(message) {
         console.log(message)
         const response = await prompt({
             type: 'AutoComplete',
@@ -131,6 +135,13 @@ export default class flow {
     }
 
     static async configureExisting(exitAfterRun) {
+
+        var blowfishIsInstalled = await flow.detectBlowfish();
+        if(blowfishIsInstalled) {
+            console.log('Blowfish is already installed in this folder.');
+            process.exit(0);
+        }
+
         const spinner = ora('Checking for dependencies').start();
         await flow.checkGit(spinner);
 
@@ -152,6 +163,20 @@ export default class flow {
             process.exit(0);
         else
             flow.showPost('Blowfish installed. Run "hugo server" to start your website.', { dir: response.directory });
+    }
+
+    static async runServer() {
+        const spinner = ora('Checking for dependencies').start();
+        await flow.checkHugo(spinner);
+        console.clear();
+        await utils.run('hugo server', true);
+    }
+
+    static async generateSite() {
+        const spinner = ora('Checking for dependencies').start();
+        await flow.checkHugo(spinner);
+        console.clear();
+        await utils.run('hugo', true);
     }
 
     static async checkHugo(spinner) {
@@ -187,18 +212,29 @@ export default class flow {
         });
     }
 
-
 }
 
 
 var options = [
     {
         text: 'Setup a new website with Blowfish',
+        blowfishIsInstalled: false,
         action: flow.configureNew
     },
     {
         text: 'Install Blowfish on an existing website',
+        blowfishIsInstalled: false,
         action: flow.configureExisting
+    },
+    {
+        text: 'Run a local server with Blowfish',
+        blowfishIsInstalled: true,
+        action: flow.runServer
+    },
+    {
+        text: 'Generate the static site with Hugo',
+        blowfishIsInstalled: true,
+        action: flow.generateSite
     },
     {
         text: 'Exit',
