@@ -30,6 +30,12 @@ program.command('install')
         flow.configureExisting(true);
     });
 
+    program.command('update')
+    .description('Update blowfish. Requires Hugo to be installed and Blowfish configured in current directory (via git submodules).')
+    .action((str, options) => {
+        flow.update(true);
+    });
+
 program.command('run')
     .description('Run a local server with Blowfish in the current directory. Requires Hugo to be installed and Blowfish configured in current directory.')
     .action((str, options) => {
