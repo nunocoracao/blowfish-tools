@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { exec } from 'child_process'
+import { exec, spawn } from 'child_process'
 import commandExists from 'command-exists';
 import { fileURLToPath } from 'url';
 
@@ -23,6 +23,24 @@ export default class utils {
                 //console.log(cmd + ` exited with code ${code}`);
                 resolve();
             });
+
+            process.on("exit", () => child.kill())
+        });
+    }
+
+    static spawn(cmd, args, pipe) {
+        return new Promise((resolve, reject) => {
+            const child = spawn(cmd, args, {detached: false});
+            if (pipe) {
+                child.stdout.pipe(process.stdout);
+                child.stderr.pipe(process.stderr);
+            }
+            child.on('close', (code) => {
+                //console.log(cmd + ` exited with code ${code}`);
+                resolve();
+            });
+
+            process.on("exit", () => child.kill())
         });
     }
 

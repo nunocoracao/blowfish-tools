@@ -3,13 +3,13 @@ import ora from 'ora';
 import pkg from 'enquirer';
 const { prompt } = pkg;
 import toml from 'toml-patch';
+import chalk from 'chalk';
 
 import eyecandy from "./eyecandy.js";
 import utils from './utils.js';
 
 export default class flow {
 
-    //detects whether blowfish is installed on the current folder
     static async detectBlowfish() {
         var exists = utils.directoryExists('./themes/blowfish');
         if (exists) {
@@ -114,8 +114,10 @@ export default class flow {
 
         if (exitAfterRun)
             process.exit(0);
-        else
-            flow.showMain('Blowfish configured in ' + response.directory + '. cd into it and run "hugo server" to start your website.', { dir: response.directory });
+        else {
+            process.chdir(response.directory);
+            flow.showMain('Blowfish configured in ' + response.directory + ', current working directory updated.');
+        }
 
     }
 
@@ -136,6 +138,7 @@ export default class flow {
 
         const blowfishspinner = ora('Installing Blowfish').start();
         await utils.run('git submodule add --depth 1 -b main https://github.com/nunocoracao/blowfish.git themes/blowfish', false);
+        await utils.run('git submodule update --remote --merge', false);
         blowfishspinner.succeed('Blowfish installed');
 
         const configblowfishspinner = ora('Configuring Blowfish').start();
@@ -146,8 +149,14 @@ export default class flow {
 
         if (exitAfterRun)
             process.exit(0);
-        else
-            flow.showMain('Blowfish installed. Run "hugo server" to start your website.', { dir: response.directory });
+        else {
+            var flag = flow.detectBlowfish()
+            if (flag)
+                flow.showMain('Blowfish installed. Proceed with configuration.');
+            else
+                flow.showMain('Blowfish not installed. Please check the logs.');
+        }
+
     }
 
     static async runServer() {
@@ -351,29 +360,275 @@ export default class flow {
             flow.showMain('Configurations applied. Run server to check changes.');
     }
 
+    static async enterConfigMode() {
+
+        var blowfishIsInstalled = await flow.detectBlowfish();
+        if (!blowfishIsInstalled) {
+            console.log('Blowfish is not installed in this folder.');
+            process.exit(0);
+        }
+
+        const spinner = ora('Checking for dependencies').start();
+        await flow.checkHugo(spinner);
+
+        utils.spawn('hugo', ['server'], false);
+
+        utils.run('open http://localhost:1313', false);
+
+        flow.displayConfigOptions();
+
+    }
+
+    static async displayConfigOptions() {
+        var choices = [];
+
+        for (var i in configOptions) {
+            choices.push(configOptions[i].text);
+        }
+
+        console.clear()
+        const response = await prompt({
+            type: 'AutoComplete',
+            name: 'option',
+            message: 'What do you want to configure? start typing to search for options.',
+            limit: 20,
+            initial: 0,
+            choices: choices
+        });
+
+        for (var i in configOptions) {
+            if (configOptions[i].text === response.option) {
+                configOptions[i].action();
+                return
+            }
+        }
+    }
+
+    static async configLoop(file, parent, variable, description) {
+
+        if (!utils.fileExists(file)) {
+            console.log('File ' + file + ' does not exist.');
+            process.exit(0);
+        }
+
+        var data = toml.parse(utils.openFile(file).toString());
+
+        var currentValue = null
+
+        if(parent && data[parent] && data[parent][variable]){
+            currentValue = data[parent][variable]
+        }else if(!parent && data[variable]){
+            currentValue = data[variable]
+        }
+
+        console.log("Configuring:\n" + chalk.blue(variable) + (description ? ' - ' + description : ''))
+
+        const response = await prompt([
+            {
+                type: 'input',
+                name: 'value',
+                default: currentValue,
+                message: 'What is the new value?'
+            }
+        ]);
+
+        var newValue = response.value
+
+        if(!parent){
+            data[variable] = newValue
+        }else if(data[parent]){
+            data[parent][variable] = newValue
+        }else{
+            data[parent] = {}
+            data[parent][variable] = newValue
+        }
+
+        utils.saveFileSync(file, toml.stringify(data));
+    }
+
+    static async configLinks(file, parent, variable) {
+
+        if (!utils.fileExists(file)) {
+            console.log('File ' + file + ' does not exist.');
+            process.exit(0);
+        }
+
+        var data = toml.parse(utils.openFile(file).toString());
+
+        console.log("Configuring:\n" + chalk.blue(variable) + (description ? ' - ' + description : ''))
+
+        const response = await prompt([
+            {
+                type: 'multiselect',
+                name: 'value',
+                message: 'Which links to you want to configure for your profile?\nSelect using spacebar and press enter when done.',
+                choices: [
+                    { name: 'email' },
+                    { name: 'link' },
+                    { name: 'bluesky' },
+                    { name: 'discord' },
+                    { name: 'github' },
+                    { name: 'instagram' },
+                    { name: 'keybase' },
+                    { name: 'linkedin' },
+                    { name: 'mastodon' },
+                    { name: 'medium' },
+                    { name: 'reddit' },
+                    { name: 'telegram' },
+                    { name: 'tiktok' },
+                    { name: 'twitter' },
+                    { name: 'x-twitter' },
+                    { name: 'whatsapp' },
+                    { name: 'youtube' }
+                ]
+            }
+        ]);
+
+
+        var linksQuestions = [];
+        for (var i in response.value) {
+            linksQuestions.push({
+                type: 'input',
+                name: response.value[i],
+                message: 'What URL do you want to configure for ' + response.value[i] + '?'
+            });
+        }
+
+        const responseLinks = await prompt(linksQuestions);
+
+        if (!data.author)
+            data.author = {};
+
+        if (!data.author.links)
+            data.author.links = [];
+
+        for (const [key, value] of Object.entries(responseLinks)) {
+            var obj = {}
+            obj[key] = value;
+            data.author.links.push(obj);
+        }
+
+        utils.saveFileSync(file, toml.stringify(data));
+    }
+
+    static async configImage(file, parent, variable) {
+
+        if (!utils.fileExists(file)) {
+            console.log('File ' + file + ' does not exist.');
+            process.exit(0);
+        }
+
+        var data = toml.parse(utils.openFile(file).toString());
+
+        var currentValue = null
+
+        if(parent && data[parent] && data[parent][variable]){
+            currentValue = data[parent][variable]
+        }else if(!parent && data[variable]){
+            currentValue = data[variable]
+        }
+
+        console.log("Configuring:\n" + chalk.blue(variable) + (description ? ' - ' + description : ''))
+
+        const response = await prompt([
+            {
+                type: 'input',
+                name: 'value',
+                default: currentValue,
+                message: 'Where image do you want to use? (full image path - drag and drop file for path)'
+            }
+        ]);
+
+        var newValue = response.value
+
+        if (!utils.fileExists(newValue)) {
+            console.log('File ' + newValue + ' does not exist.');
+            process.exit(0);
+        }
+
+        utils.run('cp ' + newValue + ' ./assets/', false);
+        newValue = newValue.split('/').pop();
+
+        if(!parent){
+            data[variable] = newValue
+        }else if(data[parent]){
+            data[parent][variable] = newValue
+        }else{
+            data[parent] = {}
+            data[parent][variable] = newValue
+        }
+
+        utils.saveFileSync(file, toml.stringify(data));
+    }
+    
 }
 
 
+var configOptions = [
+
+    //config/_default/languages.en.toml
+    
+    {
+        text: 'Site\'s title',
+        action: async () => {
+            await flow.configLoop('./config/_default/languages.en.toml', null, 'title');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Author\'s name',
+        action: async () => {
+            await flow.configLoop('./config/_default/languages.en.toml', 'author', 'name');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Author\'s profile picture',
+        action: async () => {
+            await flow.configImage('./config/_default/languages.en.toml', 'author', 'image');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Author\'s links',
+        action: async () => {
+            await flow.configLinks('./config/_default/languages.en.toml', 'author', 'links');
+            flow.displayConfigOptions();
+        }
+    },
+
+    //config/_default/params.toml
+    {
+        text: 'Color scheme',
+        action: async () => {
+            await flow.configLoop('./config/_default/params.toml', null, 'colorScheme', 'The theme colour scheme to use. Valid values are blowfish (default), avocado, ocean, fire and slate. Custom themes are supported check Blowfish documentation.');
+            flow.displayConfigOptions();
+        }
+    },
+    //.config/_default/config.toml
+    {
+        text: 'baseURL - The URL to the root of the website.',
+        action: async () => {
+            await flow.configLoop('./config/_default/config.toml', null, 'baseURL');
+            flow.displayConfigOptions();
+        }
+    },
+    //exit
+    {
+        text: 'Exit configuration mode',
+        action: () => {
+            flow.showMain('Configuration mode exited.');
+        }
+    },
+]
+
+
 var options = [
+
     {
-        text: 'Setup a new website with Blowfish',
-        blowfishIsInstalled: false,
-        action: flow.configureNew
-    },
-    {
-        text: 'Install Blowfish on an existing website',
-        blowfishIsInstalled: false,
-        action: flow.configureExisting
-    },
-    {
-        text: 'Configure site\'s main information - title, description, etc',
+        text: 'Enter configuration mode',
         blowfishIsInstalled: true,
-        action: flow.configureMeta
-    },
-    {
-        text: 'Configure site\'s author - name, bio, links, etc',
-        blowfishIsInstalled: true,
-        action: flow.configureAuthor
+        action: flow.enterConfigMode
     },
     {
         text: 'Run a local server with Blowfish',
@@ -384,6 +639,16 @@ var options = [
         text: 'Generate the static site with Hugo',
         blowfishIsInstalled: true,
         action: flow.generateSite
+    },
+    {
+        text: 'Setup a new website with Blowfish',
+        blowfishIsInstalled: false,
+        action: flow.configureNew
+    },
+    {
+        text: 'Install Blowfish on an existing website',
+        blowfishIsInstalled: false,
+        action: flow.configureExisting
     },
     {
         text: 'Exit',

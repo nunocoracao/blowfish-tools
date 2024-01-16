@@ -42,6 +42,12 @@ program.command('generate')
         flow.generateSite(true);
     });
 
+program.command('config')
+    .description('Enter interactive configuration mode')
+    .action((str, options) => {
+        flow.enterConfigMode(true);
+    });
+
 program.command('configMeta')
     .description('Configure site\'s main information - title, description, etc')
     .action((str, options) => {
