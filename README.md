@@ -13,6 +13,7 @@ CLI to initialize and configure a [Blowfish](https://blowfish.page) project. Ins
 - Interactive configuration mode - edit and see changes in real time
 - Create a new Blowfish project from scratch
 - Configure an existing Hugo project to use Blowfish
+- Update Blowfish to the latest version
 - Run a local server with Blowfish
 - Generate the static site with Hugo
 
@@ -50,10 +51,12 @@ Options:
 Commands:
   new <folder>   Creates a new Blowfish project from scratch on the selected folder
   install        Installs Blowfish on an existing Hugo project (assumes current directory).
-  run            Run a local server with Blowfish in the current directory. Requires Hugo to be installed and
-                 Blowfish configured in current directory.
-  generate       Generates site assets in public folder in the current directory. Requires Hugo to be
+  update         Update blowfish. Requires Hugo to be installed and Blowfish configured in current
+                 directory (via git submodules).
+  run            Run a local server with Blowfish in the current directory. Requires Hugo to be
                  installed and Blowfish configured in current directory.
-  config         Enter interactive configuration mode. Requires Hugo to be installed and Blowfish configured
-                 in current directory.
+  generate       Generates site assets in public folder in the current directory. Requires Hugo to
+                 be installed and Blowfish configured in current directory.
+  config         Enter interactive configuration mode. Requires Hugo to be installed and Blowfish
+                 configured in current directory.
 ```
