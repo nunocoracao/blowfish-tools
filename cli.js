@@ -43,22 +43,9 @@ program.command('generate')
     });
 
 program.command('config')
-    .description('Enter interactive configuration mode')
+    .description('Enter interactive configuration mode. Requires Hugo to be installed and Blowfish configured in current directory.')
     .action((str, options) => {
         flow.enterConfigMode(true);
     });
-
-program.command('configMeta')
-    .description('Configure site\'s main information - title, description, etc')
-    .action((str, options) => {
-        flow.configureMeta(true);
-    });
-
-program.command('configAuthor')
-    .description('Configure site\'s author - name, bio, links, etc')
-    .action((str, options) => {
-        flow.configureAuthor(true);
-    });
-
 
 program.parse();

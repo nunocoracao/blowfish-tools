@@ -415,9 +415,9 @@ export default class flow {
 
         var currentValue = null
 
-        if(parent && data[parent] && data[parent][variable]){
+        if (parent && data[parent] && data[parent][variable]) {
             currentValue = data[parent][variable]
-        }else if(!parent && data[variable]){
+        } else if (!parent && data[variable]) {
             currentValue = data[variable]
         }
 
@@ -433,12 +433,14 @@ export default class flow {
         ]);
 
         var newValue = response.value
+        if(newValue === currentValue)
+            return
 
-        if(!parent){
+        if (!parent) {
             data[variable] = newValue
-        }else if(data[parent]){
+        } else if (data[parent]) {
             data[parent][variable] = newValue
-        }else{
+        } else {
             data[parent] = {}
             data[parent][variable] = newValue
         }
@@ -446,7 +448,7 @@ export default class flow {
         utils.saveFileSync(file, toml.stringify(data));
     }
 
-    static async configLinks(file, parent, variable) {
+    static async configLinks(file, parent, variable, description) {
 
         if (!utils.fileExists(file)) {
             console.log('File ' + file + ' does not exist.');
@@ -499,8 +501,7 @@ export default class flow {
         if (!data.author)
             data.author = {};
 
-        if (!data.author.links)
-            data.author.links = [];
+        data.author.links = [];
 
         for (const [key, value] of Object.entries(responseLinks)) {
             var obj = {}
@@ -511,7 +512,7 @@ export default class flow {
         utils.saveFileSync(file, toml.stringify(data));
     }
 
-    static async configImage(file, parent, variable) {
+    static async configImage(file, parent, variable, description) {
 
         if (!utils.fileExists(file)) {
             console.log('File ' + file + ' does not exist.');
@@ -522,9 +523,9 @@ export default class flow {
 
         var currentValue = null
 
-        if(parent && data[parent] && data[parent][variable]){
+        if (parent && data[parent] && data[parent][variable]) {
             currentValue = data[parent][variable]
-        }else if(!parent && data[variable]){
+        } else if (!parent && data[variable]) {
             currentValue = data[variable]
         }
 
@@ -541,6 +542,9 @@ export default class flow {
 
         var newValue = response.value
 
+        if(newValue === currentValue)
+            return
+
         if (!utils.fileExists(newValue)) {
             console.log('File ' + newValue + ' does not exist.');
             process.exit(0);
@@ -549,50 +553,120 @@ export default class flow {
         utils.run('cp ' + newValue + ' ./assets/', false);
         newValue = newValue.split('/').pop();
 
-        if(!parent){
+        if (!parent) {
             data[variable] = newValue
-        }else if(data[parent]){
+        } else if (data[parent]) {
             data[parent][variable] = newValue
-        }else{
+        } else {
             data[parent] = {}
             data[parent][variable] = newValue
         }
 
         utils.saveFileSync(file, toml.stringify(data));
     }
-    
+
 }
 
 
 var configOptions = [
 
     //config/_default/languages.en.toml
-    
     {
         text: 'Site\'s title',
         action: async () => {
-            await flow.configLoop('./config/_default/languages.en.toml', null, 'title');
+            await flow.configLoop(
+                './config/_default/languages.en.toml', 
+                null, 
+                'title', 
+                'The title of the website. This will be displayed in the site header and footer.');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Site\'s logo',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/languages.en.toml', 
+                'params', 
+                'logo', 
+                'Site\'s logo, the logo file should be provided at 2x resolution and supports any image dimensions.');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Site\'s secondary logo',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/languages.en.toml', 
+                'params', 
+                'secondaryLogo', 
+                'The logo file should be provided at 2x resolution and supports any image dimensions. This should have an inverted/contrasting colour scheme to logo. If set, this logo will be shown when users toggle from the defaultAppearance mode.');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Site\'s description',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/languages.en.toml', 
+                'params', 
+                'description', 
+                'The website description. This will be used in the site metadata.');
             flow.displayConfigOptions();
         }
     },
     {
         text: 'Author\'s name',
         action: async () => {
-            await flow.configLoop('./config/_default/languages.en.toml', 'author', 'name');
+            await flow.configLoop(
+                './config/_default/languages.en.toml', 
+                'author', 
+                'name', 
+                'The author’s name. This will be displayed in article footers, and on the homepage when the profile layout is used.');
             flow.displayConfigOptions();
         }
     },
     {
-        text: 'Author\'s profile picture',
+        text: 'Author\'s picture',
         action: async () => {
-            await flow.configImage('./config/_default/languages.en.toml', 'author', 'image');
+            await flow.configImage(
+                './config/_default/languages.en.toml', 
+                'author', 
+                'image', 
+                'Image file of the author. The image should be a 1:1 aspect ratio.');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Author\'s headline',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/languages.en.toml', 
+                'author', 
+                'headline', 
+                'A Markdown string containing the author’s headline. It will be displayed on the profile homepage under the author’s name.');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Author\'s bio',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/languages.en.toml', 
+                'author', 
+                'bio', 
+                'A Markdown string containing the author’s bio. It will be displayed in article footers.');
             flow.displayConfigOptions();
         }
     },
     {
         text: 'Author\'s links',
         action: async () => {
-            await flow.configLinks('./config/_default/languages.en.toml', 'author', 'links');
+            await flow.configLinks(
+                './config/_default/languages.en.toml', 
+                'author', 
+                'links', 
+                'The links to display alongside the author’s details. The config file contains example links which can simply be uncommented to enable. The order that the links are displayed is determined by the order they appear in the array. ');
             flow.displayConfigOptions();
         }
     },
@@ -601,7 +675,33 @@ var configOptions = [
     {
         text: 'Color scheme',
         action: async () => {
-            await flow.configLoop('./config/_default/params.toml', null, 'colorScheme', 'The theme colour scheme to use. Valid values are blowfish (default), avocado, ocean, fire and slate. Custom themes are supported check Blowfish documentation.');
+            await flow.configLoop(
+                './config/_default/params.toml', 
+                null, 
+                'colorScheme', 
+                'The theme colour scheme to use. Valid values are blowfish (default), Blowfish (default), Avocado, Fire, Forest, Princess, Neon, Bloody, Terminal, Marvel, Noir, Autumn, Congo, Slate. Custom themes are supported check Blowfish documentation.');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Default Appearance',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/params.toml', 
+                null, 
+                'defaultAppearance', 
+                'The default theme appearance, either light or dark');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Auto Switch Appearance',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/params.toml', 
+                null, 
+                'autoSwitchAppearance', 
+                'Whether the theme appearance automatically switches based upon the visitor’s operating system preference. Set to false to force the site to always use the defaultAppearance.');
             flow.displayConfigOptions();
         }
     },
@@ -609,7 +709,11 @@ var configOptions = [
     {
         text: 'baseURL - The URL to the root of the website.',
         action: async () => {
-            await flow.configLoop('./config/_default/config.toml', null, 'baseURL');
+            await flow.configLoop(
+                './config/_default/config.toml', 
+                null, 
+                'baseURL', 
+                'The URL to the root of the website.');
             flow.displayConfigOptions();
         }
     },
