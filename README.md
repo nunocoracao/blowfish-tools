@@ -51,8 +51,11 @@ Options:
 Commands:
   new <folder>   Creates a new Blowfish project from scratch on the selected folder
   install        Installs Blowfish on an existing Hugo project (assumes current directory).
-  run            Run a local server with Blowfish in the current directory. Requires Hugo to be installed and Blowfish configured in current directory.
-  generate       Generates site assets in public folder in the current directory. Requires Hugo to be installed and Blowfish configured in current directory.
-  configMeta     Configure site's main information - title, description, etc
-  configAuthor   Configure site's author - name, bio, links, etc
+  run            Run a local server with Blowfish in the current directory. Requires Hugo to be installed and
+                 Blowfish configured in current directory.
+  generate       Generates site assets in public folder in the current directory. Requires Hugo to be
+                 installed and Blowfish configured in current directory.
+  config         Enter interactive configuration mode
+  configMeta     Configure site\'s main information - title, description, etc
+  configAuthor   Configure site\'s author - name, bio, links, etc
 ```
