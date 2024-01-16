@@ -10,12 +10,11 @@
 CLI to initialize and configure a [Blowfish](https://blowfish.page) project. Install the CLI globally and run `blowfish-tools` to start the interactive prompt that will walk you through setting up a Blowfish from scratch or configure an existing project.
 
 ## Features
+- Interactive configuration mode - edit and see changes in real time
 - Create a new Blowfish project from scratch
 - Configure an existing Hugo project to use Blowfish
 - Run a local server with Blowfish
 - Generate the static site with Hugo
-- Configure site's main information - title, description, etc
-- Configure site's author - name, bio, links, etc
 
 ## Installation
 Install globally using:
@@ -55,7 +54,6 @@ Commands:
                  Blowfish configured in current directory.
   generate       Generates site assets in public folder in the current directory. Requires Hugo to be
                  installed and Blowfish configured in current directory.
-  config         Enter interactive configuration mode
-  configMeta     Configure site\'s main information - title, description, etc
-  configAuthor   Configure site\'s author - name, bio, links, etc
+  config         Enter interactive configuration mode. Requires Hugo to be installed and Blowfish configured
+                 in current directory.
 ```
