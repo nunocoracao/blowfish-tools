@@ -16,6 +16,8 @@ CLI to initialize and configure a [Blowfish](https://blowfish.page) project. Ins
 - Update Blowfish to the latest version
 - Configure metadata
 - Configure menu structure
+- Generate empty site sections
+- Generate empty articles
 - Run a local server with Blowfish
 - Generate the static site with Hugo
 

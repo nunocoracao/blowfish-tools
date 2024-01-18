@@ -815,6 +815,79 @@ export default class flow {
             }
         }
     }
+
+    static async generateNewSection() {
+        if (!utils.directoryExists('./content')) {
+            console.log('Content folder does not exist.');
+            process.exit(0);
+        }
+
+        const response = await prompt([
+            {
+                type: 'input',
+                name: 'name',
+                default: 'posts',
+                message: 'What is the name of the new section?'
+            }
+        ]);
+
+        var newSection = response.name;
+
+        if (utils.directoryExists('./content/' + newSection)) {
+            console.log('Section already exists.');
+        } else {
+            await utils.run('mkdir ./content/' + newSection, false);
+            flow.showMain('Folder ' + newSection + ' created.')
+        }
+
+    }
+
+    static async generateNewArticle() {
+
+        var contentFolders = utils.getDirs('./content');
+        
+        if (contentFolders.length === 0) {
+            console.log('No sections found in content folder.');
+            console.log('Please create a section first.');
+        } else {
+
+            const response = await prompt([
+                {
+                    type: 'select',
+                    name: 'option',
+                    message: 'Select the section where you want to create the article:',
+                    choices: contentFolders
+                },
+                {
+                    type: 'input',
+                    name: 'name',
+                    default: 'new-article',
+                    message: 'What is the name of the new article?'
+                }
+            ]);
+
+            var newArticle = response.name;
+
+            if (utils.fileExists('./content/' + response.option + '/' + newArticle)) {
+                console.log('Article already exists.');
+            } else {
+                var articleid = new Date().getTime() + '-' + newArticle.replaceAll(' ', '-');
+                var content = "---\n" +
+                "title: \""+newArticle+"\"\n" +
+                "date: "+new Date().getDate()+"\n" +
+                "draft: false\n" +
+                "description: \"a description\"\n" +
+                "tags: [\"example\", \"tag\"]\n" +
+                "---\n an example to get you started"
+                await utils.run('mkdir ./content/'+response.option+'/'+articleid, false);
+                await utils.run('cp '+utils.getDirname(import.meta.url)+'/../banner.png ./content/'+response.option+'/'+articleid+'/featured.png', false);
+                await utils.run('touch ./content/'+response.option+'/'+articleid+'/index.md', false);
+                await utils.run('echo \''+content+'\' >> ./content/'+response.option+'/'+articleid+'/index.md', false);
+                flow.showMain('Article ' + newArticle + ' created.')
+            }
+
+        }
+    }
 }
 
 
@@ -995,7 +1068,7 @@ var configOptions = [
                 'Default background image for both background homepage layout and background hero style.');
             flow.displayConfigOptions();
         }
-    }, 
+    },
     {
         text: 'Configure default featured image',
         action: async () => {
@@ -1006,7 +1079,7 @@ var configOptions = [
                 'Default background image for all featured images across articles, will be overridden by a local featured image.');
             flow.displayConfigOptions();
         }
-    }, 
+    },
     // Header
     // Footer
     // Homepage
@@ -1058,6 +1131,16 @@ var options = [
         text: 'Enter configuration mode',
         blowfishIsInstalled: true,
         action: flow.enterConfigMode
+    },
+    {
+        text: 'Generate a new site section (e.g. posts)',
+        blowfishIsInstalled: true,
+        action: flow.generateNewSection
+    },
+    {
+        text: 'Generate a new article',
+        blowfishIsInstalled: true,
+        action: flow.generateNewArticle
     },
     {
         text: 'Run a local server with Blowfish',
