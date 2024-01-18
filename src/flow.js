@@ -844,16 +844,27 @@ var exitOption = {
 }
 
 var configOptionsJSONList = utils.readAppJsonConfig('configOptions.json');
-for (var i in configOptionsJSONList) {
-    var obj = configOptionsJSONList[i];
-    obj.action = async (list) => {
-        await flow[obj.method](
-            obj.file,
-            obj.parent,
-            obj.key,
-            obj.description);
+
+function createAction (method, file, parent, key, description) {
+    return async (list) => {
+        await flow[method](
+            file,
+            parent,
+            key,
+            description);
         flow.displayConfigOptions(list);
     }
+}
+
+for (var i in configOptionsJSONList) {
+    var obj = {}
+    obj.text = configOptionsJSONList[i].text;
+    obj.method = configOptionsJSONList[i].method;
+    obj.file = configOptionsJSONList[i].file;
+    obj.parent = configOptionsJSONList[i].parent;
+    obj.key = configOptionsJSONList[i].key;
+    obj.description = configOptionsJSONList[i].description;
+    obj.action = createAction(obj.method, obj.file, obj.parent, obj.key, obj.description);
     configOptions.push(obj)
 }
 configOptions.push(exitOption)
@@ -883,7 +894,10 @@ var options = [
 
             var tempList = []
             for (var i in configOptions) {
-                if (configOptions[i].parent === null || configOptions[i].method === 'exit')
+                if (configOptions[i].parent === null || configOptions[i].method === 'exit'){
+                    
+                }
+
                     tempList.push(configOptions[i])      
             }
 
@@ -925,7 +939,7 @@ var options = [
 
             var tempList = []
             for (var i in configOptions) {
-                if (configOptions[i].parent === "homepage" || configOptions[i].method === 'exit')
+                if (configOptions[i].parent === "header" || configOptions[i].method === 'exit')
                     tempList.push(configOptions[i])      
             }
 
@@ -996,6 +1010,20 @@ var options = [
             var tempList = []
             for (var i in configOptions) {
                 if (configOptions[i].parent === "term" || configOptions[i].method === 'exit')
+                    tempList.push(configOptions[i])      
+            }
+
+            flow.enterConfigMode(tempList);
+        }
+    },
+    {
+        text: 'Configure images',
+        blowfishIsInstalled: true,
+        action: async () => {
+
+            var tempList = []
+            for (var i in configOptions) {
+                if (configOptions[i].method === "configImage" || configOptions[i].method === 'exit')
                     tempList.push(configOptions[i])      
             }
 
