@@ -484,7 +484,7 @@ export default class flow {
                 type: 'input',
                 name: 'value',
                 default: currentValue,
-                message: 'Where image do you want to use? (full image path - drag and drop file for path)'
+                message: 'Where image do you want to use? (full image path and the tool will copy it into the right folder)'
             }
         ]);
 
@@ -874,7 +874,7 @@ export default class flow {
                 var articleid = new Date().getTime() + '-' + newArticle.replaceAll(' ', '-');
                 var content = "---\n" +
                 "title: \""+newArticle+"\"\n" +
-                "date: "+new Date().getDate()+"\n" +
+                "date: "+new Date().toISOString().split('T')[0]+"\n" +
                 "draft: false\n" +
                 "description: \"a description\"\n" +
                 "tags: [\"example\", \"tag\"]\n" +
@@ -1010,7 +1010,7 @@ var configOptions = [
                 './config/_default/params.toml',
                 null,
                 'colorScheme',
-                'The theme colour scheme to use. Valid values are blowfish (default), Blowfish (default), Avocado, Fire, Forest, Princess, Neon, Bloody, Terminal, Marvel, Noir, Autumn, Congo, Slate. Custom themes are supported check Blowfish documentation.');
+                'The theme colour scheme to use. Valid values are blowfish (default), avocado, fire, forest, princess, neon, bloody, terminal, marvel, noir, autumn, congo, slate. Custom themes are supported check Blowfish documentation.');
             flow.displayConfigOptions();
         }
     },
@@ -1061,7 +1061,7 @@ var configOptions = [
     {
         text: 'Configure default background image',
         action: async () => {
-            await flow.configLoop(
+            await flow.configImage(
                 './config/_default/params.toml',
                 null,
                 'defaultBackgroundImage',
@@ -1072,7 +1072,7 @@ var configOptions = [
     {
         text: 'Configure default featured image',
         action: async () => {
-            await flow.configLoop(
+            await flow.configImage(
                 './config/_default/params.toml',
                 null,
                 'defaultFeaturedImage',
@@ -1083,6 +1083,105 @@ var configOptions = [
     // Header
     // Footer
     // Homepage
+    {
+        text: 'Select Homepage layout',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/params.toml',
+                'homepage',
+                'layout',
+                'The layout of the homepage. Valid values are page, profile, hero, card, background, or custom. When set to custom, you must provide your own layout by creating a /layouts/partials/home/custom.html file.');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Select Homepage image',
+        action: async () => {
+            await flow.configImage(
+                './config/_default/params.toml',
+                'homepage',
+                'homepageImage',
+                'Image to be used in hero and card layouts.');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Enable/Disable recent articles list',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/params.toml',
+                'homepage',
+                'showRecent',
+                'Whether or not to display the recent articles list on the homepage.');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Configure recent articles list size',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/params.toml',
+                'homepage',
+                'showRecentItems',
+                'How many articles to display if showRecent is true. If variable is set to 0 or if it isn’t defined the system will default to 5 articles.');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Enable/Disable show more link',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/params.toml',
+                'homepage',
+                'showMoreLink',
+                'Whether or not to display a show more link at the end of your posts that takes the user to a predefined place.');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Configure show more link destination',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/params.toml',
+                'homepage',
+                'showMoreLinkDest',
+                'The destination of the show more button.');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Enable/Disable card view for recent articles',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/params.toml',
+                'homepage',
+                'cardView',
+                'Display recent articles as a gallery of cards.');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Enable full width for card view',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/params.toml',
+                'homepage',
+                'cardViewScreenWidth',
+                'Enhance the width of the recent articles card gallery to take the full width available.');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Enable/Disable blur effect for background image',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/params.toml',
+                'homepage',
+                'layoutBackgroundBlur',
+                'Makes the background image in the homepage layout blur with the scroll');
+            flow.displayConfigOptions();
+        }
+    },
     // Article
     // List
     // Sitemap
