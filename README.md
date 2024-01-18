@@ -34,6 +34,11 @@ CLI to initialize and configure a [Blowfish](https://blowfish.page) project. Ins
 Install globally using:
 
 ```bash
+npx blowfish-tools
+```
+or
+
+```bash
 npm install -g blowfish-tools
 ```
 
