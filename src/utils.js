@@ -89,6 +89,23 @@ export default class utils {
         }
     }
 
+    static readAppJsonConfig(config) {
+        const filepath = path.join(utils.getDirname(import.meta.url), '../configs', config);
+        try {
+            return JSON.parse(fs.readFileSync(filepath));
+        } catch (err) {
+            return err;
+        }
+    }
+
+    static readFileSync(path) {
+        try {
+            return fs.readFileSync(path);
+        } catch (err) {
+            return false;
+        }
+    }
+
     static saveFileSync(path, data) {
         try {
             fs.writeFileSync(path, data);

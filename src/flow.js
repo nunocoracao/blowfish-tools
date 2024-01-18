@@ -9,88 +9,8 @@ import tcpPortUsed from 'tcp-port-used';
 import eyecandy from "./eyecandy.js";
 import utils from './utils.js';
 
-const iconList = [
-    'amazon',
-    'apple',
-    'blogger',
-    'bluesky',
-    'codepen',
-    'docker',
-    'dribbble',
-    'email',
-    'envelope',
-    'eye',
-    'facebook',
-    'fire',
-    'flickr',
-    'foursquare',
-    'ghost',
-    'github',
-    'gitlab',
-    'globe',
-    'goodreads',
-    'google',
-    'graduation-cap',
-    'hackernews',
-    'hashnode',
-    'heart-empty',
-    'heart',
-    'image',
-    'instagram',
-    'keybas',
-    'kickstarter',
-    'ko-fi',
-    'lastfm',
-    'lightbulb',
-    'link',
-    'linkedin',
-    'list',
-    'location-dot',
-    'lock',
-    'mastodon',
-    'medium',
-    'microsoft',
-    'moon',
-    'mug-hot',
-    'music',
-    'orcid',
-    'patreon',
-    'paypal',
-    'pencil',
-    'pgpkey',
-    'phone',
-    'pinterest',
-    'poo',
-    'reddit',
-    'researchgate',
-    'rss',
-    'rss-square',
-    'scale-balanced',
-    'search',
-    'shield',
-    'skull-crossbone',
-    'slack',
-    'snapchat',
-    'soundcloud',
-    'stack-overflow',
-    'star',
-    'steam',
-    'stripe',
-    'substack',
-    'sun',
-    'tag',
-    'telegram',
-    'tiktok',
-    'triangle-exclamation',
-    'tumblr',
-    'twitch',
-    'twitter',
-    'wand-magic-sparkles',
-    'whatsapp',
-    'x-twitter',
-    'xmark',
-    'youtube'
-]
+const iconList = utils.readAppJsonConfig('icons.json')
+
 const transformedList = iconList.map(item => ({ name: item }));
 
 var isHugoServerRunning = false;
@@ -131,7 +51,7 @@ export default class flow {
             type: 'AutoComplete',
             name: 'option',
             message: 'What do you need help with?',
-            limit: 10,
+            limit: 30,
             initial: 0,
             choices: choices
         });
@@ -906,381 +826,37 @@ export default class flow {
 }
 
 
-var configOptions = [
+var configOptions = [{
+    text: 'Configure menus',
+    method: 'menus',
+    action: async (list) => {
+        await flow.configMenus('./config/_default/menus.en.toml');
+        flow.displayConfigOptions(list);
+    }
+}]
 
-    //.config/_default/menus.en.toml
-    {
-        text: 'Configure menus',
-        action: async (list) => {
-            await flow.configMenus('./config/_default/menus.en.toml');
-            flow.displayConfigOptions(list);
-        }
-    },
-    //config/_default/languages.en.toml
-    {
-        text: 'Site\'s title',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/languages.en.toml',
-                null,
-                'title',
-                'The title of the website. This will be displayed in the site header and footer.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Site\'s logo',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/languages.en.toml',
-                'params',
-                'logo',
-                'Site\'s logo, the logo file should be provided at 2x resolution and supports any image dimensions.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Site\'s secondary logo',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/languages.en.toml',
-                'params',
-                'secondaryLogo',
-                'The logo file should be provided at 2x resolution and supports any image dimensions. This should have an inverted/contrasting colour scheme to logo. If set, this logo will be shown when users toggle from the defaultAppearance mode.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Site\'s description',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/languages.en.toml',
-                'params',
-                'description',
-                'The website description. This will be used in the site metadata.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Author\'s name',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/languages.en.toml',
-                'author',
-                'name',
-                'The author’s name. This will be displayed in article footers, and on the homepage when the profile layout is used.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Author\'s picture',
-        action: async (list) => {
-            await flow.configImage(
-                './config/_default/languages.en.toml',
-                'author',
-                'image',
-                'Image file of the author. The image should be a 1:1 aspect ratio.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Author\'s headline',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/languages.en.toml',
-                'author',
-                'headline',
-                'A Markdown string containing the author’s headline. It will be displayed on the profile homepage under the author’s name.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Author\'s bio',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/languages.en.toml',
-                'author',
-                'bio',
-                'A Markdown string containing the author’s bio. It will be displayed in article footers.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Author\'s links',
-        action: async (list) => {
-            await flow.configLinks(
-                './config/_default/languages.en.toml',
-                'author',
-                'links',
-                'The links to display alongside the author’s details. The config file contains example links which can simply be uncommented to enable. The order that the links are displayed is determined by the order they appear in the array. ');
-            flow.displayConfigOptions(list);
-        }
-    },
-    //config/_default/params.toml
-    // Global
-    {
-        text: 'Color scheme',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/params.toml',
-                null,
-                'colorScheme',
-                'The theme colour scheme to use. Valid values are blowfish (default), avocado, fire, forest, princess, neon, bloody, terminal, marvel, noir, autumn, congo, slate. Custom themes are supported check Blowfish documentation.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Default Appearance',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/params.toml',
-                null,
-                'defaultAppearance',
-                'The default theme appearance, either light or dark');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Auto Switch Appearance',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/params.toml',
-                null,
-                'autoSwitchAppearance',
-                'Whether the theme appearance automatically switches based upon the visitor’s operating system preference. Set to false to force the site to always use the defaultAppearance.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Enable/Disable Search',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/params.toml',
-                null,
-                'enableSearch',
-                'Whether site search is enabled (true or false).');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Enable/Disable code copy',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/params.toml',
-                null,
-                'enableCodeCopy',
-                'Whether copy-to-clipboard buttons are enabled for <code> blocks. (true or false).');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Configure default background image',
-        action: async (list) => {
-            await flow.configImage(
-                './config/_default/params.toml',
-                null,
-                'defaultBackgroundImage',
-                'Default background image for both background homepage layout and background hero style.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Configure default featured image',
-        action: async (list) => {
-            await flow.configImage(
-                './config/_default/params.toml',
-                null,
-                'defaultFeaturedImage',
-                'Default background image for all featured images across articles, will be overridden by a local featured image.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Enable/Disable highlighting of the current menu area',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/params.toml',
-                null,
-                'highlightCurrentMenuArea',
-                'Marks menu entries in the main menu when selected.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Enable/Disable smart table of contents',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/params.toml',
-                null,
-                'smartTOC',
-                'Activate smart Table of Contents, items in view will be highlighted.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Enable/Disable smart table of contents hiding content',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/params.toml',
-                null,
-                'smartTOCHideUnfocusedChildren',
-                'When smart Table of Contents is turned on, this will hide deeper levels of the table when they are not in focus.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    // Header
-    {
-        text: 'Select header layout',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/params.toml',
-                'header',
-                'layout',
-                'Defines the header for the entire site, supported values are basic, fixed, fixed-fill, and fixed-fill-blur.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    // Footer
-    // Homepage
-    {
-        text: 'Select Homepage layout',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/params.toml',
-                'homepage',
-                'layout',
-                'The layout of the homepage. Valid values are page, profile, hero, card, background, or custom. When set to custom, you must provide your own layout by creating a /layouts/partials/home/custom.html file.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Select Homepage image',
-        action: async (list) => {
-            await flow.configImage(
-                './config/_default/params.toml',
-                'homepage',
-                'homepageImage',
-                'Image to be used in hero and card layouts.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Enable/Disable recent articles list',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/params.toml',
-                'homepage',
-                'showRecent',
-                'Whether or not to display the recent articles list on the homepage.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Configure recent articles list size',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/params.toml',
-                'homepage',
-                'showRecentItems',
-                'How many articles to display if showRecent is true. If variable is set to 0 or if it isn’t defined the system will default to 5 articles.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Enable/Disable show more link',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/params.toml',
-                'homepage',
-                'showMoreLink',
-                'Whether or not to display a show more link at the end of your posts that takes the user to a predefined place.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Configure show more link destination',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/params.toml',
-                'homepage',
-                'showMoreLinkDest',
-                'The destination of the show more button.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Enable/Disable card view for recent articles',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/params.toml',
-                'homepage',
-                'cardView',
-                'Display recent articles as a gallery of cards.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Enable full width for card view',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/params.toml',
-                'homepage',
-                'cardViewScreenWidth',
-                'Enhance the width of the recent articles card gallery to take the full width available.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Enable/Disable blur effect for background image',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/params.toml',
-                'homepage',
-                'layoutBackgroundBlur',
-                'Makes the background image in the homepage layout blur with the scroll');
-            flow.displayConfigOptions(list);
-        }
-    },
-    // Article
-    // List
-    // Sitemap
-    // Taxonomy
-    // Term
-    // Firebase
-    // Fathom Analytics
-    // Buy me a coffee
-    // Verifications
-    //.config/_default/config.toml
-    {
-        text: 'baseURL - The URL to the root of the website.',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/config.toml',
-                null,
-                'baseURL',
-                'The URL to the root of the website.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    {
-        text: 'Google Analytics',
-        action: async (list) => {
-            await flow.configLoop(
-                './config/_default/config.toml',
-                null,
-                'googleAnalytics',
-                'The Google Analytics tracking ID to use. Supports v3 and v4.');
-            flow.displayConfigOptions(list);
-        }
-    },
-    //exit
-    {
-        text: 'Exit configuration mode',
-        action: () => {
-            flow.showMain('Configuration mode exited.');
-        }
-    },
-]
+var exitOption = {
+    text: 'Exit configuration mode',
+    method: 'exit',
+    action: () => {
+        flow.showMain('Configuration mode exited.');
+    }
+}
+
+var configOptionsJSONList = utils.readAppJsonConfig('configOptions.json');
+for (var i in configOptionsJSONList) {
+    var obj = configOptionsJSONList[i];
+    obj.action = async (list) => {
+        await flow[obj.method](
+            obj.file,
+            obj.parent,
+            obj.key,
+            obj.description);
+        flow.displayConfigOptions(list);
+    }
+    configOptions.push(obj)
+}
+configOptions.push(exitOption)
 
 
 var options = [
@@ -1298,6 +874,132 @@ var options = [
             await flow.setupHugoServer();
             await flow.configMenus('./config/_default/menus.en.toml');
             await flow.showMain('Configuration mode exited.');
+        }
+    },
+    {
+        text: 'Configure overall site',
+        blowfishIsInstalled: true,
+        action: async () => {
+
+            var tempList = []
+            for (var i in configOptions) {
+                if (configOptions[i].parent === null || configOptions[i].method === 'exit')
+                    tempList.push(configOptions[i])      
+            }
+
+            flow.enterConfigMode(tempList);
+        }
+    },
+    {
+        text: 'Configure site author',
+        blowfishIsInstalled: true,
+        action: async () => {
+
+            var tempList = []
+            for (var i in configOptions) {
+                if (configOptions[i].parent === 'author' || configOptions[i].method === 'exit')
+                    tempList.push(configOptions[i])      
+            }
+
+            flow.enterConfigMode(tempList);
+        }
+    },
+    {
+        text: 'Configure homepage',
+        blowfishIsInstalled: true,
+        action: async () => {
+
+            var tempList = []
+            for (var i in configOptions) {
+                if (configOptions[i].parent === "homepage" || configOptions[i].method === 'exit')
+                    tempList.push(configOptions[i])      
+            }
+
+            flow.enterConfigMode(tempList);
+        }
+    },
+    {
+        text: 'Configure header',
+        blowfishIsInstalled: true,
+        action: async () => {
+
+            var tempList = []
+            for (var i in configOptions) {
+                if (configOptions[i].parent === "homepage" || configOptions[i].method === 'exit')
+                    tempList.push(configOptions[i])      
+            }
+
+            flow.enterConfigMode(tempList);
+        }
+    },
+    {
+        text: 'Configure footer',
+        blowfishIsInstalled: true,
+        action: async () => {
+
+            var tempList = []
+            for (var i in configOptions) {
+                if (configOptions[i].parent === "footer" || configOptions[i].method === 'exit')
+                    tempList.push(configOptions[i])      
+            }
+
+            flow.enterConfigMode(tempList);
+        }
+    },
+    {
+        text: 'Configure article pages',
+        blowfishIsInstalled: true,
+        action: async () => {
+
+            var tempList = []
+            for (var i in configOptions) {
+                if (configOptions[i].parent === "article" || configOptions[i].method === 'exit')
+                    tempList.push(configOptions[i])      
+            }
+
+            flow.enterConfigMode(tempList);
+        }
+    },
+    {
+        text: 'Configure list pages',
+        blowfishIsInstalled: true,
+        action: async () => {
+
+            var tempList = []
+            for (var i in configOptions) {
+                if (configOptions[i].parent === "list" || configOptions[i].method === 'exit')
+                    tempList.push(configOptions[i])      
+            }
+
+            flow.enterConfigMode(tempList);
+        }
+    },
+    {
+        text: 'Configure taxonomy pages',
+        blowfishIsInstalled: true,
+        action: async () => {
+
+            var tempList = []
+            for (var i in configOptions) {
+                if (configOptions[i].parent === "taxonomy" || configOptions[i].method === 'exit')
+                    tempList.push(configOptions[i])      
+            }
+
+            flow.enterConfigMode(tempList);
+        }
+    },
+    {
+        text: 'Configure term pages',
+        blowfishIsInstalled: true,
+        action: async () => {
+
+            var tempList = []
+            for (var i in configOptions) {
+                if (configOptions[i].parent === "term" || configOptions[i].method === 'exit')
+                    tempList.push(configOptions[i])      
+            }
+
+            flow.enterConfigMode(tempList);
         }
     },
     {

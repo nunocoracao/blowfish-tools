@@ -1,0 +1,250 @@
+[
+    {
+        "text": "Site's title",
+        "method": "configLoop",
+        "file": "./config/_default/languages.en.toml",
+        "parent": null,
+        "key": "title",
+        "description": "The title of the website. This will be displayed in the site header and footer."
+    },
+    {
+        "text": "Site's logo",
+        "method": "configLoop",
+        "file": "./config/_default/languages.en.toml",
+        "parent": "params",
+        "key": "logo",
+        "description": "Site's logo, the logo file should be provided at 2x resolution and supports any image dimensions."
+    },
+    {
+        "text": "Site's secondary logo",
+        "method": "configLoop",
+        "file": "./config/_default/languages.en.toml",
+        "parent": "params",
+        "key": "secondaryLogo",
+        "description": "The logo file should be provided at 2x resolution and supports any image dimensions. This should have an inverted/contrasting colour scheme to logo. If set, this logo will be shown when users toggle from the defaultAppearance mode."
+    },
+    {
+        "text": "Site's description",
+        "method": "configLoop",
+        "file": "./config/_default/languages.en.toml",
+        "parent": "params",
+        "key": "description",
+        "description": "The website description. This will be used in the site metadata."
+    },
+    {
+        "text": "Author's name",
+        "method": "configLoop",
+        "file": "./config/_default/languages.en.toml",
+        "parent": "author",
+        "key": "name",
+        "description": "The author’s name. This will be displayed in article footers, and on the homepage when the profile layout is used."
+    },
+    {
+        "text": "Author's picture",
+        "method": "configImage",
+        "file": "./config/_default/languages.en.toml",
+        "parent": "author",
+        "key": "image",
+        "description": "Image file of the author. The image should be a 1:1 aspect ratio."
+    },
+    {
+        "text": "Author's headline",
+        "method": "configLoop",
+        "file": "./config/_default/languages.en.toml",
+        "parent": "author",
+        "key": "headline",
+        "description": "A Markdown string containing the author’s headline. It will be displayed on the profile homepage under the author’s name."
+    },
+    {
+        "text": "Author's bio",
+        "method": "configLoop",
+        "file": "./config/_default/languages.en.toml",
+        "parent": "author",
+        "key": "bio",
+        "description": "A Markdown string containing the author’s bio. It will be displayed in article footers."
+    },
+    {
+        "text": "Author's links",
+        "method": "configLinks",
+        "file": "./config/_default/languages.en.toml",
+        "parent": "author",
+        "key": "links",
+        "description": "The links to display alongside the author’s details. The config file contains example links which can simply be uncommented to enable. The order that the links are displayed is determined by the order they appear in the array."
+    },
+    {
+        "text": "Color scheme",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": null,
+        "key": "colorScheme",
+        "description": "The theme colour scheme to use. Valid values are blowfish (default), avocado, fire, forest, princess, neon, bloody, terminal, marvel, noir, autumn, congo, slate. Custom themes are supported check Blowfish documentation."
+    },
+    {
+        "text": "Default Appearance",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": null,
+        "key": "defaultAppearance",
+        "description": "The default theme appearance, either light or dark"
+    },
+    {
+        "text": "Auto Switch Appearance",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": null,
+        "key": "autoSwitchAppearance",
+        "description": "'Whether the theme appearance automatically switches based upon the visitor’s operating system preference. Set to false to force the site to always use the defaultAppearance."
+    },
+    {
+        "text": "Enable/Disable Search",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": null,
+        "key": "enableSearch",
+        "description": "Whether site search is enabled (true or false)."
+    },
+    {
+        "text": "Enable/Disable code copy",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": null,
+        "key": "enableCodeCopy",
+        "description": "Whether copy-to-clipboard buttons are enabled for <code> blocks. (true or false)."
+    },
+    {
+        "text": "Configure default background image",
+        "method": "configImage",
+        "file": "./config/_default/params.toml",
+        "parent": null,
+        "key": "defaultBackgroundImage",
+        "description": "Default background image for both background homepage layout and background hero style."
+    },
+    {
+        "text": "Configure default featured image",
+        "method": "configImage",
+        "file": "./config/_default/params.toml",
+        "parent": null,
+        "key": "defaultFeaturedImage",
+        "description": "Default background image for all featured images across articles, will be overridden by a local featured image."
+    },
+    {
+        "text": "Enable/Disable highlighting of the current menu area",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": null,
+        "key": "highlightCurrentMenuArea",
+        "description": "Marks menu entries in the main menu when selected."
+    },
+    {
+        "text": "Enable/Disable smart table of contents",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": null,
+        "key": "smartTOC",
+        "description": "Activate smart Table of Contents, items in view will be highlighted."
+    },
+    {
+        "text": "Enable/Disable smart table of contents hiding content",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": null,
+        "key": "smartTOCHideUnfocusedChildren",
+        "description": "When smart Table of Contents is turned on, this will hide deeper levels of the table when they are not in focus."
+    },
+    {
+        "text": "Select header layout",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "header",
+        "key": "layout",
+        "description": "Defines the header for the entire site, supported values are basic, fixed, fixed-fill, and fixed-fill-blur."
+    },
+    {
+        "text": "Select Homepage layout",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "homepage",
+        "key": "layout",
+        "description": "The layout of the homepage. Valid values are page, profile, hero, card, background, or custom. When set to custom, you must provide your own layout by creating a /layouts/partials/home/custom.html file."
+    },
+    {
+        "text": "Select Homepage image",
+        "method": "configImage",
+        "file": "./config/_default/params.toml",
+        "parent": "homepage",
+        "key": "homepageImage",
+        "description": "Image to be used in hero and card layouts."
+    },
+    {
+        "text": "Enable/Disable recent articles list",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "homepage",
+        "key": "showRecent",
+        "description": "Whether or not to display the recent articles list on the homepage."
+    },
+    {
+        "text": "Configure recent articles list size",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "homepage",
+        "key": "showRecentItems",
+        "description": "How many articles to display if showRecent is true. If variable is set to 0 or if it isn’t defined the system will default to 5 articles."
+    },
+    {
+        "text": "Enable/Disable show more link",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "homepage",
+        "key": "showMoreLink",
+        "description": "Whether or not to display a show more link at the end of your posts that takes the user to a predefined place."
+    },
+    {
+        "text": "Configure show more link destination",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "homepage",
+        "key": "showMoreLinkDest",
+        "description": "The destination of the show more button."
+    },
+    {
+        "text": "Enable/Disable card view for recent articles",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "homepage",
+        "key": "cardView",
+        "description": "Display recent articles as a gallery of cards."
+    },
+    {
+        "text": "Enable full width for card view",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "homepage",
+        "key": "cardViewScreenWidth",
+        "description": "Enhance the width of the recent articles card gallery to take the full width available."
+    },
+    {
+        "text": "Enable/Disable blur effect for background image",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "homepage",
+        "key": "layoutBackgroundBlur",
+        "description": "Makes the background image in the homepage layout blur with the scroll"
+    },
+    {
+        "text": "baseURL - The URL to the root of the website.",
+        "method": "configLoop",
+        "file": "./config/_default/config.toml",
+        "parent": null,
+        "key": "baseURL",
+        "description": "The URL to the root of the website."
+    },
+    {
+        "text": "Google Analytics",
+        "method": "configLoop",
+        "file": "./config/_default/config.toml",
+        "parent": null,
+        "key": "googleAnalytics",
+        "description": "The Google Analytics tracking ID to use. Supports v3 and v4."
+    }
+]
