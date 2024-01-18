@@ -160,6 +160,46 @@
         "description": "Defines the header for the entire site, supported values are basic, fixed, fixed-fill, and fixed-fill-blur."
     },
     {
+        "text": "Enable/Disable showing menu in footer",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "footer",
+        "key": "showMenu",
+        "description": "Show/hide the footer menu, which can be configured in the [[footer]] section of the config/_default/menus.en.toml file."
+    },
+    {
+        "text": "Show/hide copyright message in footer",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "footer",
+        "key": "showCopyright",
+        "description": "Whether or not to show the copyright string in the site footer. Note that the string itself can be customised using the copyright parameter in the languages configuration."
+    },
+    {
+        "text": "Show/hide theme attribution in footer",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "footer",
+        "key": "showThemeAttribution",
+        "description": "Whether or not to show the “powered by” theme attribution in the site footer. If you choose to disable this message, please consider attributing the theme somewhere else on your site (for example, on your about page)."
+    },
+    {
+        "text": "Show/hide appearance switcher in footer",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "footer",
+        "key": "showAppearanceSwitcher",
+        "description": "Whether or not to show the appearance switcher in the site footer. The browser’s local storage is used to persist the visitor’s preference."
+    },
+    {
+        "text": "Show/hide scroll to top arrow in footer",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "footer",
+        "key": "showScrollToTop",
+        "description": "When set to true the scroll to top arrow is displayed."
+    },
+    {
         "text": "Select Homepage layout",
         "method": "configLoop",
         "file": "./config/_default/params.toml",

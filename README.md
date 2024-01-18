@@ -16,6 +16,15 @@ CLI to initialize and configure a [Blowfish](https://blowfish.page) project. Ins
 - Update Blowfish to the latest version
 - Configure metadata
 - Configure menu structure
+- Configure overall site
+- Configure site author
+- Configure homepage
+- Configure header
+- Configure footer
+- Configure article pages
+- Configure list pages
+- Configure taxonomy pages
+- Configure term pages
 - Generate empty site sections
 - Generate empty articles
 - Run a local server with Blowfish
