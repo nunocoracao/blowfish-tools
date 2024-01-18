@@ -256,7 +256,7 @@
         "description": "Display recent articles as a gallery of cards."
     },
     {
-        "text": "Enable full width for card view",
+        "text": "Enable full width for card view in recent articles",
         "method": "configLoop",
         "file": "./config/_default/params.toml",
         "parent": "homepage",
@@ -414,6 +414,102 @@
         "parent": "article",
         "key": "showZenMode",
         "description": "Flag to activate Zen Mode reading feature for articles."
+    },
+    {
+        "text": "Show/hide hero image in lists",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "list",
+        "key": "showHero",
+        "description": "Whether the thumbnail image will be shown as a hero image within each list page."
+    },
+    {
+        "text": "Select hero style in lists",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "list",
+        "key": "heroStyle",
+        "description": "Style to display the hero image, valid options are: basic, big, background, thumbAndBackground."
+    },
+    {
+        "text": "Show/Hide breadcrumbs in lists",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "list",
+        "key": "showBreadcrumbs",
+        "description": "Whether or not breadcrumbs are displayed in the header on list pages."
+    },
+    {
+        "text": "Blur background image in lists with scroll",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "list",
+        "key": "layoutBackgroundBlur",
+        "description": "Makes the background image in the background list heroStyle blur with the scroll"
+    },
+    {
+        "text": "Add space between the header and the body in lists",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "list",
+        "key": "layoutBackgroundHeaderSpace",
+        "description": "Add space between the header and the body."
+    },
+    {
+        "text": "Show/Hide table of contents in lists",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "list",
+        "key": "showTableOfContents",
+        "description": "Whether or not the table of contents is displayed on list pages."
+    },
+    {
+        "text": "Show/hide summaries in list pages",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "list",
+        "key": "showSummary",
+        "description": "Whether or not article summaries are displayed on list pages. If a summary is not provided in the front matter, one will be auto generated using the summaryLength parameter in the site configuration."
+    },
+    {
+        "text": "Display articles as cards in lists",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "list",
+        "key": "showCards",
+        "description": "Whether or not each article is displayed as a card or as simple inline text."
+    },
+    {
+        "text": "Group content by year in lists",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "list",
+        "key": "groupByYear",
+        "description": "Whether or not articles are grouped by year on list pages."
+    },
+    {
+        "text": "Enable/Disable card view for articles in lists",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "list",
+        "key": "cardView",
+        "description": "Display lists as a gallery of cards."
+    },
+    {
+        "text": "Enable/disable full width for card view in lists",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "list",
+        "key": "cardViewScreenWidth",
+        "description": "Enhance the width of card galleries in lists to take the full width available."
+    },
+    {
+        "text": "Enable/disable constrainting item width to prose size in lists",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "list",
+        "key": "constrainItemsWidth",
+        "description": "Limit item width to prose to increase readability. Useful when no feature images are available."
     },
     {
         "text": "baseURL - The URL to the root of the website.",
