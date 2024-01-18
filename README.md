@@ -14,6 +14,8 @@ CLI to initialize and configure a [Blowfish](https://blowfish.page) project. Ins
 - Create a new Blowfish project from scratch
 - Configure an existing Hugo project to use Blowfish
 - Update Blowfish to the latest version
+- Configure metadata
+- Configure menu structure
 - Run a local server with Blowfish
 - Generate the static site with Hugo
 

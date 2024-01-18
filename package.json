@@ -1,6 +1,6 @@
 {
   "name": "blowfish-tools",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "CLI to initialize and configure a Blowfish project.",
   "main": "cli.js",
   "bin": {
@@ -34,6 +34,7 @@
     "commander": "^11.1.0",
     "enquirer": "^2.4.1",
     "ora": "^8.0.1",
+    "tcp-port-used": "^1.0.2",
     "toml-patch": "^0.2.3"
   }
 }
