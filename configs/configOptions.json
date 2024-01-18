@@ -272,6 +272,150 @@
         "description": "Makes the background image in the homepage layout blur with the scroll"
     },
     {
+        "text": "Show/Hide date in articles",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "showDate",
+        "description": "Whether or not article dates are displayed."
+    },
+    {
+        "text": "Show/Hide author in articles",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "showAuthor",
+        "description": "Whether or not the author box is displayed in the article footer."
+    },
+    {
+        "text": "Show/Hide hero image in articles",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "showHero",
+        "description": "Whether the thumbnail image will be shown as a hero image within each article page."
+    },
+    {
+        "text": "Select style for hero images in articles",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "heroStyle",
+        "description": "Style to display the hero image, valid options are: basic, big, background, thumbAndBackground."
+    },
+    {
+        "text": "Blur the background in articles with scroll",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "layoutBackgroundBlur",
+        "description": "Makes the background image in the background article heroStyle blur with the scroll"
+    },
+    {
+        "text": "Add space between the header and the body in articles",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "layoutBackgroundHeaderSpace",
+        "description": "Add space between the header and the body."
+    },
+    {
+        "text": "Show/Hide breadcrumbs in articles",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "showBreadcrumbs",
+        "description": "Whether or not breadcrumbs are displayed in the article header."
+    },
+    {
+        "text": "Show/Hide breadcrumbs in articles",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "showDraftLabel",
+        "description": "Whether or not the draft indicator is shown next to articles when site is built with --buildDrafts"
+    },
+    {
+        "text": "Show/Hide prev and next article in each article page",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "showPagination",
+        "description": "Whether or not the next/previous article links are displayed in the article footer."
+    },
+    {
+        "text": "Invert prev and next order in each article page",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "invertPagination",
+        "description": "Whether or not to flip the direction of the next/previous article links."
+    },
+    {
+        "text": "Show/Hide readig time in each article page",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "showReadingTime",
+        "description": "Whether or not article reading times are displayed."
+    },
+    {
+        "text": "Show/Hide table of contents in articles",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "showTableOfContents",
+        "description": "Whether or not the table of contents is displayed on articles."
+    },
+    {
+        "text": "Show/Hide related content in articles",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "showRelatedContent",
+        "description": "Display related content for each post. Might required additional configuration to your config.toml. Please check the theme config.toml if you want to enable this feature and copy all the relevant related entries. Also check Hugo’s docs on related content."
+    },
+    {
+        "text": "Number of related items to show in articles",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "relatedContentLimit",
+        "description": "Limit of related articles to display if showRelatedContent is turned on."
+    },
+    {
+        "text": "Show/Hide taxonomies in articles",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "showTaxonomies",
+        "description": "Whether or not the taxonomies related to this article are displayed."
+    },
+    {
+        "text": "Show/Hide author badges in articles",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "showAuthorsBadges",
+        "description": "Whether the authors taxonomies are are displayed in the article or list header. This requires the setup of multiple authors and the authors taxonomy. Check this page for more details on how to configure that feature."
+    },
+    {
+        "text": "Show/hide word count in articles",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "showWordCount",
+        "description": "Whether or not article word counts are displayed."
+    },
+    {
+        "text": "Show/hide zen mode in articles",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "article",
+        "key": "showZenMode",
+        "description": "Flag to activate Zen Mode reading feature for articles."
+    },
+    {
         "text": "baseURL - The URL to the root of the website.",
         "method": "configLoop",
         "file": "./config/_default/config.toml",
