@@ -91,8 +91,9 @@ const iconList = [
     'xmark',
     'youtube'
 ]
-
 const transformedList = iconList.map(item => ({ name: item }));
+
+var isHugoServerRunning = false;
 
 export default class flow {
 
@@ -315,7 +316,25 @@ export default class flow {
         });
     }
 
-    static async enterConfigMode() {
+    static async setupHugoServer() {
+
+        if (!isHugoServerRunning) {
+            const spinner = ora('Checking for dependencies').start();
+            await flow.checkHugo(spinner);
+
+            utils.spawn('hugo', ['server'], false);
+
+            tcpPortUsed.waitUntilUsed(1313, 500, 4000)
+                .then(function () {
+                    isHugoServerRunning = true;
+                    utils.run('open http://localhost:1313', false);
+                }, function (err) {
+                    console.log('Error:', err.message);
+                });
+        }
+    }
+
+    static async enterConfigMode(list) {
 
         var blowfishIsInstalled = await flow.detectBlowfish();
         if (!blowfishIsInstalled) {
@@ -323,27 +342,17 @@ export default class flow {
             process.exit(0);
         }
 
-        const spinner = ora('Checking for dependencies').start();
-        await flow.checkHugo(spinner);
+        await flow.setupHugoServer();
 
-        utils.spawn('hugo', ['server'], false);
-
-        tcpPortUsed.waitUntilUsed(1313, 500, 4000)
-            .then(function () {
-                utils.run('open http://localhost:1313', false);
-            }, function (err) {
-                console.log('Error:', err.message);
-            });
-
-        flow.displayConfigOptions();
+        flow.displayConfigOptions(list);
 
     }
 
-    static async displayConfigOptions() {
+    static async displayConfigOptions(list) {
         var choices = [];
 
-        for (var i in configOptions) {
-            choices.push(configOptions[i].text);
+        for (var i in list) {
+            choices.push(list[i].text);
         }
 
         console.clear()
@@ -357,8 +366,8 @@ export default class flow {
         });
 
         for (var i in configOptions) {
-            if (configOptions[i].text === response.option) {
-                configOptions[i].action();
+            if (list[i].text === response.option) {
+                list[i].action(list);
                 return
             }
         }
@@ -845,7 +854,7 @@ export default class flow {
     static async generateNewArticle() {
 
         var contentFolders = utils.getDirs('./content');
-        
+
         if (contentFolders.length === 0) {
             console.log('No sections found in content folder.');
             console.log('Please create a section first.');
@@ -873,16 +882,22 @@ export default class flow {
             } else {
                 var articleid = new Date().getTime() + '-' + newArticle.replaceAll(' ', '-');
                 var content = "---\n" +
-                "title: \""+newArticle+"\"\n" +
-                "date: "+new Date().toISOString().split('T')[0]+"\n" +
-                "draft: false\n" +
-                "description: \"a description\"\n" +
-                "tags: [\"example\", \"tag\"]\n" +
-                "---\n an example to get you started"
-                await utils.run('mkdir ./content/'+response.option+'/'+articleid, false);
-                await utils.run('cp '+utils.getDirname(import.meta.url)+'/../banner.png ./content/'+response.option+'/'+articleid+'/featured.png', false);
-                await utils.run('touch ./content/'+response.option+'/'+articleid+'/index.md', false);
-                await utils.run('echo \''+content+'\' >> ./content/'+response.option+'/'+articleid+'/index.md', false);
+                    "title: \"" + newArticle + "\"\n" +
+                    "date: " + new Date().toISOString().split('T')[0] + "\n" +
+                    "draft: false\n" +
+                    "description: \"a description\"\n" +
+                    "tags: [\"example\", \"tag\"]\n" +
+                    "---\n an example to get you started\n" +
+                    "# This is a heading\n" +
+                    "## This is a subheading\n" +
+                    "### This is a subsubheading\n" +
+                    "#### This is a subsubsubheading\n" +
+                    "This is a paragraph with **bold** and *italic* text.\n" +
+                    "Check more at [Blowfish documentation](https://blowfish.page/)\n" +
+                    await utils.run('mkdir ./content/' + response.option + '/' + articleid, false);
+                await utils.run('cp ' + utils.getDirname(import.meta.url) + '/../banner.png ./content/' + response.option + '/' + articleid + '/featured.png', false);
+                await utils.run('touch ./content/' + response.option + '/' + articleid + '/index.md', false);
+                await utils.run('echo \'' + content + '\' >> ./content/' + response.option + '/' + articleid + '/index.md', false);
                 flow.showMain('Article ' + newArticle + ' created.')
             }
 
@@ -896,290 +911,334 @@ var configOptions = [
     //.config/_default/menus.en.toml
     {
         text: 'Configure menus',
-        action: async () => {
+        action: async (list) => {
             await flow.configMenus('./config/_default/menus.en.toml');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     //config/_default/languages.en.toml
     {
         text: 'Site\'s title',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/languages.en.toml',
                 null,
                 'title',
                 'The title of the website. This will be displayed in the site header and footer.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Site\'s logo',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/languages.en.toml',
                 'params',
                 'logo',
                 'Site\'s logo, the logo file should be provided at 2x resolution and supports any image dimensions.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Site\'s secondary logo',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/languages.en.toml',
                 'params',
                 'secondaryLogo',
                 'The logo file should be provided at 2x resolution and supports any image dimensions. This should have an inverted/contrasting colour scheme to logo. If set, this logo will be shown when users toggle from the defaultAppearance mode.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Site\'s description',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/languages.en.toml',
                 'params',
                 'description',
                 'The website description. This will be used in the site metadata.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Author\'s name',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/languages.en.toml',
                 'author',
                 'name',
                 'The author’s name. This will be displayed in article footers, and on the homepage when the profile layout is used.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Author\'s picture',
-        action: async () => {
+        action: async (list) => {
             await flow.configImage(
                 './config/_default/languages.en.toml',
                 'author',
                 'image',
                 'Image file of the author. The image should be a 1:1 aspect ratio.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Author\'s headline',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/languages.en.toml',
                 'author',
                 'headline',
                 'A Markdown string containing the author’s headline. It will be displayed on the profile homepage under the author’s name.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Author\'s bio',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/languages.en.toml',
                 'author',
                 'bio',
                 'A Markdown string containing the author’s bio. It will be displayed in article footers.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Author\'s links',
-        action: async () => {
+        action: async (list) => {
             await flow.configLinks(
                 './config/_default/languages.en.toml',
                 'author',
                 'links',
                 'The links to display alongside the author’s details. The config file contains example links which can simply be uncommented to enable. The order that the links are displayed is determined by the order they appear in the array. ');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     //config/_default/params.toml
     // Global
     {
         text: 'Color scheme',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/params.toml',
                 null,
                 'colorScheme',
                 'The theme colour scheme to use. Valid values are blowfish (default), avocado, fire, forest, princess, neon, bloody, terminal, marvel, noir, autumn, congo, slate. Custom themes are supported check Blowfish documentation.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Default Appearance',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/params.toml',
                 null,
                 'defaultAppearance',
                 'The default theme appearance, either light or dark');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Auto Switch Appearance',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/params.toml',
                 null,
                 'autoSwitchAppearance',
                 'Whether the theme appearance automatically switches based upon the visitor’s operating system preference. Set to false to force the site to always use the defaultAppearance.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Enable/Disable Search',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/params.toml',
                 null,
                 'enableSearch',
                 'Whether site search is enabled (true or false).');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Enable/Disable code copy',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/params.toml',
                 null,
                 'enableCodeCopy',
                 'Whether copy-to-clipboard buttons are enabled for <code> blocks. (true or false).');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Configure default background image',
-        action: async () => {
+        action: async (list) => {
             await flow.configImage(
                 './config/_default/params.toml',
                 null,
                 'defaultBackgroundImage',
                 'Default background image for both background homepage layout and background hero style.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Configure default featured image',
-        action: async () => {
+        action: async (list) => {
             await flow.configImage(
                 './config/_default/params.toml',
                 null,
                 'defaultFeaturedImage',
                 'Default background image for all featured images across articles, will be overridden by a local featured image.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
+        }
+    },
+    {
+        text: 'Enable/Disable highlighting of the current menu area',
+        action: async (list) => {
+            await flow.configLoop(
+                './config/_default/params.toml',
+                null,
+                'highlightCurrentMenuArea',
+                'Marks menu entries in the main menu when selected.');
+            flow.displayConfigOptions(list);
+        }
+    },
+    {
+        text: 'Enable/Disable smart table of contents',
+        action: async (list) => {
+            await flow.configLoop(
+                './config/_default/params.toml',
+                null,
+                'smartTOC',
+                'Activate smart Table of Contents, items in view will be highlighted.');
+            flow.displayConfigOptions(list);
+        }
+    },
+    {
+        text: 'Enable/Disable smart table of contents hiding content',
+        action: async (list) => {
+            await flow.configLoop(
+                './config/_default/params.toml',
+                null,
+                'smartTOCHideUnfocusedChildren',
+                'When smart Table of Contents is turned on, this will hide deeper levels of the table when they are not in focus.');
+            flow.displayConfigOptions(list);
         }
     },
     // Header
+    {
+        text: 'Select header layout',
+        action: async (list) => {
+            await flow.configLoop(
+                './config/_default/params.toml',
+                'header',
+                'layout',
+                'Defines the header for the entire site, supported values are basic, fixed, fixed-fill, and fixed-fill-blur.');
+            flow.displayConfigOptions(list);
+        }
+    },
     // Footer
     // Homepage
     {
         text: 'Select Homepage layout',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/params.toml',
                 'homepage',
                 'layout',
                 'The layout of the homepage. Valid values are page, profile, hero, card, background, or custom. When set to custom, you must provide your own layout by creating a /layouts/partials/home/custom.html file.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Select Homepage image',
-        action: async () => {
+        action: async (list) => {
             await flow.configImage(
                 './config/_default/params.toml',
                 'homepage',
                 'homepageImage',
                 'Image to be used in hero and card layouts.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Enable/Disable recent articles list',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/params.toml',
                 'homepage',
                 'showRecent',
                 'Whether or not to display the recent articles list on the homepage.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Configure recent articles list size',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/params.toml',
                 'homepage',
                 'showRecentItems',
                 'How many articles to display if showRecent is true. If variable is set to 0 or if it isn’t defined the system will default to 5 articles.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Enable/Disable show more link',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/params.toml',
                 'homepage',
                 'showMoreLink',
                 'Whether or not to display a show more link at the end of your posts that takes the user to a predefined place.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Configure show more link destination',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/params.toml',
                 'homepage',
                 'showMoreLinkDest',
                 'The destination of the show more button.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Enable/Disable card view for recent articles',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/params.toml',
                 'homepage',
                 'cardView',
                 'Display recent articles as a gallery of cards.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Enable full width for card view',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/params.toml',
                 'homepage',
                 'cardViewScreenWidth',
                 'Enhance the width of the recent articles card gallery to take the full width available.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Enable/Disable blur effect for background image',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/params.toml',
                 'homepage',
                 'layoutBackgroundBlur',
                 'Makes the background image in the homepage layout blur with the scroll');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     // Article
@@ -1194,24 +1253,24 @@ var configOptions = [
     //.config/_default/config.toml
     {
         text: 'baseURL - The URL to the root of the website.',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/config.toml',
                 null,
                 'baseURL',
                 'The URL to the root of the website.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     {
         text: 'Google Analytics',
-        action: async () => {
+        action: async (list) => {
             await flow.configLoop(
                 './config/_default/config.toml',
                 null,
                 'googleAnalytics',
                 'The Google Analytics tracking ID to use. Supports v3 and v4.');
-            flow.displayConfigOptions();
+            flow.displayConfigOptions(list);
         }
     },
     //exit
@@ -1225,11 +1284,21 @@ var configOptions = [
 
 
 var options = [
-
     {
-        text: 'Enter configuration mode',
+        text: 'Enter full configuration mode (all options)',
         blowfishIsInstalled: true,
-        action: flow.enterConfigMode
+        action: async () => {
+            flow.enterConfigMode(configOptions);
+        }
+    },
+    {
+        text: 'Configure menus',
+        blowfishIsInstalled: true,
+        action: async () => {
+            await flow.setupHugoServer();
+            await flow.configMenus('./config/_default/menus.en.toml');
+            await flow.showMain('Configuration mode exited.');
+        }
     },
     {
         text: 'Generate a new site section (e.g. posts)',
