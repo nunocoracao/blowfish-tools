@@ -107,4 +107,19 @@ export default class utils {
         }
         return result;
     }
+
+    static getFileList(path) {
+        return fs.readdirSync(path);
+    }
+
+    static getDirs(path){
+        var contentFolders = [];
+        var files = fs.readdirSync(path);
+        for (var i in files) {
+            if (fs.statSync('./content/' + files[i]).isDirectory()) {
+                contentFolders.push(files[i]);
+            }
+        }
+        return contentFolders
+    }
 }
