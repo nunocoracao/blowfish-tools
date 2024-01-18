@@ -14,6 +14,7 @@ program
     .version(metadata.version)
     .action(() => {
         flow.showMain();
+        //flow.configMenus('./config/_default/menus.en.toml');
     });
 
 
@@ -30,7 +31,7 @@ program.command('install')
         flow.configureExisting(true);
     });
 
-    program.command('update')
+program.command('update')
     .description('Update blowfish. Requires Hugo to be installed and Blowfish configured in current directory (via git submodules).')
     .action((str, options) => {
         flow.update(true);
