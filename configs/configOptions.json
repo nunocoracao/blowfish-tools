@@ -560,6 +560,62 @@
         "description": "Display lists as a gallery of cards."
     },
     {
+        "text": "Show/hide hero image in terms",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "term",
+        "key": "showHero",
+        "description": "Whether the thumbnail image will be shown as a hero image within each term page."
+    },
+    {
+        "text": "Select hero style in terms",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "term",
+        "key": "heroStyle",
+        "description": "Style to display the hero image, valid options are: basic, big, background, thumbAndBackground."
+    },
+    {
+        "text": "Show/Hide breadcrumbs in terms",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "term",
+        "key": "showBreadcrumbs",
+        "description": "Whether or not breadcrumbs are displayed in the term header."
+    },
+    {
+        "text": "Show/Hide table of contents in terms",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "term",
+        "key": "showTableOfContents",
+        "description": "Whether or not the table of contents is displayed on terms."
+    },
+    {
+        "text": "Group content by year in terms",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "term",
+        "key": "groupByYear",
+        "description": "Whether or not articles are grouped by year on term pages."
+    },
+    {
+        "text": "Emable/Diable card view for terms",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "term",
+        "key": "cardView",
+        "description": "Display lists as a gallery of cards."
+    },
+    {
+        "text": "Enable full width for card view in terms",
+        "method": "configLoop",
+        "file": "./config/_default/params.toml",
+        "parent": "term",
+        "key": "cardViewScreenWidth",
+        "description": "Enhance the width of card galleries in lists to take the full width available."
+    },
+    {
         "text": "baseURL - The URL to the root of the website.",
         "method": "configLoop",
         "file": "./config/_default/config.toml",
