@@ -14,7 +14,6 @@ program
     .version(metadata.version)
     .action(() => {
         flow.showMain();
-        //flow.configMenus('./config/_default/menus.en.toml');
     });
 
 

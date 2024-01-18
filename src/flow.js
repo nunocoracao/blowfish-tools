@@ -350,7 +350,7 @@ export default class flow {
         const response = await prompt({
             type: 'AutoComplete',
             name: 'option',
-            message: 'What do you want to configure? start typing to search for options.',
+            message: 'What do you want to configure? Start typing to search for options or scroll down to see all options',
             limit: 20,
             initial: 0,
             choices: choices
@@ -393,6 +393,11 @@ export default class flow {
         ]);
 
         var newValue = response.value
+        if (newValue === 'true')
+            newValue = true
+        if (newValue === 'false')
+            newValue = false
+
         if (newValue === currentValue)
             return
 
@@ -924,6 +929,7 @@ var configOptions = [
         }
     },
     //config/_default/params.toml
+    // Global
     {
         text: 'Color scheme',
         action: async () => {
@@ -957,6 +963,62 @@ var configOptions = [
             flow.displayConfigOptions();
         }
     },
+    {
+        text: 'Enable/Disable Search',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/params.toml',
+                null,
+                'enableSearch',
+                'Whether site search is enabled (true or false).');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Enable/Disable code copy',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/params.toml',
+                null,
+                'enableCodeCopy',
+                'Whether copy-to-clipboard buttons are enabled for <code> blocks. (true or false).');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Configure default background image',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/params.toml',
+                null,
+                'defaultBackgroundImage',
+                'Default background image for both background homepage layout and background hero style.');
+            flow.displayConfigOptions();
+        }
+    }, 
+    {
+        text: 'Configure default featured image',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/params.toml',
+                null,
+                'defaultFeaturedImage',
+                'Default background image for all featured images across articles, will be overridden by a local featured image.');
+            flow.displayConfigOptions();
+        }
+    }, 
+    // Header
+    // Footer
+    // Homepage
+    // Article
+    // List
+    // Sitemap
+    // Taxonomy
+    // Term
+    // Firebase
+    // Fathom Analytics
+    // Buy me a coffee
+    // Verifications
     //.config/_default/config.toml
     {
         text: 'baseURL - The URL to the root of the website.',
@@ -966,6 +1028,17 @@ var configOptions = [
                 null,
                 'baseURL',
                 'The URL to the root of the website.');
+            flow.displayConfigOptions();
+        }
+    },
+    {
+        text: 'Google Analytics',
+        action: async () => {
+            await flow.configLoop(
+                './config/_default/config.toml',
+                null,
+                'googleAnalytics',
+                'The Google Analytics tracking ID to use. Supports v3 and v4.');
             flow.displayConfigOptions();
         }
     },
