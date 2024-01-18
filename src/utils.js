@@ -60,6 +60,7 @@ export default class utils {
         try {
             return fs.existsSync(path);
         } catch (err) {
+            console.log(err)
             return false;
         }
     }
