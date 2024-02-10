@@ -427,19 +427,32 @@ export default class flow {
             process.exit(0);
         }
 
-        utils.run('cp ' + newValue + ' ./assets/', false);
-        newValue = newValue.split('/').pop();
 
-        if (!parent) {
-            data[variable] = newValue
-        } else if (data[parent]) {
-            data[parent][variable] = newValue
-        } else {
-            data[parent] = {}
-            data[parent][variable] = newValue
+        var processChanges = () => {
+            utils.run('cp ' + newValue + ' ./assets/', false);
+            newValue = newValue.split('/').pop();
+
+            if (!parent) {
+                data[variable] = newValue
+            } else if (data[parent]) {
+                data[parent][variable] = newValue
+            } else {
+                data[parent] = {}
+                data[parent][variable] = newValue
+            }
+
+            utils.saveFileSync(file, toml.stringify(data));
         }
 
-        utils.saveFileSync(file, toml.stringify(data));
+        if (!utils.directoryExists('./assets/')) {
+            utils.run('mkdir assets', false)
+                .then(() => {
+                    processChanges()
+                });
+        } else {
+            processChanges()
+        }
+
     }
 
     static async configMenus(file) {
@@ -845,7 +858,7 @@ var exitOption = {
 
 var configOptionsJSONList = utils.readAppJsonConfig('configOptions.json');
 
-function createAction (method, file, parent, key, description) {
+function createAction(method, file, parent, key, description) {
     return async (list) => {
         await flow[method](
             file,
@@ -894,11 +907,11 @@ var options = [
 
             var tempList = []
             for (var i in configOptions) {
-                if (configOptions[i].parent === null || configOptions[i].method === 'exit'){
-                    
+                if (configOptions[i].parent === null || configOptions[i].method === 'exit') {
+
                 }
 
-                    tempList.push(configOptions[i])      
+                tempList.push(configOptions[i])
             }
 
             flow.enterConfigMode(tempList);
@@ -912,7 +925,7 @@ var options = [
             var tempList = []
             for (var i in configOptions) {
                 if (configOptions[i].parent === 'author' || configOptions[i].method === 'exit')
-                    tempList.push(configOptions[i])      
+                    tempList.push(configOptions[i])
             }
 
             flow.enterConfigMode(tempList);
@@ -926,7 +939,7 @@ var options = [
             var tempList = []
             for (var i in configOptions) {
                 if (configOptions[i].parent === "homepage" || configOptions[i].method === 'exit')
-                    tempList.push(configOptions[i])      
+                    tempList.push(configOptions[i])
             }
 
             flow.enterConfigMode(tempList);
@@ -940,7 +953,7 @@ var options = [
             var tempList = []
             for (var i in configOptions) {
                 if (configOptions[i].parent === "header" || configOptions[i].method === 'exit')
-                    tempList.push(configOptions[i])      
+                    tempList.push(configOptions[i])
             }
 
             flow.enterConfigMode(tempList);
@@ -954,7 +967,7 @@ var options = [
             var tempList = []
             for (var i in configOptions) {
                 if (configOptions[i].parent === "footer" || configOptions[i].method === 'exit')
-                    tempList.push(configOptions[i])      
+                    tempList.push(configOptions[i])
             }
 
             flow.enterConfigMode(tempList);
@@ -968,7 +981,7 @@ var options = [
             var tempList = []
             for (var i in configOptions) {
                 if (configOptions[i].parent === "article" || configOptions[i].method === 'exit')
-                    tempList.push(configOptions[i])      
+                    tempList.push(configOptions[i])
             }
 
             flow.enterConfigMode(tempList);
@@ -982,7 +995,7 @@ var options = [
             var tempList = []
             for (var i in configOptions) {
                 if (configOptions[i].parent === "list" || configOptions[i].method === 'exit')
-                    tempList.push(configOptions[i])      
+                    tempList.push(configOptions[i])
             }
 
             flow.enterConfigMode(tempList);
@@ -996,7 +1009,7 @@ var options = [
             var tempList = []
             for (var i in configOptions) {
                 if (configOptions[i].parent === "taxonomy" || configOptions[i].method === 'exit')
-                    tempList.push(configOptions[i])      
+                    tempList.push(configOptions[i])
             }
 
             flow.enterConfigMode(tempList);
@@ -1010,7 +1023,7 @@ var options = [
             var tempList = []
             for (var i in configOptions) {
                 if (configOptions[i].parent === "term" || configOptions[i].method === 'exit')
-                    tempList.push(configOptions[i])      
+                    tempList.push(configOptions[i])
             }
 
             flow.enterConfigMode(tempList);
@@ -1024,7 +1037,7 @@ var options = [
             var tempList = []
             for (var i in configOptions) {
                 if (configOptions[i].method === "configImage" || configOptions[i].method === 'exit')
-                    tempList.push(configOptions[i])      
+                    tempList.push(configOptions[i])
             }
 
             flow.enterConfigMode(tempList);
