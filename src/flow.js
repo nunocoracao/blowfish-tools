@@ -1,4 +1,4 @@
-
+import os from 'os';
 import ora from 'ora';
 import pkg from 'enquirer';
 const { prompt } = pkg;
@@ -17,6 +17,7 @@ var isHugoServerRunning = false;
 
 export default class flow {
 
+
     static async detectBlowfish() {
         var exists = utils.directoryExists('./themes/blowfish');
         if (exists) {
@@ -31,6 +32,12 @@ export default class flow {
         var blowfishIsInstalled = await flow.detectBlowfish();
 
         await eyecandy.showWelcome();
+
+        if (os.platform() == 'win32') {
+            console.log()
+            console.log(chalk.red('WARNING: This tool does not support Powershell. If you are on Windows please consider using WSL.'));
+            console.log()
+        }
 
         var choices = [];
 
@@ -149,7 +156,7 @@ export default class flow {
         blowfishspinner.succeed('Blowfish installed');
 
         const configblowfishspinner = ora('Configuring Blowfish').start();
-        await utils.run('mkdir -p config/_default', false);
+        await utils.run('mkdir -p ' + paths.configs, true);
         await utils.run('cp ./themes/blowfish/config/_default/* ./config/_default/', false);
         await utils.run('sed -i "" "s/# theme/theme/" ./config/_default/config.toml', false);
         configblowfishspinner.succeed('Blowfish configured');
