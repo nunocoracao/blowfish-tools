@@ -9,7 +9,7 @@
     },
     {
         "text": "Site's logo",
-        "method": "configLoop",
+        "method": "configImage",
         "file": "./config/_default/languages.en.toml",
         "parent": "params",
         "key": "logo",
@@ -17,7 +17,7 @@
     },
     {
         "text": "Site's secondary logo",
-        "method": "configLoop",
+        "method": "configImage",
         "file": "./config/_default/languages.en.toml",
         "parent": "params",
         "key": "secondaryLogo",
