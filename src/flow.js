@@ -1,4 +1,4 @@
-
+import os from 'os';
 import ora from 'ora';
 import pkg from 'enquirer';
 const { prompt } = pkg;
@@ -15,7 +15,18 @@ const transformedList = iconList.map(item => ({ name: item }));
 
 var isHugoServerRunning = false;
 
+var paths = {
+    configs: 'config/_default'
+}
+
+if (os.platform() == 'win32') {
+    for(var i in paths) {
+        paths[i] = paths[i].replaceAll('/', '\\');
+    }
+}
+
 export default class flow {
+
 
     static async detectBlowfish() {
         var exists = utils.directoryExists('./themes/blowfish');
@@ -149,7 +160,7 @@ export default class flow {
         blowfishspinner.succeed('Blowfish installed');
 
         const configblowfishspinner = ora('Configuring Blowfish').start();
-        await utils.run('mkdir -p config/_default', false);
+        await utils.run('mkdir -p ' + paths.configs, true);
         await utils.run('cp ./themes/blowfish/config/_default/* ./config/_default/', false);
         await utils.run('sed -i "" "s/# theme/theme/" ./config/_default/config.toml', false);
         configblowfishspinner.succeed('Blowfish configured');
