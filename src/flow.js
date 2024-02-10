@@ -15,16 +15,6 @@ const transformedList = iconList.map(item => ({ name: item }));
 
 var isHugoServerRunning = false;
 
-var paths = {
-    configs: 'config/_default'
-}
-
-if (os.platform() == 'win32') {
-    for(var i in paths) {
-        paths[i] = paths[i].replaceAll('/', '\\');
-    }
-}
-
 export default class flow {
 
 
@@ -42,6 +32,12 @@ export default class flow {
         var blowfishIsInstalled = await flow.detectBlowfish();
 
         await eyecandy.showWelcome();
+
+        if (os.platform() == 'win32') {
+            console.log()
+            console.log(chalk.red('WARNING: This tool does not support Powershell. If you are on Windows please consider using WSL.'));
+            console.log()
+        }
 
         var choices = [];
 
