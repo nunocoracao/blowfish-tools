@@ -17,7 +17,6 @@ var isHugoServerRunning = false;
 
 export default class flow {
 
-
     static async detectBlowfish() {
         var exists = utils.directoryExists('./themes/blowfish');
         if (exists) {
