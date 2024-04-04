@@ -1,634 +1,634 @@
 [
-    {
-        "text": "Site's title",
-        "method": "configLoop",
-        "file": "./config/_default/languages.en.toml",
-        "parent": null,
-        "key": "title",
-        "description": "The title of the website. This will be displayed in the site header and footer."
-    },
-    {
-        "text": "Site's logo",
-        "method": "configImage",
-        "file": "./config/_default/languages.en.toml",
-        "parent": "params",
-        "key": "logo",
-        "description": "Site's logo, the logo file should be provided at 2x resolution and supports any image dimensions."
-    },
-    {
-        "text": "Site's secondary logo",
-        "method": "configImage",
-        "file": "./config/_default/languages.en.toml",
-        "parent": "params",
-        "key": "secondaryLogo",
-        "description": "The logo file should be provided at 2x resolution and supports any image dimensions. This should have an inverted/contrasting colour scheme to logo. If set, this logo will be shown when users toggle from the defaultAppearance mode."
-    },
-    {
-        "text": "Site's description",
-        "method": "configLoop",
-        "file": "./config/_default/languages.en.toml",
-        "parent": "params",
-        "key": "description",
-        "description": "The website description. This will be used in the site metadata."
-    },
-    {
-        "text": "Author's name",
-        "method": "configLoop",
-        "file": "./config/_default/languages.en.toml",
-        "parent": "author",
-        "key": "name",
-        "description": "The author’s name. This will be displayed in article footers, and on the homepage when the profile layout is used."
-    },
-    {
-        "text": "Author's picture",
-        "method": "configImage",
-        "file": "./config/_default/languages.en.toml",
-        "parent": "author",
-        "key": "image",
-        "description": "Image file of the author. The image should be a 1:1 aspect ratio."
-    },
-    {
-        "text": "Author's headline",
-        "method": "configLoop",
-        "file": "./config/_default/languages.en.toml",
-        "parent": "author",
-        "key": "headline",
-        "description": "A Markdown string containing the author’s headline. It will be displayed on the profile homepage under the author’s name."
-    },
-    {
-        "text": "Author's bio",
-        "method": "configLoop",
-        "file": "./config/_default/languages.en.toml",
-        "parent": "author",
-        "key": "bio",
-        "description": "A Markdown string containing the author’s bio. It will be displayed in article footers."
-    },
-    {
-        "text": "Author's links",
-        "method": "configLinks",
-        "file": "./config/_default/languages.en.toml",
-        "parent": "author",
-        "key": "links",
-        "description": "The links to display alongside the author’s details. The config file contains example links which can simply be uncommented to enable. The order that the links are displayed is determined by the order they appear in the array."
-    },
-    {
-        "text": "Color scheme",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": null,
-        "key": "colorScheme",
-        "description": "The theme colour scheme to use. Valid values are blowfish (default), avocado, fire, forest, princess, neon, bloody, terminal, marvel, noir, autumn, congo, slate. Custom themes are supported check Blowfish documentation."
-    },
-    {
-        "text": "Default Appearance",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": null,
-        "key": "defaultAppearance",
-        "description": "The default theme appearance, either light or dark"
-    },
-    {
-        "text": "Auto Switch Appearance",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": null,
-        "key": "autoSwitchAppearance",
-        "description": "'Whether the theme appearance automatically switches based upon the visitor’s operating system preference. Set to false to force the site to always use the defaultAppearance."
-    },
-    {
-        "text": "Enable/Disable Search",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": null,
-        "key": "enableSearch",
-        "description": "Whether site search is enabled (true or false)."
-    },
-    {
-        "text": "Enable/Disable code copy",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": null,
-        "key": "enableCodeCopy",
-        "description": "Whether copy-to-clipboard buttons are enabled for <code> blocks. (true or false)."
-    },
-    {
-        "text": "Configure default background image",
-        "method": "configImage",
-        "file": "./config/_default/params.toml",
-        "parent": null,
-        "key": "defaultBackgroundImage",
-        "description": "Default background image for both background homepage layout and background hero style."
-    },
-    {
-        "text": "Configure default featured image",
-        "method": "configImage",
-        "file": "./config/_default/params.toml",
-        "parent": null,
-        "key": "defaultFeaturedImage",
-        "description": "Default background image for all featured images across articles, will be overridden by a local featured image."
-    },
-    {
-        "text": "Enable/Disable highlighting of the current menu area",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": null,
-        "key": "highlightCurrentMenuArea",
-        "description": "Marks menu entries in the main menu when selected."
-    },
-    {
-        "text": "Enable/Disable smart table of contents",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": null,
-        "key": "smartTOC",
-        "description": "Activate smart Table of Contents, items in view will be highlighted."
-    },
-    {
-        "text": "Enable/Disable smart table of contents hiding content",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": null,
-        "key": "smartTOCHideUnfocusedChildren",
-        "description": "When smart Table of Contents is turned on, this will hide deeper levels of the table when they are not in focus."
-    },
-    {
-        "text": "Select header layout",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "header",
-        "key": "layout",
-        "description": "Defines the header for the entire site, supported values are basic, fixed, fixed-fill, and fixed-fill-blur."
-    },
-    {
-        "text": "Enable/Disable showing menu in footer",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "footer",
-        "key": "showMenu",
-        "description": "Show/hide the footer menu, which can be configured in the [[footer]] section of the config/_default/menus.en.toml file."
-    },
-    {
-        "text": "Show/hide copyright message in footer",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "footer",
-        "key": "showCopyright",
-        "description": "Whether or not to show the copyright string in the site footer. Note that the string itself can be customised using the copyright parameter in the languages configuration."
-    },
-    {
-        "text": "Show/hide theme attribution in footer",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "footer",
-        "key": "showThemeAttribution",
-        "description": "Whether or not to show the “powered by” theme attribution in the site footer. If you choose to disable this message, please consider attributing the theme somewhere else on your site (for example, on your about page)."
-    },
-    {
-        "text": "Show/hide appearance switcher in footer",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "footer",
-        "key": "showAppearanceSwitcher",
-        "description": "Whether or not to show the appearance switcher in the site footer. The browser’s local storage is used to persist the visitor’s preference."
-    },
-    {
-        "text": "Show/hide scroll to top arrow in footer",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "footer",
-        "key": "showScrollToTop",
-        "description": "When set to true the scroll to top arrow is displayed."
-    },
-    {
-        "text": "Select Homepage layout",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "homepage",
-        "key": "layout",
-        "description": "The layout of the homepage. Valid values are page, profile, hero, card, background, or custom. When set to custom, you must provide your own layout by creating a /layouts/partials/home/custom.html file."
-    },
-    {
-        "text": "Select Homepage image",
-        "method": "configImage",
-        "file": "./config/_default/params.toml",
-        "parent": "homepage",
-        "key": "homepageImage",
-        "description": "Image to be used in hero and card layouts."
-    },
-    {
-        "text": "Enable/Disable recent articles list",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "homepage",
-        "key": "showRecent",
-        "description": "Whether or not to display the recent articles list on the homepage."
-    },
-    {
-        "text": "Configure recent articles list size",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "homepage",
-        "key": "showRecentItems",
-        "description": "How many articles to display if showRecent is true. If variable is set to 0 or if it isn’t defined the system will default to 5 articles."
-    },
-    {
-        "text": "Enable/Disable show more link",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "homepage",
-        "key": "showMoreLink",
-        "description": "Whether or not to display a show more link at the end of your posts that takes the user to a predefined place."
-    },
-    {
-        "text": "Configure show more link destination",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "homepage",
-        "key": "showMoreLinkDest",
-        "description": "The destination of the show more button."
-    },
-    {
-        "text": "Enable/Disable card view for recent articles",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "homepage",
-        "key": "cardView",
-        "description": "Display recent articles as a gallery of cards."
-    },
-    {
-        "text": "Enable full width for card view in recent articles",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "homepage",
-        "key": "cardViewScreenWidth",
-        "description": "Enhance the width of the recent articles card gallery to take the full width available."
-    },
-    {
-        "text": "Enable/Disable blur effect for background image",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "homepage",
-        "key": "layoutBackgroundBlur",
-        "description": "Makes the background image in the homepage layout blur with the scroll"
-    },
-    {
-        "text": "Show/Hide date in articles",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "showDate",
-        "description": "Whether or not article dates are displayed."
-    },
-    {
-        "text": "Show/Hide author in articles",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "showAuthor",
-        "description": "Whether or not the author box is displayed in the article footer."
-    },
-    {
-        "text": "Show/Hide hero image in articles",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "showHero",
-        "description": "Whether the thumbnail image will be shown as a hero image within each article page."
-    },
-    {
-        "text": "Select style for hero images in articles",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "heroStyle",
-        "description": "Style to display the hero image, valid options are: basic, big, background, thumbAndBackground."
-    },
-    {
-        "text": "Blur the background in articles with scroll",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "layoutBackgroundBlur",
-        "description": "Makes the background image in the background article heroStyle blur with the scroll"
-    },
-    {
-        "text": "Add space between the header and the body in articles",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "layoutBackgroundHeaderSpace",
-        "description": "Add space between the header and the body."
-    },
-    {
-        "text": "Show/Hide breadcrumbs in articles",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "showBreadcrumbs",
-        "description": "Whether or not breadcrumbs are displayed in the article header."
-    },
-    {
-        "text": "Show/Hide breadcrumbs in articles",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "showDraftLabel",
-        "description": "Whether or not the draft indicator is shown next to articles when site is built with --buildDrafts"
-    },
-    {
-        "text": "Show/Hide prev and next article in each article page",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "showPagination",
-        "description": "Whether or not the next/previous article links are displayed in the article footer."
-    },
-    {
-        "text": "Invert prev and next order in each article page",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "invertPagination",
-        "description": "Whether or not to flip the direction of the next/previous article links."
-    },
-    {
-        "text": "Show/Hide readig time in each article page",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "showReadingTime",
-        "description": "Whether or not article reading times are displayed."
-    },
-    {
-        "text": "Show/Hide table of contents in articles",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "showTableOfContents",
-        "description": "Whether or not the table of contents is displayed on articles."
-    },
-    {
-        "text": "Show/Hide related content in articles",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "showRelatedContent",
-        "description": "Display related content for each post. Might required additional configuration to your config.toml. Please check the theme config.toml if you want to enable this feature and copy all the relevant related entries. Also check Hugo’s docs on related content."
-    },
-    {
-        "text": "Number of related items to show in articles",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "relatedContentLimit",
-        "description": "Limit of related articles to display if showRelatedContent is turned on."
-    },
-    {
-        "text": "Show/Hide taxonomies in articles",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "showTaxonomies",
-        "description": "Whether or not the taxonomies related to this article are displayed."
-    },
-    {
-        "text": "Show/Hide author badges in articles",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "showAuthorsBadges",
-        "description": "Whether the authors taxonomies are are displayed in the article or list header. This requires the setup of multiple authors and the authors taxonomy. Check this page for more details on how to configure that feature."
-    },
-    {
-        "text": "Show/hide word count in articles",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "showWordCount",
-        "description": "Whether or not article word counts are displayed."
-    },
-    {
-        "text": "Show/hide zen mode in articles",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "article",
-        "key": "showZenMode",
-        "description": "Flag to activate Zen Mode reading feature for articles."
-    },
-    {
-        "text": "Show/hide hero image in lists",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "list",
-        "key": "showHero",
-        "description": "Whether the thumbnail image will be shown as a hero image within each list page."
-    },
-    {
-        "text": "Select hero style in lists",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "list",
-        "key": "heroStyle",
-        "description": "Style to display the hero image, valid options are: basic, big, background, thumbAndBackground."
-    },
-    {
-        "text": "Show/Hide breadcrumbs in lists",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "list",
-        "key": "showBreadcrumbs",
-        "description": "Whether or not breadcrumbs are displayed in the header on list pages."
-    },
-    {
-        "text": "Blur background image in lists with scroll",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "list",
-        "key": "layoutBackgroundBlur",
-        "description": "Makes the background image in the background list heroStyle blur with the scroll"
-    },
-    {
-        "text": "Add space between the header and the body in lists",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "list",
-        "key": "layoutBackgroundHeaderSpace",
-        "description": "Add space between the header and the body."
-    },
-    {
-        "text": "Show/Hide table of contents in lists",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "list",
-        "key": "showTableOfContents",
-        "description": "Whether or not the table of contents is displayed on list pages."
-    },
-    {
-        "text": "Show/hide summaries in list pages",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "list",
-        "key": "showSummary",
-        "description": "Whether or not article summaries are displayed on list pages. If a summary is not provided in the front matter, one will be auto generated using the summaryLength parameter in the site configuration."
-    },
-    {
-        "text": "Display articles as cards in lists",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "list",
-        "key": "showCards",
-        "description": "Whether or not each article is displayed as a card or as simple inline text."
-    },
-    {
-        "text": "Group content by year in lists",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "list",
-        "key": "groupByYear",
-        "description": "Whether or not articles are grouped by year on list pages."
-    },
-    {
-        "text": "Enable/Disable card view for articles in lists",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "list",
-        "key": "cardView",
-        "description": "Display lists as a gallery of cards."
-    },
-    {
-        "text": "Enable/disable full width for card view in lists",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "list",
-        "key": "cardViewScreenWidth",
-        "description": "Enhance the width of card galleries in lists to take the full width available."
-    },
-    {
-        "text": "Enable/disable constrainting item width to prose size in lists",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "list",
-        "key": "constrainItemsWidth",
-        "description": "Limit item width to prose to increase readability. Useful when no feature images are available."
-    },
-    {
-        "text": "Show/hide number of items on the taxonomy listing",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "taxonomy",
-        "key": "showTermCount",
-        "description": "Whether or not the number of articles within a taxonomy term is displayed on the taxonomy listing."
-    },
-    {
-        "text": "Show/hide hero image in taxonomy pages",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "taxonomy",
-        "key": "showHero",
-        "description": "Whether the thumbnail image will be shown as a hero image within each taxonomy page."
-    },
-    {
-        "text": "Select hero style in taxonomy pages",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "taxonomy",
-        "key": "heroStyle",
-        "description": "Style to display the hero image, valid options are: basic, big, background, thumbAndBackground."
-    },
-    {
-        "text": "Show/Hide breadcrumbs in taxonomy pages",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "taxonomy",
-        "key": "showBreadcrumbs",
-        "description": "Whether or not breadcrumbs are displayed in the taxonomy header."
-    },
-    {
-        "text": "Show/Hide table of contents in taxonomy pages",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "taxonomy",
-        "key": "showTableOfContents",
-        "description": "Whether or not the table of contents is displayed on taxonomies."
-    },
-    {
-        "text": "Enable/Disable card view for taxonomy pages",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "taxonomy",
-        "key": "cardView",
-        "description": "Display lists as a gallery of cards."
-    },
-    {
-        "text": "Show/hide hero image in terms",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "term",
-        "key": "showHero",
-        "description": "Whether the thumbnail image will be shown as a hero image within each term page."
-    },
-    {
-        "text": "Select hero style in terms",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "term",
-        "key": "heroStyle",
-        "description": "Style to display the hero image, valid options are: basic, big, background, thumbAndBackground."
-    },
-    {
-        "text": "Show/Hide breadcrumbs in terms",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "term",
-        "key": "showBreadcrumbs",
-        "description": "Whether or not breadcrumbs are displayed in the term header."
-    },
-    {
-        "text": "Show/Hide table of contents in terms",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "term",
-        "key": "showTableOfContents",
-        "description": "Whether or not the table of contents is displayed on terms."
-    },
-    {
-        "text": "Group content by year in terms",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "term",
-        "key": "groupByYear",
-        "description": "Whether or not articles are grouped by year on term pages."
-    },
-    {
-        "text": "Emable/Diable card view for terms",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "term",
-        "key": "cardView",
-        "description": "Display lists as a gallery of cards."
-    },
-    {
-        "text": "Enable full width for card view in terms",
-        "method": "configLoop",
-        "file": "./config/_default/params.toml",
-        "parent": "term",
-        "key": "cardViewScreenWidth",
-        "description": "Enhance the width of card galleries in lists to take the full width available."
-    },
-    {
-        "text": "baseURL - The URL to the root of the website.",
-        "method": "configLoop",
-        "file": "./config/_default/config.toml",
-        "parent": null,
-        "key": "baseURL",
-        "description": "The URL to the root of the website."
-    },
-    {
-        "text": "Google Analytics",
-        "method": "configLoop",
-        "file": "./config/_default/config.toml",
-        "parent": null,
-        "key": "googleAnalytics",
-        "description": "The Google Analytics tracking ID to use. Supports v3 and v4."
-    }
+  {
+    "text": "Site's title",
+    "method": "configLoop",
+    "file": "./config/_default/languages.en.toml",
+    "parent": null,
+    "key": "title",
+    "description": "The title of the website. This will be displayed in the site header and footer."
+  },
+  {
+    "text": "Site's logo",
+    "method": "configImage",
+    "file": "./config/_default/languages.en.toml",
+    "parent": "params",
+    "key": "logo",
+    "description": "Site's logo, the logo file should be provided at 2x resolution and supports any image dimensions."
+  },
+  {
+    "text": "Site's secondary logo",
+    "method": "configImage",
+    "file": "./config/_default/languages.en.toml",
+    "parent": "params",
+    "key": "secondaryLogo",
+    "description": "The logo file should be provided at 2x resolution and supports any image dimensions. This should have an inverted/contrasting colour scheme to logo. If set, this logo will be shown when users toggle from the defaultAppearance mode."
+  },
+  {
+    "text": "Site's description",
+    "method": "configLoop",
+    "file": "./config/_default/languages.en.toml",
+    "parent": "params",
+    "key": "description",
+    "description": "The website description. This will be used in the site metadata."
+  },
+  {
+    "text": "Author's name",
+    "method": "configLoop",
+    "file": "./config/_default/languages.en.toml",
+    "parent": "author",
+    "key": "name",
+    "description": "The author’s name. This will be displayed in article footers, and on the homepage when the profile layout is used."
+  },
+  {
+    "text": "Author's picture",
+    "method": "configImage",
+    "file": "./config/_default/languages.en.toml",
+    "parent": "author",
+    "key": "image",
+    "description": "Image file of the author. The image should be a 1:1 aspect ratio."
+  },
+  {
+    "text": "Author's headline",
+    "method": "configLoop",
+    "file": "./config/_default/languages.en.toml",
+    "parent": "author",
+    "key": "headline",
+    "description": "A Markdown string containing the author’s headline. It will be displayed on the profile homepage under the author’s name."
+  },
+  {
+    "text": "Author's bio",
+    "method": "configLoop",
+    "file": "./config/_default/languages.en.toml",
+    "parent": "author",
+    "key": "bio",
+    "description": "A Markdown string containing the author’s bio. It will be displayed in article footers."
+  },
+  {
+    "text": "Author's links",
+    "method": "configLinks",
+    "file": "./config/_default/languages.en.toml",
+    "parent": "author",
+    "key": "links",
+    "description": "The links to display alongside the author’s details. The config file contains example links which can simply be uncommented to enable. The order that the links are displayed is determined by the order they appear in the array."
+  },
+  {
+    "text": "Color scheme",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "colorScheme",
+    "description": "The theme colour scheme to use. Valid values are blowfish (default), avocado, fire, forest, princess, neon, bloody, terminal, marvel, noir, autumn, congo, slate. Custom themes are supported check Blowfish documentation."
+  },
+  {
+    "text": "Default Appearance",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "defaultAppearance",
+    "description": "The default theme appearance, either light or dark"
+  },
+  {
+    "text": "Auto Switch Appearance",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "autoSwitchAppearance",
+    "description": "'Whether the theme appearance automatically switches based upon the visitor’s operating system preference. Set to false to force the site to always use the defaultAppearance."
+  },
+  {
+    "text": "Enable/Disable Search",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "enableSearch",
+    "description": "Whether site search is enabled (true or false)."
+  },
+  {
+    "text": "Enable/Disable code copy",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "enableCodeCopy",
+    "description": "Whether copy-to-clipboard buttons are enabled for <code> blocks. (true or false)."
+  },
+  {
+    "text": "Configure default background image",
+    "method": "configImage",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "defaultBackgroundImage",
+    "description": "Default background image for both background homepage layout and background hero style."
+  },
+  {
+    "text": "Configure default featured image",
+    "method": "configImage",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "defaultFeaturedImage",
+    "description": "Default background image for all featured images across articles, will be overridden by a local featured image."
+  },
+  {
+    "text": "Enable/Disable highlighting of the current menu area",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "highlightCurrentMenuArea",
+    "description": "Marks menu entries in the main menu when selected."
+  },
+  {
+    "text": "Enable/Disable smart table of contents",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "smartTOC",
+    "description": "Activate smart Table of Contents, items in view will be highlighted."
+  },
+  {
+    "text": "Enable/Disable smart table of contents hiding content",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "smartTOCHideUnfocusedChildren",
+    "description": "When smart Table of Contents is turned on, this will hide deeper levels of the table when they are not in focus."
+  },
+  {
+    "text": "Select header layout",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "header",
+    "key": "layout",
+    "description": "Defines the header for the entire site, supported values are basic, fixed, fixed-fill, and fixed-fill-blur."
+  },
+  {
+    "text": "Enable/Disable showing menu in footer",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "footer",
+    "key": "showMenu",
+    "description": "Show/hide the footer menu, which can be configured in the [[footer]] section of the config/_default/menus.en.toml file."
+  },
+  {
+    "text": "Show/hide copyright message in footer",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "footer",
+    "key": "showCopyright",
+    "description": "Whether or not to show the copyright string in the site footer. Note that the string itself can be customised using the copyright parameter in the languages configuration."
+  },
+  {
+    "text": "Show/hide theme attribution in footer",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "footer",
+    "key": "showThemeAttribution",
+    "description": "Whether or not to show the “powered by” theme attribution in the site footer. If you choose to disable this message, please consider attributing the theme somewhere else on your site (for example, on your about page)."
+  },
+  {
+    "text": "Show/hide appearance switcher in footer",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "footer",
+    "key": "showAppearanceSwitcher",
+    "description": "Whether or not to show the appearance switcher in the site footer. The browser’s local storage is used to persist the visitor’s preference."
+  },
+  {
+    "text": "Show/hide scroll to top arrow in footer",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "footer",
+    "key": "showScrollToTop",
+    "description": "When set to true the scroll to top arrow is displayed."
+  },
+  {
+    "text": "Select Homepage layout",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "homepage",
+    "key": "layout",
+    "description": "The layout of the homepage. Valid values are page, profile, hero, card, background, or custom. When set to custom, you must provide your own layout by creating a /layouts/partials/home/custom.html file."
+  },
+  {
+    "text": "Select Homepage image",
+    "method": "configImage",
+    "file": "./config/_default/params.toml",
+    "parent": "homepage",
+    "key": "homepageImage",
+    "description": "Image to be used in hero and card layouts."
+  },
+  {
+    "text": "Enable/Disable recent articles list",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "homepage",
+    "key": "showRecent",
+    "description": "Whether or not to display the recent articles list on the homepage."
+  },
+  {
+    "text": "Configure recent articles list size",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "homepage",
+    "key": "showRecentItems",
+    "description": "How many articles to display if showRecent is true. If variable is set to 0 or if it isn’t defined the system will default to 5 articles."
+  },
+  {
+    "text": "Enable/Disable show more link",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "homepage",
+    "key": "showMoreLink",
+    "description": "Whether or not to display a show more link at the end of your posts that takes the user to a predefined place."
+  },
+  {
+    "text": "Configure show more link destination",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "homepage",
+    "key": "showMoreLinkDest",
+    "description": "The destination of the show more button."
+  },
+  {
+    "text": "Enable/Disable card view for recent articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "homepage",
+    "key": "cardView",
+    "description": "Display recent articles as a gallery of cards."
+  },
+  {
+    "text": "Enable full width for card view in recent articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "homepage",
+    "key": "cardViewScreenWidth",
+    "description": "Enhance the width of the recent articles card gallery to take the full width available."
+  },
+  {
+    "text": "Enable/Disable blur effect for background image",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "homepage",
+    "key": "layoutBackgroundBlur",
+    "description": "Makes the background image in the homepage layout blur with the scroll"
+  },
+  {
+    "text": "Show/Hide date in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showDate",
+    "description": "Whether or not article dates are displayed."
+  },
+  {
+    "text": "Show/Hide author in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showAuthor",
+    "description": "Whether or not the author box is displayed in the article footer."
+  },
+  {
+    "text": "Show/Hide hero image in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showHero",
+    "description": "Whether the thumbnail image will be shown as a hero image within each article page."
+  },
+  {
+    "text": "Select style for hero images in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "heroStyle",
+    "description": "Style to display the hero image, valid options are: basic, big, background, thumbAndBackground."
+  },
+  {
+    "text": "Blur the background in articles with scroll",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "layoutBackgroundBlur",
+    "description": "Makes the background image in the background article heroStyle blur with the scroll"
+  },
+  {
+    "text": "Add space between the header and the body in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "layoutBackgroundHeaderSpace",
+    "description": "Add space between the header and the body."
+  },
+  {
+    "text": "Show/Hide breadcrumbs in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showBreadcrumbs",
+    "description": "Whether or not breadcrumbs are displayed in the article header."
+  },
+  {
+    "text": "Show/Hide breadcrumbs in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showDraftLabel",
+    "description": "Whether or not the draft indicator is shown next to articles when site is built with --buildDrafts"
+  },
+  {
+    "text": "Show/Hide prev and next article in each article page",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showPagination",
+    "description": "Whether or not the next/previous article links are displayed in the article footer."
+  },
+  {
+    "text": "Invert prev and next order in each article page",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "invertPagination",
+    "description": "Whether or not to flip the direction of the next/previous article links."
+  },
+  {
+    "text": "Show/Hide readig time in each article page",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showReadingTime",
+    "description": "Whether or not article reading times are displayed."
+  },
+  {
+    "text": "Show/Hide table of contents in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showTableOfContents",
+    "description": "Whether or not the table of contents is displayed on articles."
+  },
+  {
+    "text": "Show/Hide related content in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showRelatedContent",
+    "description": "Display related content for each post. Might required additional configuration to your config.toml. Please check the theme config.toml if you want to enable this feature and copy all the relevant related entries. Also check Hugo’s docs on related content."
+  },
+  {
+    "text": "Number of related items to show in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "relatedContentLimit",
+    "description": "Limit of related articles to display if showRelatedContent is turned on."
+  },
+  {
+    "text": "Show/Hide taxonomies in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showTaxonomies",
+    "description": "Whether or not the taxonomies related to this article are displayed."
+  },
+  {
+    "text": "Show/Hide author badges in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showAuthorsBadges",
+    "description": "Whether the authors taxonomies are are displayed in the article or list header. This requires the setup of multiple authors and the authors taxonomy. Check this page for more details on how to configure that feature."
+  },
+  {
+    "text": "Show/hide word count in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showWordCount",
+    "description": "Whether or not article word counts are displayed."
+  },
+  {
+    "text": "Show/hide zen mode in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showZenMode",
+    "description": "Flag to activate Zen Mode reading feature for articles."
+  },
+  {
+    "text": "Show/hide hero image in lists",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "list",
+    "key": "showHero",
+    "description": "Whether the thumbnail image will be shown as a hero image within each list page."
+  },
+  {
+    "text": "Select hero style in lists",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "list",
+    "key": "heroStyle",
+    "description": "Style to display the hero image, valid options are: basic, big, background, thumbAndBackground."
+  },
+  {
+    "text": "Show/Hide breadcrumbs in lists",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "list",
+    "key": "showBreadcrumbs",
+    "description": "Whether or not breadcrumbs are displayed in the header on list pages."
+  },
+  {
+    "text": "Blur background image in lists with scroll",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "list",
+    "key": "layoutBackgroundBlur",
+    "description": "Makes the background image in the background list heroStyle blur with the scroll"
+  },
+  {
+    "text": "Add space between the header and the body in lists",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "list",
+    "key": "layoutBackgroundHeaderSpace",
+    "description": "Add space between the header and the body."
+  },
+  {
+    "text": "Show/Hide table of contents in lists",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "list",
+    "key": "showTableOfContents",
+    "description": "Whether or not the table of contents is displayed on list pages."
+  },
+  {
+    "text": "Show/hide summaries in list pages",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "list",
+    "key": "showSummary",
+    "description": "Whether or not article summaries are displayed on list pages. If a summary is not provided in the front matter, one will be auto generated using the summaryLength parameter in the site configuration."
+  },
+  {
+    "text": "Display articles as cards in lists",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "list",
+    "key": "showCards",
+    "description": "Whether or not each article is displayed as a card or as simple inline text."
+  },
+  {
+    "text": "Group content by year in lists",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "list",
+    "key": "groupByYear",
+    "description": "Whether or not articles are grouped by year on list pages."
+  },
+  {
+    "text": "Enable/Disable card view for articles in lists",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "list",
+    "key": "cardView",
+    "description": "Display lists as a gallery of cards."
+  },
+  {
+    "text": "Enable/disable full width for card view in lists",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "list",
+    "key": "cardViewScreenWidth",
+    "description": "Enhance the width of card galleries in lists to take the full width available."
+  },
+  {
+    "text": "Enable/disable constrainting item width to prose size in lists",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "list",
+    "key": "constrainItemsWidth",
+    "description": "Limit item width to prose to increase readability. Useful when no feature images are available."
+  },
+  {
+    "text": "Show/hide number of items on the taxonomy listing",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "taxonomy",
+    "key": "showTermCount",
+    "description": "Whether or not the number of articles within a taxonomy term is displayed on the taxonomy listing."
+  },
+  {
+    "text": "Show/hide hero image in taxonomy pages",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "taxonomy",
+    "key": "showHero",
+    "description": "Whether the thumbnail image will be shown as a hero image within each taxonomy page."
+  },
+  {
+    "text": "Select hero style in taxonomy pages",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "taxonomy",
+    "key": "heroStyle",
+    "description": "Style to display the hero image, valid options are: basic, big, background, thumbAndBackground."
+  },
+  {
+    "text": "Show/Hide breadcrumbs in taxonomy pages",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "taxonomy",
+    "key": "showBreadcrumbs",
+    "description": "Whether or not breadcrumbs are displayed in the taxonomy header."
+  },
+  {
+    "text": "Show/Hide table of contents in taxonomy pages",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "taxonomy",
+    "key": "showTableOfContents",
+    "description": "Whether or not the table of contents is displayed on taxonomies."
+  },
+  {
+    "text": "Enable/Disable card view for taxonomy pages",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "taxonomy",
+    "key": "cardView",
+    "description": "Display lists as a gallery of cards."
+  },
+  {
+    "text": "Show/hide hero image in terms",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "term",
+    "key": "showHero",
+    "description": "Whether the thumbnail image will be shown as a hero image within each term page."
+  },
+  {
+    "text": "Select hero style in terms",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "term",
+    "key": "heroStyle",
+    "description": "Style to display the hero image, valid options are: basic, big, background, thumbAndBackground."
+  },
+  {
+    "text": "Show/Hide breadcrumbs in terms",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "term",
+    "key": "showBreadcrumbs",
+    "description": "Whether or not breadcrumbs are displayed in the term header."
+  },
+  {
+    "text": "Show/Hide table of contents in terms",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "term",
+    "key": "showTableOfContents",
+    "description": "Whether or not the table of contents is displayed on terms."
+  },
+  {
+    "text": "Group content by year in terms",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "term",
+    "key": "groupByYear",
+    "description": "Whether or not articles are grouped by year on term pages."
+  },
+  {
+    "text": "Emable/Diable card view for terms",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "term",
+    "key": "cardView",
+    "description": "Display lists as a gallery of cards."
+  },
+  {
+    "text": "Enable full width for card view in terms",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "term",
+    "key": "cardViewScreenWidth",
+    "description": "Enhance the width of card galleries in lists to take the full width available."
+  },
+  {
+    "text": "baseURL - The URL to the root of the website.",
+    "method": "configLoop",
+    "file": "./config/_default/config.toml",
+    "parent": null,
+    "key": "baseURL",
+    "description": "The URL to the root of the website."
+  },
+  {
+    "text": "Google Analytics",
+    "method": "configLoop",
+    "file": "./config/_default/config.toml",
+    "parent": null,
+    "key": "googleAnalytics",
+    "description": "The Google Analytics tracking ID to use. Supports v3 and v4."
+  }
 ]

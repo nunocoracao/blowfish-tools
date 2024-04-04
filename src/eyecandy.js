@@ -8,29 +8,29 @@ var firstRun = true;
 
 export default class eyecandy {
 
-    static async showWelcome() {
+  static async showWelcome() {
 
-        console.clear();
+    console.clear();
 
-        if (firstRun) {
-            const spinner = ora('Loading awesomeness...').start();
-            spinner.succeed('Awesomeness loaded');
-            console.log(buffer.toString());
-            console.log('Welcome to Blowfish tools.');
-            console.log('I can help you setup a new project from scratch or configure an existing one (or both).');
-            firstRun = false;
-        }
-
-        console.log('Please choose one of the options below, start typing to search.');
-
-        //return a promise to continue
-        return new Promise((resolve, reject) => {
-            resolve();
-        });
+    if (firstRun) {
+      const spinner = ora('Loading awesomeness...').start();
+      spinner.succeed('Awesomeness loaded');
+      console.log(buffer.toString());
+      console.log('Welcome to Blowfish tools.');
+      console.log('I can help you setup a new project from scratch or configure an existing one (or both).');
+      firstRun = false;
     }
 
-    static async showBye() {
-        console.log('Bye bye!');
-        process.exit(0);
-    }
+    console.log('Please choose one of the options below, start typing to search.');
+
+    //return a promise to continue
+    return new Promise((resolve, reject) => {
+      resolve();
+    });
+  }
+
+  static async showBye() {
+    console.log('Bye bye!');
+    process.exit(0);
+  }
 }
