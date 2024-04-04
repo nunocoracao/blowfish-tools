@@ -8,7 +8,10 @@ import flow from "./src/flow.js";
 const data = fs.readFileSync(path.join(utils.getDirname(import.meta.url), 'package.json'))
 const metadata = JSON.parse(data)
 
-process.on('uncaughtException', function (err) {/*do nothing*/});
+process.on('uncaughtException', function (err) {
+  console.error(err);
+  process.exit(1);
+});
 
 program
   .name(metadata.name)

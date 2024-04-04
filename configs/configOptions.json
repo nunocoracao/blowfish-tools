@@ -373,7 +373,7 @@
     "file": "./config/_default/params.toml",
     "parent": "article",
     "key": "showRelatedContent",
-    "description": "Display related content for each post. Might required additional configuration to your config.toml. Please check the theme config.toml if you want to enable this feature and copy all the relevant related entries. Also check Hugo’s docs on related content."
+    "description": "Display related content for each post. Might required additional configuration to your hugo.toml. Please check the theme hugo.toml if you want to enable this feature and copy all the relevant related entries. Also check Hugo’s docs on related content."
   },
   {
     "text": "Number of related items to show in articles",
@@ -618,7 +618,7 @@
   {
     "text": "baseURL - The URL to the root of the website.",
     "method": "configLoop",
-    "file": "./config/_default/config.toml",
+    "file": "./config/_default/hugo.toml",
     "parent": null,
     "key": "baseURL",
     "description": "The URL to the root of the website."
@@ -626,7 +626,7 @@
   {
     "text": "Google Analytics",
     "method": "configLoop",
-    "file": "./config/_default/config.toml",
+    "file": "./config/_default/hugo.toml",
     "parent": null,
     "key": "googleAnalytics",
     "description": "The Google Analytics tracking ID to use. Supports v3 and v4."

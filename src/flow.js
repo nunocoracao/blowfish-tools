@@ -122,7 +122,8 @@ export default class flow {
     const configblowfishspinner = ora('Configuring Blowfish').start();
     await utils.run(precommand + 'mkdir -p config/_default', false);
     await utils.run(precommand + 'cp ./themes/blowfish/config/_default/* ./config/_default/', false);
-    await utils.run(precommand + 'sed -i "" "s/# theme/theme/" ./config/_default/config.toml', false);
+    await utils.run(precommand + 'sed -i "" "s/# theme/theme/" ./config/_default/hugo.toml', false);
+
     configblowfishspinner.succeed('Blowfish configured');
 
     if (exitAfterRun)
@@ -157,7 +158,7 @@ export default class flow {
     const configblowfishspinner = ora('Configuring Blowfish').start();
     await utils.run('mkdir -p ' + paths.configs, true);
     await utils.run('cp ./themes/blowfish/config/_default/* ./config/_default/', false);
-    await utils.run('sed -i "" "s/# theme/theme/" ./config/_default/config.toml', false);
+    await utils.run('sed -i "" "s/# theme/theme/" ./config/_default/hugo.toml', false);
     configblowfishspinner.succeed('Blowfish configured');
 
     if (exitAfterRun)
