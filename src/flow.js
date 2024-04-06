@@ -277,7 +277,7 @@ export default class flow {
     const response = await prompt({
       type: 'AutoComplete',
       name: 'option',
-      message: 'What do you want to configure? Start typing to search for options or scroll down to see all options',
+      message: 'What do you want to configure? \nOpen your browser at http://localhost:1313 to see live changes \nStart typing to search for options or scroll down to see all options',
       limit: 20,
       initial: 0,
       choices: choices
