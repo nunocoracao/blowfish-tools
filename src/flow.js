@@ -1,4 +1,3 @@
-import os from 'os';
 import ora from 'ora';
 import pkg from 'enquirer';
 const { prompt } = pkg;
@@ -125,6 +124,85 @@ export default class flow {
       flow.showMain('Blowfish configured in ' + response.directory + ', current working directory updated.');
     }
 
+  }
+
+  static async copyTemplate(directory, exitAfterRun) {
+    const spinner = ora('Checking for dependencies').start();
+    await flow.checkHugo(spinner);
+    await flow.checkGit(spinner);
+
+    var response = {};
+
+    var choices = []
+    for (var i in Tempaltes)
+      choices.push(Tempaltes[i].text + ' - ' + Tempaltes[i].description)
+
+    if (!directory) {
+
+      response = await prompt([
+        {
+          type: 'autocomplete',
+          name: 'template',
+          message: 'Select your template - more info at https://blowfish.page/examples/',
+          initial: 0,
+          choices: choices
+        },
+        {
+          type: 'input',
+          name: 'directory',
+          default: 'newSite',
+          message: 'Where do you want to generate your website (. for current folder)?'
+        }]);
+
+      if (response.directory !== '.') {
+        response.directory = './' + response.directory;
+      }
+
+    } else {
+      response.directory = directory;
+    }
+
+    const prespinner = ora('Checking folder').start();
+
+    var dirExists = utils.directoryExists('./' + response.directory)
+    var dirIsEmpty = utils.directoryIsEmpty('./' + response.directory)
+
+    if (dirExists && !dirIsEmpty) {
+      prespinner.fail('Directory already exists and is not empty.');
+      process.exit(0);
+    }
+
+    prespinner.succeed('Folder ok...');
+
+    var template = null;
+    for (var i in Tempaltes) {
+      if (Tempaltes[i].text + ' - ' + Tempaltes[i].description === response.template) {
+        template = Tempaltes[i];
+        break;
+      }
+    }
+
+    const hugospinner = ora('Cloning template').start();
+    await utils.run('git clone ' + template.gitRepo + ' ' + response.directory, false);
+    await utils.directoryDelete(response.directory + '/.git')
+    hugospinner.succeed('Template cloned');
+
+    var precommand = 'cd ' + response.directory + ' && ';
+    const gitspinner = ora('Initializing Git').start();
+    await utils.run(precommand + 'git init', false)
+    gitspinner.succeed('Git initialized');
+
+    const blowfishspinner = ora('Installing Blowfish').start();
+    await utils.directoryDelete(response.directory + '/themes/blowfish')
+    await utils.run(precommand + 'git submodule add --depth 1 -b main https://github.com/nunocoracao/blowfish.git themes/blowfish', false);
+    blowfishspinner.succeed('Blowfish installed');
+
+    if (exitAfterRun)
+      process.exit(0);
+    else {
+      process.chdir(response.directory);
+      flow.showMain('Blowfish configured in ' + response.directory + ', current working directory updated.');
+    }
   }
 
   static async configureExisting(exitAfterRun) {
@@ -1072,6 +1150,11 @@ var options = [
     action: flow.configureNew
   },
   {
+    text: 'Start from a configured template',
+    blowfishIsInstalled: false,
+    action: flow.copyTemplate
+  },
+  {
     text: 'Install Blowfish on an existing website',
     blowfishIsInstalled: false,
     action: flow.configureExisting
@@ -1079,5 +1162,28 @@ var options = [
   {
     text: 'Exit',
     action: eyecandy.showBye
+  }
+]
+
+var Tempaltes = [
+  {
+    text: 'Blowfish Template',
+    description: 'A simple template to get you started',
+    gitRepo: 'https://github.com/nunocoracao/blowfish_template'
+  },
+  {
+    text: 'Blowfish Artist',
+    description: 'A artist portfolio template',
+    gitRepo: 'https://github.com/nunocoracao/blowfish_artist/'
+  },
+  {
+    text: 'Blowfish Lowkey',
+    description: 'A low key template',
+    gitRepo: 'https://github.com/nunocoracao/blowfish_lowkey/'
+  },
+  {
+    text: 'Blowfish Lite',
+    description: 'Lite configuration for a clean blog',
+    gitRepo: 'https://github.com/nunocoracao/blowfish_lite/'
   }
 ]

@@ -12,6 +12,7 @@ CLI to initialize and configure a [Blowfish](https://blowfish.page) project. Ins
 ## Features
 - Interactive configuration mode - edit and see changes in real time
 - Create a new Blowfish project from scratch
+- Start a new Blowfish project from one of multiple available templates
 - Configure an existing Hugo project to use Blowfish
 - Update Blowfish to the latest version
 - Configure metadata

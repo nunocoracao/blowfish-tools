@@ -101,6 +101,14 @@ export default class utils {
     fs.cpSync(source, target, { recursive: true });
   }
 
+  static directoryDelete(path) {
+    if (fs.existsSync(path)) {
+      fs.rmSync(path, {
+        recursive: true
+      });
+    }
+  }
+
   static openFile(path) {
     try {
       return fs.readFileSync(path);
