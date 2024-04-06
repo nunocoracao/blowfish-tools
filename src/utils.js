@@ -65,6 +65,12 @@ export default class utils {
     }
   }
 
+  static fileChange(path, strintoreplace, replacement) {
+    var data = fs.readFileSync(path, 'utf8')
+    var result = data.replace(strintoreplace, replacement);
+    fs.writeFileSync(path, result, 'utf8')
+  }
+
   static directoryExists(path) {
     try {
       return fs.existsSync(path);
@@ -80,6 +86,19 @@ export default class utils {
     } catch (err) {
       return false;
     }
+  }
+
+  static directoryCreate(path) {
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path, { recursive: true });
+    }
+  }
+
+  static directoryCopy(source, target) {
+    if (!fs.existsSync(target)) {
+      this.directoryCreate(target);
+    }
+    fs.cpSync(source, target, { recursive: true });
   }
 
   static openFile(path) {

@@ -32,12 +32,6 @@ export default class flow {
 
     await eyecandy.showWelcome();
 
-    if (os.platform() == 'win32') {
-      console.log()
-      console.log(chalk.red('WARNING: This tool does not support Powershell. If you are on Windows please consider using WSL.'));
-      console.log()
-    }
-
     var choices = [];
 
     for (var i in options) {
@@ -120,10 +114,8 @@ export default class flow {
     blowfishspinner.succeed('Blowfish installed');
 
     const configblowfishspinner = ora('Configuring Blowfish').start();
-    await utils.run(precommand + 'mkdir -p config/_default', false);
-    await utils.run(precommand + 'cp ./themes/blowfish/config/_default/* ./config/_default/', false);
-    await utils.run(precommand + 'sed -i "" "s/# theme/theme/" ./config/_default/hugo.toml', false);
-
+    await utils.directoryCopy(response.directory + '/themes/blowfish/config/_default', response.directory + '/config/_default')
+    await utils.fileChange(response.directory + '/config/_default/hugo.toml', '# theme', 'theme')
     configblowfishspinner.succeed('Blowfish configured');
 
     if (exitAfterRun)
@@ -156,9 +148,8 @@ export default class flow {
     blowfishspinner.succeed('Blowfish installed');
 
     const configblowfishspinner = ora('Configuring Blowfish').start();
-    await utils.run('mkdir -p ' + paths.configs, true);
-    await utils.run('cp ./themes/blowfish/config/_default/* ./config/_default/', false);
-    await utils.run('sed -i "" "s/# theme/theme/" ./config/_default/hugo.toml', false);
+    await utils.directoryCopy('./themes/blowfish/config/_default', './config/_default')
+    await utils.fileChange('./config/_default/hugo.toml', '# theme', 'theme')
     configblowfishspinner.succeed('Blowfish configured');
 
     if (exitAfterRun)
