@@ -624,6 +624,14 @@
     "description": "The URL to the root of the website."
   },
   {
+    "text": "enableEmoji - (boolean) Enables or disables emoji support within articles.",
+    "method": "configLoop",
+    "file": "./config/_default/hugo.toml",
+    "parent": null,
+    "key": "enableEmoji",
+    "description": "(boolean) Enables or disables emoji support within articles."
+  },
+  {
     "text": "Google Analytics",
     "method": "configLoop",
     "file": "./config/_default/hugo.toml",
