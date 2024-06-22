@@ -498,15 +498,10 @@ export default class flow {
     if (newValue === currentValue)
       return
 
-    if (!utils.fileExists(newValue)) {
-      console.log('File ' + newValue + ' does not exist.');
-      process.exit(0);
-    }
-
-
     var processChanges = () => {
       utils.run('cp ' + newValue + ' ./assets/', false);
       newValue = newValue.split('/').pop();
+      newValue = newValue.replaceAll('\\ ', ' ');
 
       if (!parent) {
         data[variable] = newValue
