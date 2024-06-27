@@ -64,6 +64,28 @@ export default class utils {
       return false;
     }
   }
+  
+  static copyFile(src, dest) {
+    if (utils.fileExists(path)) {
+      return;
+    }
+   
+    try {
+      fs.copyFileSync(src, dest)
+    } catch (err) {
+      console.log(err)
+    }
+
+  }
+
+  static writeContentToFile(file, content)
+  {
+    fs.writeFile(file, content, (err) => {
+      if (err) {
+          console.error(err);
+      }
+    });
+  }
 
   static fileChange(path, strintoreplace, replacement) {
     var data = fs.readFileSync(path, 'utf8')

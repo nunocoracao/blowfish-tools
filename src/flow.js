@@ -499,7 +499,7 @@ export default class flow {
       return
 
     var processChanges = () => {
-      utils.run('cp ' + newValue + ' ./assets/', false);
+      utils.copyFile(newValue, './assets/');
       newValue = newValue.split('/').pop();
       newValue = newValue.replaceAll('\\ ', ' ');
 
@@ -516,13 +516,9 @@ export default class flow {
     }
 
     if (!utils.directoryExists('./assets/')) {
-      utils.run('mkdir assets', false)
-        .then(() => {
-          processChanges()
-        });
-    } else {
-      processChanges()
+       utils.directoryCreate('assets');
     }
+    processChanges();
 
   }
 
@@ -849,7 +845,7 @@ export default class flow {
     if (utils.directoryExists('./content/' + newSection)) {
       console.log('Section already exists.');
     } else {
-      await utils.run('mkdir ./content/' + newSection, false);
+      utils.directoryCreate('./content/' + newSection);
       flow.showMain('Folder ' + newSection + ' created.')
     }
 
@@ -898,10 +894,9 @@ export default class flow {
           "#### This is a subsubsubheading\n" +
           "This is a paragraph with **bold** and *italic* text.\n" +
           "Check more at [Blowfish documentation](https://blowfish.page/)\n" +
-          await utils.run('mkdir ./content/' + response.option + '/' + articleid, false);
-        await utils.run('cp ' + utils.getDirname(import.meta.url) + '/../banner.png ./content/' + response.option + '/' + articleid + '/featured.png', false);
-        await utils.run('touch ./content/' + response.option + '/' + articleid + '/index.md', false);
-        await utils.run('echo \'' + content + '\' >> ./content/' + response.option + '/' + articleid + '/index.md', false);
+        utils.directoryCreate('./content/' + response.option + '/' + articleid);
+        utils.copyFile(utils.getDirname(import.meta.url) + '/../banner.png', './content/' + response.option + '/' + articleid + '/featured.png')
+        utils.writeContentToFile('./content/' + response.option + '/' + articleid + '/index.md', content);
         flow.showMain('Article ' + newArticle + ' created.')
       }
 
