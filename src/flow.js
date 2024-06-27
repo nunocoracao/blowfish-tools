@@ -515,9 +515,7 @@ export default class flow {
       utils.saveFileSync(file, toml.stringify(data));
     }
 
-    if (!utils.directoryExists('./assets/')) {
-       utils.directoryCreate('assets');
-    }
+    utils.directoryCreate('assets');
     processChanges();
 
   }

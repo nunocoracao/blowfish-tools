@@ -82,7 +82,7 @@ export default class utils {
   {
     fs.writeFile(file, content, (err) => {
       if (err) {
-          console.error(err);
+        console.error(err);
       }
     });
   }
