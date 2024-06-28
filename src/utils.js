@@ -56,6 +56,38 @@ export default class utils {
     });
   }
 
+  static normalizePath(filePath) {
+    try {
+      
+      if (filePath.endsWith("'")) { 
+        if (filePath.startsWith("'")) {    // dragging to Git Bash in Windows quotes in single quotes if spaces in path
+          filePath = filePath.slice(1, -1);
+        } 
+        else if (filePath.startsWith("& '")) {  // dragging to Powershell also adds ampersand and space   
+          filePath = filePath.slice(3, -1);
+        } 
+      }
+      else if (filePath.startsWith("\"") && filePath.endsWith("\"")) {  // dragging to Command Prompt quotes with doublequotes if spaces   
+        filePath = filePath.slice(1, -1);
+      }
+
+      return path.normalize(filePath); 
+  
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  }
+
+  static extractFileName(filePath) {
+    try {
+      return path.basename(filePath);
+    } catch (err) {
+      console.log(err)
+      return false;
+    }  
+  }
+
   static fileExists(path) {
     try {
       return fs.existsSync(path);
@@ -63,6 +95,29 @@ export default class utils {
       console.log(err)
       return false;
     }
+  }
+
+  static copyFile(srcFile, targetFile) {
+    try {
+      fs.copyFileSync(srcFile, targetFile);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
+  static copyFileToFolder(srcFile, destFolder) {
+    var targetFile = path.join(destFolder, path.basename(srcFile));
+    utils.copyFile(srcFile, targetFile);
+  }
+
+  static writeContentToFile(file, content)
+  {
+    fs.writeFile(file, content, (err) => {
+      if (err) {
+        console.error(err);
+      }
+    });
   }
 
   static fileChange(path, strintoreplace, replacement) {
