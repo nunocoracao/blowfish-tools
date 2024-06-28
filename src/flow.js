@@ -489,19 +489,19 @@ export default class flow {
         type: 'input',
         name: 'value',
         default: currentValue,
-        message: 'Where image do you want to use? (full image path and the tool will copy it into the right folder)'
+        message: 'Where is the image you want to use? (full image path and the tool will copy it into the right folder)'
       }
     ]);
 
-    var newValue = response.value
+
+    var newValue = utils.normalizePath(response.value);
 
     if (newValue === currentValue)
       return
 
     var processChanges = () => {
-      utils.copyFile(newValue, './assets/');
-      newValue = newValue.split('/').pop();
-      newValue = newValue.replaceAll('\\ ', ' ');
+      utils.copyFileToFolder(newValue, 'assets');
+      newValue = utils.extractFileName(newValue);
 
       if (!parent) {
         data[variable] = newValue
