@@ -35,7 +35,7 @@
     "text": "Author's name",
     "method": "configLoop",
     "file": "./config/_default/languages.en.toml",
-    "parent": "author",
+    "parent": "params.author",
     "key": "name",
     "description": "The author’s name. This will be displayed in article footers, and on the homepage when the profile layout is used."
   },
@@ -43,7 +43,7 @@
     "text": "Author's picture",
     "method": "configImage",
     "file": "./config/_default/languages.en.toml",
-    "parent": "author",
+    "parent": "params.author",
     "key": "image",
     "description": "Image file of the author. The image should be a 1:1 aspect ratio."
   },
@@ -51,7 +51,7 @@
     "text": "Author's headline",
     "method": "configLoop",
     "file": "./config/_default/languages.en.toml",
-    "parent": "author",
+    "parent": "params.author",
     "key": "headline",
     "description": "A Markdown string containing the author’s headline. It will be displayed on the profile homepage under the author’s name."
   },
@@ -59,7 +59,7 @@
     "text": "Author's bio",
     "method": "configLoop",
     "file": "./config/_default/languages.en.toml",
-    "parent": "author",
+    "parent": "params.author",
     "key": "bio",
     "description": "A Markdown string containing the author’s bio. It will be displayed in article footers."
   },
@@ -67,7 +67,7 @@
     "text": "Author's links",
     "method": "configLinks",
     "file": "./config/_default/languages.en.toml",
-    "parent": "author",
+    "parent": "params.author",
     "key": "links",
     "description": "The links to display alongside the author’s details. The config file contains example links which can simply be uncommented to enable. The order that the links are displayed is determined by the order they appear in the array."
   },
