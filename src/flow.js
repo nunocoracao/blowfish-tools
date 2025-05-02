@@ -1,7 +1,7 @@
 import ora from 'ora';
 import pkg from 'enquirer';
 const { prompt } = pkg;
-import toml from 'toml-patch';
+import toml from '@iarna/toml'
 import chalk from 'chalk';
 import tcpPortUsed from 'tcp-port-used';
 
@@ -451,15 +451,15 @@ export default class flow {
 
     const responseLinks = await prompt(linksQuestions);
 
-    if (!data.author)
-      data.author = {};
+    if (!data.params.author)
+      data.params.author = {};
 
-    data.author.links = [];
+    data.params.author.links = [];
 
     for (const [key, value] of Object.entries(responseLinks)) {
       var obj = {}
       obj[key] = value;
-      data.author.links.push(obj);
+      data.params.author.links.push(obj);
     }
 
     utils.saveFileSync(file, toml.stringify(data));
