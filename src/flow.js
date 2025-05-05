@@ -988,7 +988,7 @@ var options = [
 
       var tempList = []
       for (var i in configOptions) {
-        if (configOptions[i].parent === 'author' || configOptions[i].method === 'exit')
+        if (configOptions[i].parent === 'params.author' || configOptions[i].method === 'exit')
           tempList.push(configOptions[i])
       }
 
