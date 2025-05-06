@@ -58,7 +58,11 @@ export default class utils {
 
   static normalizePath(filePath) {
     try {
-      
+
+      if(filePath === ''){  // return filePath('') if filePath is empty, skipping image path settings
+        return filePath;
+      }
+
       if (filePath.endsWith("'")) { 
         if (filePath.startsWith("'")) {    // dragging to Git Bash in Windows quotes in single quotes if spaces in path
           filePath = filePath.slice(1, -1);
