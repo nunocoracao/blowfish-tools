@@ -352,7 +352,7 @@
     "description": "Whether or not to flip the direction of the next/previous article links."
   },
   {
-    "text": "Show/Hide readig time in each article page",
+    "text": "Show/Hide reading time in each article page",
     "method": "configLoop",
     "file": "./config/_default/params.toml",
     "parent": "article",
