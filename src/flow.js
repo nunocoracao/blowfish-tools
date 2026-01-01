@@ -474,7 +474,7 @@ export default class flow {
 
     var data = toml.parse(utils.openFile(file).toString());
 
-    var currentValue = null
+    var currentValue = '';
 
     if (parent && data[parent] && data[parent][variable]) {
       currentValue = data[parent][variable]
@@ -489,7 +489,14 @@ export default class flow {
         type: 'input',
         name: 'value',
         default: currentValue,
-        message: 'Where is the image you want to use? (full image path and the tool will copy it into the right folder)'
+        message: 'Where is the image you want to use? (full image path and the tool will copy it into the right folder)',
+        validate: (input) => {
+          // exclude spaces or dots-only inputs to prevent config errors
+          if (/^[\s.]+$/.test(input)) {
+            return 'Spaces or dots only (e.g., " . ") are invalid. Please enter a valid image path.';
+          }
+          return true;
+        }
       }
     ]);
 
