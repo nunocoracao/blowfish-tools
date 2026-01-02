@@ -904,7 +904,7 @@ export default class flow {
     var newSection = response.name;
 
     if (utils.directoryExists('./content/' + newSection)) {
-      console.log('Section already exists.');
+      flow.showMain('Section already exists.');
     } else {
       utils.directoryCreate('./content/' + newSection);
       flow.showMain('Folder ' + newSection + ' created.')
