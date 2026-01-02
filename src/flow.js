@@ -960,28 +960,36 @@ export default class flow {
       ]);
 
       var newArticle = response.name;
+      var articleSlug = newArticle.toLowerCase().replaceAll(' ', '-');
+      var articlePath = response.option + '/' + articleSlug;
 
-      if (utils.fileExists('./content/' + response.option + '/' + newArticle)) {
+      if (utils.directoryExists('./content/' + articlePath)) {
         console.log('Article already exists.');
       } else {
-        var articleid = new Date().getTime() + '-' + newArticle.replaceAll(' ', '-');
-        var content = "---\n" +
-          "title: \"" + newArticle + "\"\n" +
-          "date: " + new Date().toISOString().split('T')[0] + "\n" +
-          "draft: false\n" +
-          "description: \"a description\"\n" +
-          "tags: [\"example\", \"tag\"]\n" +
-          "---\n an example to get you started\n" +
-          "# This is a heading\n" +
-          "## This is a subheading\n" +
-          "### This is a subsubheading\n" +
-          "#### This is a subsubsubheading\n" +
-          "This is a paragraph with **bold** and *italic* text.\n" +
-          "Check more at [Blowfish documentation](https://blowfish.page/)\n" +
-        utils.directoryCreate('./content/' + response.option + '/' + articleid);
-        utils.copyFile(utils.getDirname(import.meta.url) + '/../banner.png', './content/' + response.option + '/' + articleid + '/featured.png')
-        utils.writeContentToFile('./content/' + response.option + '/' + articleid + '/index.md', content);
-        flow.showMain('Article ' + newArticle + ' created.')
+        // Use hugo new to respect archetypes
+        const spinner = ora('Creating article').start();
+        const hugoExitCode = await utils.run('hugo new content/' + articlePath + '/index.md', false, true);
+
+        if (hugoExitCode !== 0) {
+          spinner.fail('Failed to create article with Hugo archetypes');
+          console.log('Falling back to default content...');
+          // Fallback to manual creation if hugo new fails
+          var content = "---\n" +
+            "title: \"" + newArticle + "\"\n" +
+            "date: " + new Date().toISOString().split('T')[0] + "\n" +
+            "draft: false\n" +
+            "description: \"a description\"\n" +
+            "tags: [\"example\", \"tag\"]\n" +
+            "---\n";
+          utils.directoryCreate('./content/' + articlePath);
+          utils.writeContentToFile('./content/' + articlePath + '/index.md', content);
+        } else {
+          spinner.succeed('Article created using Hugo archetypes');
+        }
+
+        // Copy banner image as featured image
+        utils.copyFile(utils.getDirname(import.meta.url) + '/../banner.png', './content/' + articlePath + '/featured.png');
+        flow.showMain('Article ' + newArticle + ' created at content/' + articlePath);
       }
 
     }
