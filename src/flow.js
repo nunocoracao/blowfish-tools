@@ -462,11 +462,18 @@ export default class flow {
     }
 
     var newValue = response.value
-    if (newValue === 'true')
-      newValue = true
-    if (newValue === 'false')
-      newValue = false
 
+    // Convert string to appropriate type based on content or original value type
+    if (newValue === 'true') {
+      newValue = true;
+    } else if (newValue === 'false') {
+      newValue = false;
+    } else if (typeof currentValue === 'number' && !isNaN(Number(newValue))) {
+      // Convert to number if current value is a number and input is numeric
+      newValue = Number(newValue);
+    }
+
+    // Skip save if value hasn't changed
     if (newValue === currentValue)
       return
 
