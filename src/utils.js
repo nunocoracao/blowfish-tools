@@ -134,13 +134,28 @@ export default class utils {
     fs.writeFileSync(path, result, 'utf8')
   }
 
-  static directoryExists(path) {
+  static directoryExists(dirPath) {
     try {
-      return fs.existsSync(path);
+      return fs.existsSync(dirPath);
     } catch (err) {
       console.log(err)
       return false;
     }
+  }
+
+  static findGitRepoInParents(startPath) {
+    // Check if there's a .git folder in any parent directory
+    let currentPath = path.resolve(startPath);
+    const root = path.parse(currentPath).root;
+
+    while (currentPath !== root) {
+      const gitPath = path.join(currentPath, '.git');
+      if (fs.existsSync(gitPath)) {
+        return currentPath;
+      }
+      currentPath = path.dirname(currentPath);
+    }
+    return null;
   }
 
   static directoryIsEmpty(path) {
