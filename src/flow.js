@@ -14,6 +14,28 @@ const transformedList = iconList.map(item => ({ name: item }));
 
 var isHugoServerRunning = false;
 
+// Helper to get localhost URL with baseURL path
+function getLocalServerUrl() {
+  try {
+    const hugoConfig = './config/_default/hugo.toml';
+    if (utils.fileExists(hugoConfig)) {
+      const data = toml.parse(utils.openFile(hugoConfig).toString());
+      if (data.baseURL) {
+        const url = new URL(data.baseURL);
+        const pathname = url.pathname;
+        if (pathname && pathname !== '/') {
+          // Ensure path ends with /
+          const normalizedPath = pathname.endsWith('/') ? pathname : pathname + '/';
+          return 'http://localhost:1313' + normalizedPath;
+        }
+      }
+    }
+  } catch (err) {
+    // Ignore errors, fall back to default
+  }
+  return 'http://localhost:1313';
+}
+
 // Helper to safely handle prompt cancellations (ESC key)
 async function safePrompt(promptConfig) {
   try {
@@ -364,7 +386,8 @@ export default class flow {
       tcpPortUsed.waitUntilUsed(1313, 500, 4000)
         .then(function () {
           isHugoServerRunning = true;
-          utils.run('open http://localhost:1313', false);
+          const serverUrl = getLocalServerUrl();
+          utils.run('open ' + serverUrl, false);
         }, function (err) {
           console.log('Error:', err.message);
         });
@@ -393,10 +416,11 @@ export default class flow {
     }
 
     console.clear()
+    const serverUrl = getLocalServerUrl();
     const response = await safePrompt({
       type: 'AutoComplete',
       name: 'option',
-      message: 'What do you want to configure? \nOpen your browser at http://localhost:1313 to see live changes \nStart typing to search for options or scroll down to see all options',
+      message: 'What do you want to configure? \nOpen your browser at ' + serverUrl + ' to see live changes \nStart typing to search for options or scroll down to see all options',
       limit: 20,
       initial: 0,
       choices: choices
