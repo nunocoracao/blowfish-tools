@@ -134,8 +134,8 @@ export default class flow {
     var response = {};
 
     var choices = []
-    for (var i in Tempaltes)
-      choices.push(Tempaltes[i].text + ' - ' + Tempaltes[i].description)
+    for (var i in Templates)
+      choices.push(Templates[i].text + ' - ' + Templates[i].description)
 
     if (!directory) {
 
@@ -175,9 +175,9 @@ export default class flow {
     prespinner.succeed('Folder ok...');
 
     var template = null;
-    for (var i in Tempaltes) {
-      if (Tempaltes[i].text + ' - ' + Tempaltes[i].description === response.template) {
-        template = Tempaltes[i];
+    for (var i in Templates) {
+      if (Templates[i].text + ' - ' + Templates[i].description === response.template) {
+        template = Templates[i];
         break;
       }
     }
@@ -1160,7 +1160,7 @@ var options = [
   }
 ]
 
-var Tempaltes = [
+var Templates = [
   {
     text: 'Blowfish Template',
     description: 'A simple template to get you started',
