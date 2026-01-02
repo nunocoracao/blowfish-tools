@@ -1035,10 +1035,8 @@ var options = [
       var tempList = []
       for (var i in configOptions) {
         if (configOptions[i].parent === null || configOptions[i].method === 'exit') {
-
+          tempList.push(configOptions[i])
         }
-
-        tempList.push(configOptions[i])
       }
 
       flow.enterConfigMode(tempList);
