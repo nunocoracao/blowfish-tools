@@ -14,6 +14,16 @@ const transformedList = iconList.map(item => ({ name: item }));
 
 var isHugoServerRunning = false;
 
+// Helper to safely handle prompt cancellations (ESC key)
+async function safePrompt(promptConfig) {
+  try {
+    return await prompt(promptConfig);
+  } catch (err) {
+    // User cancelled with ESC - return null to signal cancellation
+    return null;
+  }
+}
+
 export default class flow {
 
   static async detectBlowfish() {
@@ -46,7 +56,7 @@ export default class flow {
       console.log(message);
     }
 
-    const response = await prompt({
+    const response = await safePrompt({
       type: 'AutoComplete',
       name: 'option',
       message: 'What do you need help with?',
@@ -54,6 +64,12 @@ export default class flow {
       initial: 0,
       choices: choices
     });
+
+    if (!response) {
+      // User pressed ESC - exit gracefully
+      await eyecandy.showBye();
+      return;
+    }
 
     for (var i in options) {
       if (options[i].text === response.option) {
@@ -72,12 +88,18 @@ export default class flow {
 
     if (!directory) {
 
-      response = await prompt({
+      response = await safePrompt({
         type: 'input',
         name: 'directory',
         default: 'newSite',
         message: 'Where do you want to generate your website (. for current folder)?'
       });
+
+      if (!response) {
+        // User pressed ESC - return to main menu
+        flow.showMain();
+        return;
+      }
 
       if (response.directory !== '.') {
         response.directory = './' + response.directory;
@@ -352,7 +374,7 @@ export default class flow {
     }
 
     console.clear()
-    const response = await prompt({
+    const response = await safePrompt({
       type: 'AutoComplete',
       name: 'option',
       message: 'What do you want to configure? \nOpen your browser at http://localhost:1313 to see live changes \nStart typing to search for options or scroll down to see all options',
@@ -360,6 +382,12 @@ export default class flow {
       initial: 0,
       choices: choices
     });
+
+    if (!response) {
+      // User pressed ESC - return to main menu
+      flow.showMain();
+      return;
+    }
 
     for (var i in configOptions) {
       if (list[i].text === response.option) {
@@ -388,7 +416,7 @@ export default class flow {
 
     console.log("Configuring:\n" + chalk.blue(variable) + (description ? ' - ' + description : ''))
 
-    const response = await prompt([
+    const response = await safePrompt([
       {
         type: 'input',
         name: 'value',
@@ -396,6 +424,11 @@ export default class flow {
         message: 'What is the new value?'
       }
     ]);
+
+    if (!response) {
+      // User pressed ESC - return without saving
+      return;
+    }
 
     var newValue = response.value
     if (newValue === 'true')
@@ -540,7 +573,7 @@ export default class flow {
 
       var data = toml.parse(utils.openFile(file).toString());
 
-      const response = await prompt({
+      const response = await safePrompt({
         type: 'AutoComplete',
         name: 'option',
         message: 'What do you want to configure? start typing to search for options.',
@@ -556,6 +589,12 @@ export default class flow {
           'Go back'
         ]
       });
+
+      if (!response) {
+        // User pressed ESC - go back
+        inMenuConfigCycle = false;
+        continue;
+      }
 
       const dictionary = {
         identifier: 'identifier',
@@ -703,7 +742,7 @@ export default class flow {
           console.log('No header menus to delete.');
         } else {
 
-          const deleteHeaderResponse = await prompt([
+          const deleteHeaderResponse = await safePrompt([
             {
               type: 'multiselect',
               name: 'value',
@@ -711,6 +750,11 @@ export default class flow {
               choices: headerMenus
             }
           ]);
+
+          if (!deleteHeaderResponse) {
+            // User pressed ESC - continue to menu
+            continue;
+          }
 
           if (deleteHeaderResponse.value.length > 0) {
 
@@ -736,7 +780,7 @@ export default class flow {
           console.log('No footer menus to delete.');
         } else {
 
-          const deleteFooterResponse = await prompt([
+          const deleteFooterResponse = await safePrompt([
             {
               type: 'multiselect',
               name: 'value',
@@ -744,6 +788,11 @@ export default class flow {
               choices: footerMenus
             }
           ]);
+
+          if (!deleteFooterResponse) {
+            // User pressed ESC - continue to menu
+            continue;
+          }
 
           if (deleteFooterResponse.value.length > 0) {
 
