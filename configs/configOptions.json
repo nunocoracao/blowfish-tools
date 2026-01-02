@@ -600,7 +600,7 @@
     "description": "Whether or not articles are grouped by year on term pages."
   },
   {
-    "text": "Emable/Diable card view for terms",
+    "text": "Enable/Disable card view for terms",
     "method": "configLoop",
     "file": "./config/_default/params.toml",
     "parent": "term",
