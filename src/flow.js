@@ -109,7 +109,12 @@ export default class flow {
     gitspinner.succeed('Git initialized');
 
     const blowfishspinner = ora('Installing Blowfish').start();
-    await utils.run(precommand + 'git submodule add --depth 1 -b main https://github.com/nunocoracao/blowfish.git themes/blowfish', false);
+    const submoduleExitCode = await utils.run(precommand + 'git submodule add --depth 1 -b main https://github.com/nunocoracao/blowfish.git themes/blowfish', false, true);
+    if (submoduleExitCode !== 0) {
+      blowfishspinner.fail('Failed to install Blowfish. Please check your network connection and try again.');
+      console.log('You can try manually running: git submodule add --depth 1 -b main https://github.com/nunocoracao/blowfish.git themes/blowfish');
+      process.exit(1);
+    }
     blowfishspinner.succeed('Blowfish installed');
 
     const configblowfishspinner = ora('Configuring Blowfish').start();
@@ -194,7 +199,12 @@ export default class flow {
 
     const blowfishspinner = ora('Installing Blowfish').start();
     await utils.directoryDelete(response.directory + '/themes/blowfish')
-    await utils.run(precommand + 'git submodule add --depth 1 -b main https://github.com/nunocoracao/blowfish.git themes/blowfish', false);
+    const submoduleExitCode = await utils.run(precommand + 'git submodule add --depth 1 -b main https://github.com/nunocoracao/blowfish.git themes/blowfish', false, true);
+    if (submoduleExitCode !== 0) {
+      blowfishspinner.fail('Failed to install Blowfish. Please check your network connection and try again.');
+      console.log('You can try manually running: git submodule add --depth 1 -b main https://github.com/nunocoracao/blowfish.git themes/blowfish');
+      process.exit(1);
+    }
     blowfishspinner.succeed('Blowfish installed');
 
     if (exitAfterRun)
@@ -221,7 +231,12 @@ export default class flow {
     gitspinner.succeed('Git initialized');
 
     const blowfishspinner = ora('Installing Blowfish').start();
-    await utils.run('git submodule add --depth 1 -b main https://github.com/nunocoracao/blowfish.git themes/blowfish', false);
+    const submoduleExitCode = await utils.run('git submodule add --depth 1 -b main https://github.com/nunocoracao/blowfish.git themes/blowfish', false, true);
+    if (submoduleExitCode !== 0) {
+      blowfishspinner.fail('Failed to install Blowfish. Please check your network connection and try again.');
+      console.log('You can try manually running: git submodule add --depth 1 -b main https://github.com/nunocoracao/blowfish.git themes/blowfish');
+      process.exit(1);
+    }
     await utils.run('git submodule update --remote --merge', false);
     blowfishspinner.succeed('Blowfish installed');
 

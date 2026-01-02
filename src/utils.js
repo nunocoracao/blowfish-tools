@@ -12,7 +12,7 @@ export default class utils {
     return path.dirname(__filename);
   }
 
-  static run(cmd, pipe) {
+  static run(cmd, pipe, returnExitCode = false) {
     return new Promise((resolve, reject) => {
       const child = exec(cmd);
       if (pipe) {
@@ -21,7 +21,11 @@ export default class utils {
       }
       child.on('close', (code) => {
         //console.log(cmd + ` exited with code ${code}`);
-        resolve();
+        if (returnExitCode) {
+          resolve(code);
+        } else {
+          resolve();
+        }
       });
 
       process.on("exit", () => child.kill())
