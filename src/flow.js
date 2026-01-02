@@ -128,9 +128,38 @@ export default class flow {
     hugospinner.succeed('Hugo site created');
 
     var precommand = 'cd ' + response.directory + ' && ';
-    const gitspinner = ora('Initializing Git').start();
-    await utils.run(precommand + 'git init', false)
-    gitspinner.succeed('Git initialized');
+
+    // Check if there's an existing git repo in parent directories
+    const existingGitRepo = utils.findGitRepoInParents(process.cwd());
+    let skipGitInit = false;
+
+    if (existingGitRepo) {
+      console.log(chalk.yellow('\nFound existing Git repository at: ' + existingGitRepo));
+      const gitChoice = await safePrompt({
+        type: 'select',
+        name: 'option',
+        message: 'How would you like to handle Git?',
+        choices: [
+          'Use existing repository (recommended for subdirectories)',
+          'Create new repository in ' + response.directory
+        ]
+      });
+
+      if (!gitChoice) {
+        flow.showMain();
+        return;
+      }
+
+      skipGitInit = gitChoice.option.includes('Use existing');
+    }
+
+    if (!skipGitInit) {
+      const gitspinner = ora('Initializing Git').start();
+      await utils.run(precommand + 'git init', false)
+      gitspinner.succeed('Git initialized');
+    } else {
+      console.log(chalk.green('✔ Using existing Git repository'));
+    }
 
     const blowfishspinner = ora('Installing Blowfish').start();
     const submoduleExitCode = await utils.run(precommand + 'git submodule add --depth 1 -b main https://github.com/nunocoracao/blowfish.git themes/blowfish', false, true);
@@ -219,9 +248,38 @@ export default class flow {
     hugospinner.succeed('Template cloned');
 
     var precommand = 'cd ' + response.directory + ' && ';
-    const gitspinner = ora('Initializing Git').start();
-    await utils.run(precommand + 'git init', false)
-    gitspinner.succeed('Git initialized');
+
+    // Check if there's an existing git repo in parent directories
+    const existingGitRepo = utils.findGitRepoInParents(process.cwd());
+    let skipGitInit = false;
+
+    if (existingGitRepo) {
+      console.log(chalk.yellow('\nFound existing Git repository at: ' + existingGitRepo));
+      const gitChoice = await safePrompt({
+        type: 'select',
+        name: 'option',
+        message: 'How would you like to handle Git?',
+        choices: [
+          'Use existing repository (recommended for subdirectories)',
+          'Create new repository in ' + response.directory
+        ]
+      });
+
+      if (!gitChoice) {
+        flow.showMain();
+        return;
+      }
+
+      skipGitInit = gitChoice.option.includes('Use existing');
+    }
+
+    if (!skipGitInit) {
+      const gitspinner = ora('Initializing Git').start();
+      await utils.run(precommand + 'git init', false)
+      gitspinner.succeed('Git initialized');
+    } else {
+      console.log(chalk.green('✔ Using existing Git repository'));
+    }
 
     const blowfishspinner = ora('Installing Blowfish').start();
     await utils.directoryDelete(response.directory + '/themes/blowfish')
