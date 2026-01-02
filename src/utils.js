@@ -145,7 +145,10 @@ export default class utils {
 
   static directoryIsEmpty(path) {
     try {
-      return fs.readdirSync(path).length === 0;
+      const files = fs.readdirSync(path);
+      // Treat directories with only hidden files (like .git, .gitignore) as empty
+      const nonHiddenFiles = files.filter(file => !file.startsWith('.'));
+      return nonHiddenFiles.length === 0;
     } catch (err) {
       return false;
     }
