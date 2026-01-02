@@ -427,20 +427,32 @@ export default class flow {
 
     var currentValue = null
 
-    if (parent && data[parent] && data[parent][variable]) {
+    if (parent && data[parent] && data[parent][variable] !== undefined) {
       currentValue = data[parent][variable]
-    } else if (!parent && data[variable]) {
+    } else if (!parent && data[variable] !== undefined) {
       currentValue = data[variable]
     }
 
+    // Determine if this is a boolean option based on current value or description
+    var isBoolean = typeof currentValue === 'boolean' ||
+      (description && (description.toLowerCase().includes('true or false') ||
+                       description.toLowerCase().includes('(true or false)') ||
+                       description.toLowerCase().includes('true/false')));
+
     console.log("Configuring:\n" + chalk.blue(variable) + (description ? ' - ' + description : ''))
+
+    // Convert boolean to string for display
+    var displayValue = currentValue;
+    if (typeof currentValue === 'boolean') {
+      displayValue = currentValue.toString();
+    }
 
     const response = await safePrompt([
       {
         type: 'input',
         name: 'value',
-        default: currentValue,
-        message: 'What is the new value?'
+        default: displayValue,
+        message: isBoolean ? 'What is the new value? (true/false)' : 'What is the new value?'
       }
     ]);
 
