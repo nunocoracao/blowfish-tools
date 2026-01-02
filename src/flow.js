@@ -729,14 +729,10 @@ export default class flow {
 
           if (deleteHeaderResponse.value.length > 0) {
 
-            var newHeaderMenus = [];
-            for (var j in deleteHeaderResponse.value) {
-              for (var i in data.main) {
-                if (data.main[i].name != deleteHeaderResponse.value[j]) {
-                  newHeaderMenus.push(data.main[i]);
-                }
-              }
-            }
+            // Filter out menus that are in the delete list
+            var newHeaderMenus = data.main.filter(menu => {
+              return !deleteHeaderResponse.value.includes(menu.name);
+            });
             data.main = newHeaderMenus;
             if (data.main.length === 0) {
               data.main.push({ none: 'none' })
@@ -762,14 +758,10 @@ export default class flow {
 
           if (deleteFooterResponse.value.length > 0) {
 
-            var newFooterMenus = [];
-            for (var j in deleteFooterResponse.value) {
-              for (var i in data.footer) {
-                if (data.footer[i].name != deleteFooterResponse.value[j]) {
-                  newFooterMenus.push(data.footer[i]);
-                }
-              }
-            }
+            // Filter out menus that are in the delete list
+            var newFooterMenus = data.footer.filter(menu => {
+              return !deleteFooterResponse.value.includes(menu.name);
+            });
             data.footer = newFooterMenus;
             if (data.footer.length === 0) {
               data.footer.push({ none: 'none' })
