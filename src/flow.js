@@ -101,12 +101,14 @@ export default class flow {
         return;
       }
 
+      response.directory = response.directory.trim();
+
       if (response.directory !== '.') {
         response.directory = './' + response.directory;
       }
 
     } else {
-      response.directory = directory;
+      response.directory = directory.trim();
     }
 
     const prespinner = ora('Checking folder').start();
@@ -181,12 +183,14 @@ export default class flow {
           message: 'Where do you want to generate your website (. for current folder)?'
         }]);
 
+      response.directory = response.directory.trim();
+
       if (response.directory !== '.') {
         response.directory = './' + response.directory;
       }
 
     } else {
-      response.directory = directory;
+      response.directory = directory.trim();
     }
 
     const prespinner = ora('Checking folder').start();
