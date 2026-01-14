@@ -1288,6 +1288,81 @@ var options = [
     }
   },
   {
+    text: 'Configure Firebase (views/likes)',
+    blowfishIsInstalled: true,
+    action: async () => {
+
+      var tempList = []
+      for (var i in configOptions) {
+        if (configOptions[i].parent === "firebase" || configOptions[i].method === 'exit')
+          tempList.push(configOptions[i])
+      }
+
+      flow.enterConfigMode(tempList);
+    }
+  },
+  {
+    text: 'Configure analytics',
+    blowfishIsInstalled: true,
+    action: async () => {
+
+      var tempList = []
+      for (var i in configOptions) {
+        if (configOptions[i].parent === "fathomAnalytics" ||
+            configOptions[i].parent === "umamiAnalytics" ||
+            configOptions[i].parent === "selineAnalytics" ||
+            configOptions[i].method === 'exit')
+          tempList.push(configOptions[i])
+      }
+
+      flow.enterConfigMode(tempList);
+    }
+  },
+  {
+    text: 'Configure Buy Me a Coffee',
+    blowfishIsInstalled: true,
+    action: async () => {
+
+      var tempList = []
+      for (var i in configOptions) {
+        if (configOptions[i].parent === "buymeacoffee" || configOptions[i].method === 'exit')
+          tempList.push(configOptions[i])
+      }
+
+      flow.enterConfigMode(tempList);
+    }
+  },
+  {
+    text: 'Configure site verification',
+    blowfishIsInstalled: true,
+    action: async () => {
+
+      var tempList = []
+      for (var i in configOptions) {
+        if (configOptions[i].parent === "verification" || configOptions[i].method === 'exit')
+          tempList.push(configOptions[i])
+      }
+
+      flow.enterConfigMode(tempList);
+    }
+  },
+  {
+    text: 'Configure RSS/advertising',
+    blowfishIsInstalled: true,
+    action: async () => {
+
+      var tempList = []
+      for (var i in configOptions) {
+        if (configOptions[i].parent === "rssnext" ||
+            configOptions[i].parent === "advertisement" ||
+            configOptions[i].method === 'exit')
+          tempList.push(configOptions[i])
+      }
+
+      flow.enterConfigMode(tempList);
+    }
+  },
+  {
     text: 'Configure images',
     blowfishIsInstalled: true,
     action: async () => {
