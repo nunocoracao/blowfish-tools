@@ -1050,21 +1050,35 @@ export default class flow {
       } else {
         // Use hugo new to respect archetypes
         const spinner = ora('Creating article').start();
-        const hugoExitCode = await utils.run('hugo new content/' + articlePath + '/index.md', false, true);
+        const articleFilePath = './content/' + articlePath + '/index.md';
+        const result = await utils.runWithOutput('hugo new content/' + articlePath + '/index.md');
 
-        if (hugoExitCode !== 0) {
-          spinner.fail('Failed to create article with Hugo archetypes');
+        // Check if Hugo command succeeded AND the file was actually created
+        const fileCreated = utils.fileExists(articleFilePath);
+
+        if (result.code !== 0 || !fileCreated) {
+          if (result.code !== 0) {
+            spinner.fail('Failed to create article with Hugo archetypes');
+            // Show Hugo's error output to help diagnose issues
+            if (result.stderr) {
+              console.log('Hugo error: ' + result.stderr.trim());
+            }
+            if (result.stdout && result.stdout.includes('ERROR')) {
+              console.log('Hugo output: ' + result.stdout.trim());
+            }
+          } else {
+            spinner.fail('Hugo ran but file was not created');
+          }
           console.log('Falling back to default content...');
           // Fallback to manual creation if hugo new fails
           var content = "---\n" +
             "title: \"" + newArticle + "\"\n" +
             "date: " + new Date().toISOString().split('T')[0] + "\n" +
-            "draft: false\n" +
-            "description: \"a description\"\n" +
-            "tags: [\"example\", \"tag\"]\n" +
+            "draft: true\n" +
+            "description: \"\"\n" +
             "---\n";
           utils.directoryCreate('./content/' + articlePath);
-          utils.writeContentToFile('./content/' + articlePath + '/index.md', content);
+          utils.writeContentToFile(articleFilePath, content);
         } else {
           spinner.succeed('Article created using Hugo archetypes');
         }

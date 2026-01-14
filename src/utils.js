@@ -14,7 +14,7 @@ export default class utils {
 
   static run(cmd, pipe, returnExitCode = false) {
     return new Promise((resolve, reject) => {
-      const child = exec(cmd);
+      const child = exec(cmd, { maxBuffer: 10 * 1024 * 1024 });
       if (pipe) {
         child.stdout.pipe(process.stdout);
         child.stderr.pipe(process.stderr);
@@ -28,7 +28,32 @@ export default class utils {
         }
       });
 
-      process.on("exit", () => child.kill())
+      const killHandler = () => child.kill();
+      process.once("exit", killHandler);
+      child.on('close', () => process.removeListener("exit", killHandler));
+    });
+  }
+
+  static runWithOutput(cmd) {
+    return new Promise((resolve) => {
+      const child = exec(cmd, { maxBuffer: 10 * 1024 * 1024 });
+      let stdout = '';
+      let stderr = '';
+
+      child.stdout.on('data', (data) => { stdout += data; });
+      child.stderr.on('data', (data) => { stderr += data; });
+
+      child.on('close', (code) => {
+        resolve({ code, stdout, stderr });
+      });
+
+      child.on('error', (err) => {
+        resolve({ code: 1, stdout, stderr: stderr + err.message });
+      });
+
+      const killHandler = () => child.kill();
+      process.once("exit", killHandler);
+      child.on('close', () => process.removeListener("exit", killHandler));
     });
   }
 
@@ -44,7 +69,9 @@ export default class utils {
         resolve();
       });
 
-      process.on("exit", () => child.kill())
+      const killHandler = () => child.kill();
+      process.once("exit", killHandler);
+      child.on('close', () => process.removeListener("exit", killHandler));
     });
   }
 
@@ -121,11 +148,11 @@ export default class utils {
 
   static writeContentToFile(file, content)
   {
-    fs.writeFile(file, content, (err) => {
-      if (err) {
-        console.error(err);
-      }
-    });
+    try {
+      fs.writeFileSync(file, content);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   static fileChange(path, strintoreplace, replacement) {
