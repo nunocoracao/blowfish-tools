@@ -32,12 +32,60 @@
     "description": "The website description. This will be used in the site metadata."
   },
   {
+    "text": "Site's copyright text",
+    "method": "configLoop",
+    "file": "./config/_default/languages.en.toml",
+    "parent": "params",
+    "key": "copyright",
+    "description": "A Markdown string containing the copyright message to be displayed in the site footer."
+  },
+  {
+    "text": "Language display name",
+    "method": "configLoop",
+    "file": "./config/_default/languages.en.toml",
+    "parent": "params",
+    "key": "displayName",
+    "description": "The language name as it appears on the language switcher (e.g., EN, FR)."
+  },
+  {
+    "text": "Language ISO code",
+    "method": "configLoop",
+    "file": "./config/_default/languages.en.toml",
+    "parent": "params",
+    "key": "isoCode",
+    "description": "The ISO language code for HTML lang attributes."
+  },
+  {
+    "text": "Enable right-to-left layout",
+    "method": "configLoop",
+    "file": "./config/_default/languages.en.toml",
+    "parent": "params",
+    "key": "rtl",
+    "description": "Whether to use right-to-left layout for this language (true or false)."
+  },
+  {
+    "text": "Date format",
+    "method": "configLoop",
+    "file": "./config/_default/languages.en.toml",
+    "parent": "params",
+    "key": "dateFormat",
+    "description": "The format string used to display dates (e.g., '2 January 2006')."
+  },
+  {
     "text": "Author's name",
     "method": "configLoop",
     "file": "./config/_default/languages.en.toml",
     "parent": "params.author",
     "key": "name",
-    "description": "The author’s name. This will be displayed in article footers, and on the homepage when the profile layout is used."
+    "description": "The author's name. This will be displayed in article footers, and on the homepage when the profile layout is used."
+  },
+  {
+    "text": "Author's email",
+    "method": "configLoop",
+    "file": "./config/_default/languages.en.toml",
+    "parent": "params.author",
+    "key": "email",
+    "description": "The author's email address. Used for email links and reply by email feature."
   },
   {
     "text": "Author's picture",
@@ -48,12 +96,20 @@
     "description": "Image file of the author. The image should be a 1:1 aspect ratio."
   },
   {
+    "text": "Author's image quality",
+    "method": "configLoop",
+    "file": "./config/_default/languages.en.toml",
+    "parent": "params.author",
+    "key": "imageQuality",
+    "description": "The quality of the author image (1-100). Default is 96."
+  },
+  {
     "text": "Author's headline",
     "method": "configLoop",
     "file": "./config/_default/languages.en.toml",
     "parent": "params.author",
     "key": "headline",
-    "description": "A Markdown string containing the author’s headline. It will be displayed on the profile homepage under the author’s name."
+    "description": "A Markdown string containing the author's headline. It will be displayed on the profile homepage under the author's name."
   },
   {
     "text": "Author's bio",
@@ -61,7 +117,7 @@
     "file": "./config/_default/languages.en.toml",
     "parent": "params.author",
     "key": "bio",
-    "description": "A Markdown string containing the author’s bio. It will be displayed in article footers."
+    "description": "A Markdown string containing the author's bio. It will be displayed in article footers."
   },
   {
     "text": "Author's links",
@@ -69,7 +125,7 @@
     "file": "./config/_default/languages.en.toml",
     "parent": "params.author",
     "key": "links",
-    "description": "The links to display alongside the author’s details. The config file contains example links which can simply be uncommented to enable. The order that the links are displayed is determined by the order they appear in the array."
+    "description": "The links to display alongside the author's details. The config file contains example links which can simply be uncommented to enable. The order that the links are displayed is determined by the order they appear in the array."
   },
   {
     "text": "Color scheme",
@@ -93,7 +149,15 @@
     "file": "./config/_default/params.toml",
     "parent": null,
     "key": "autoSwitchAppearance",
-    "description": "'Whether the theme appearance automatically switches based upon the visitor’s operating system preference. Set to false to force the site to always use the defaultAppearance."
+    "description": "'Whether the theme appearance automatically switches based upon the visitor's operating system preference. Set to false to force the site to always use the defaultAppearance."
+  },
+  {
+    "text": "Enable accessibility features",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "enableA11y",
+    "description": "Enable accessibility toggle for visual accessibility features (true or false)."
   },
   {
     "text": "Enable/Disable Search",
@@ -112,6 +176,30 @@
     "description": "Whether copy-to-clipboard buttons are enabled for <code> blocks. (true or false)."
   },
   {
+    "text": "Enable structured breadcrumbs",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "enableStructuredBreadcrumbs",
+    "description": "Enable structured data breadcrumbs for SEO (true or false)."
+  },
+  {
+    "text": "Enable styled scrollbar",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "enableStyledScrollbar",
+    "description": "Enable custom styled scrollbar (true or false). Default is true."
+  },
+  {
+    "text": "Enable reply by email",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "replyByEmail",
+    "description": "Show a reply by email link in articles (true or false)."
+  },
+  {
     "text": "Configure default background image",
     "method": "configImage",
     "file": "./config/_default/params.toml",
@@ -126,6 +214,14 @@
     "parent": null,
     "key": "defaultFeaturedImage",
     "description": "Default background image for all featured images across articles, will be overridden by a local featured image."
+  },
+  {
+    "text": "Configure default social image",
+    "method": "configImage",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "defaultSocialImage",
+    "description": "Default image for social sharing when no featured image is available."
   },
   {
     "text": "Enable/Disable highlighting of the current menu area",
@@ -150,6 +246,110 @@
     "parent": null,
     "key": "smartTOCHideUnfocusedChildren",
     "description": "When smart Table of Contents is turned on, this will hide deeper levels of the table when they are not in focus."
+  },
+  {
+    "text": "Disable image zoom",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "disableImageZoom",
+    "description": "Disable the image zoom functionality on click (true or false)."
+  },
+  {
+    "text": "Disable image optimization",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "disableImageOptimization",
+    "description": "Disable Hugo's image processing and optimization (true or false)."
+  },
+  {
+    "text": "Disable image optimization for Markdown",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "disableImageOptimizationMD",
+    "description": "Disable image optimization specifically for markdown content (true or false)."
+  },
+  {
+    "text": "Disable text in header",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "disableTextInHeader",
+    "description": "Hide site title text in header, showing only the logo (true or false)."
+  },
+  {
+    "text": "Background image width",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "backgroundImageWidth",
+    "description": "The width in pixels for background images. Default is 1200."
+  },
+  {
+    "text": "Hotlink feature image",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "hotlinkFeatureImage",
+    "description": "Allow external URLs for feature images instead of local files (true or false)."
+  },
+  {
+    "text": "Image position",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "imagePosition",
+    "description": "CSS object-position value for images (e.g., 'center', 'top')."
+  },
+  {
+    "text": "Show global views",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "showViews",
+    "description": "Enable display of article view counts globally (true or false). Requires Firebase setup."
+  },
+  {
+    "text": "Show global likes",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "showLikes",
+    "description": "Enable display of article likes globally (true or false). Requires Firebase setup."
+  },
+  {
+    "text": "Robots meta directive",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "robots",
+    "description": "Custom robots meta directive for search engines."
+  },
+  {
+    "text": "Fingerprint algorithm",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "fingerprintAlgorithm",
+    "description": "Hash algorithm for CSS/JS cache busting. Default is sha512."
+  },
+  {
+    "text": "Gitea default server",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "giteaDefaultServer",
+    "description": "Default Gitea server URL for the Gitea shortcode."
+  },
+  {
+    "text": "Forgejo default server",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "forgejoDefaultServer",
+    "description": "Default Forgejo server URL for the Forgejo shortcode."
   },
   {
     "text": "Select header layout",
@@ -181,7 +381,7 @@
     "file": "./config/_default/params.toml",
     "parent": "footer",
     "key": "showThemeAttribution",
-    "description": "Whether or not to show the “powered by” theme attribution in the site footer. If you choose to disable this message, please consider attributing the theme somewhere else on your site (for example, on your about page)."
+    "description": "Whether or not to show the \"powered by\" theme attribution in the site footer. If you choose to disable this message, please consider attributing the theme somewhere else on your site (for example, on your about page)."
   },
   {
     "text": "Show/hide appearance switcher in footer",
@@ -189,7 +389,7 @@
     "file": "./config/_default/params.toml",
     "parent": "footer",
     "key": "showAppearanceSwitcher",
-    "description": "Whether or not to show the appearance switcher in the site footer. The browser’s local storage is used to persist the visitor’s preference."
+    "description": "Whether or not to show the appearance switcher in the site footer. The browser's local storage is used to persist the visitor's preference."
   },
   {
     "text": "Show/hide scroll to top arrow in footer",
@@ -229,7 +429,7 @@
     "file": "./config/_default/params.toml",
     "parent": "homepage",
     "key": "showRecentItems",
-    "description": "How many articles to display if showRecent is true. If variable is set to 0 or if it isn’t defined the system will default to 5 articles."
+    "description": "How many articles to display if showRecent is true. If variable is set to 0 or if it isn't defined the system will default to 5 articles."
   },
   {
     "text": "Enable/Disable show more link",
@@ -272,6 +472,14 @@
     "description": "Makes the background image in the homepage layout blur with the scroll"
   },
   {
+    "text": "Disable hero image filter",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "homepage",
+    "key": "disableHeroImageFilter",
+    "description": "Remove the filter overlay from hero images on the homepage (true or false)."
+  },
+  {
     "text": "Show/Hide date in articles",
     "method": "configLoop",
     "file": "./config/_default/params.toml",
@@ -280,12 +488,52 @@
     "description": "Whether or not article dates are displayed."
   },
   {
+    "text": "Show/Hide views in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showViews",
+    "description": "Display view count on articles (true or false). Requires Firebase setup."
+  },
+  {
+    "text": "Show/Hide likes in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showLikes",
+    "description": "Display like count on articles (true or false). Requires Firebase setup."
+  },
+  {
+    "text": "Show date only in article body",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showDateOnlyInArticle",
+    "description": "Show the date only within the article body, not in listings (true or false)."
+  },
+  {
+    "text": "Show date updated",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showDateUpdated",
+    "description": "Display the last updated date on articles (true or false)."
+  },
+  {
     "text": "Show/Hide author in articles",
     "method": "configLoop",
     "file": "./config/_default/params.toml",
     "parent": "article",
     "key": "showAuthor",
     "description": "Whether or not the author box is displayed in the article footer."
+  },
+  {
+    "text": "Show author at bottom of article",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showAuthorBottom",
+    "description": "Display the author box at the bottom of the article instead of the top (true or false)."
   },
   {
     "text": "Show/Hide hero image in articles",
@@ -328,12 +576,52 @@
     "description": "Whether or not breadcrumbs are displayed in the article header."
   },
   {
-    "text": "Show/Hide breadcrumbs in articles",
+    "text": "Show/Hide draft label in articles",
     "method": "configLoop",
     "file": "./config/_default/params.toml",
     "parent": "article",
     "key": "showDraftLabel",
     "description": "Whether or not the draft indicator is shown next to articles when site is built with --buildDrafts"
+  },
+  {
+    "text": "Show/Hide edit link in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showEdit",
+    "description": "Display an edit link on articles (true or false)."
+  },
+  {
+    "text": "Edit link URL",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "editURL",
+    "description": "The base URL for the edit link (e.g., GitHub edit URL)."
+  },
+  {
+    "text": "Append path to edit URL",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "editAppendPath",
+    "description": "Automatically append the article path to the edit URL (true or false)."
+  },
+  {
+    "text": "Series opened by default",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "seriesOpened",
+    "description": "Whether the series module is expanded by default (true or false)."
+  },
+  {
+    "text": "Show heading anchors",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showHeadingAnchors",
+    "description": "Display anchor links on headings (true or false)."
   },
   {
     "text": "Show/Hide prev and next article in each article page",
@@ -373,7 +661,7 @@
     "file": "./config/_default/params.toml",
     "parent": "article",
     "key": "showRelatedContent",
-    "description": "Display related content for each post. Might required additional configuration to your hugo.toml. Please check the theme hugo.toml if you want to enable this feature and copy all the relevant related entries. Also check Hugo’s docs on related content."
+    "description": "Display related content for each post. Might required additional configuration to your hugo.toml. Please check the theme hugo.toml if you want to enable this feature and copy all the relevant related entries. Also check Hugo's docs on related content."
   },
   {
     "text": "Number of related items to show in articles",
@@ -392,6 +680,14 @@
     "description": "Whether or not the taxonomies related to this article are displayed."
   },
   {
+    "text": "Show only category taxonomy",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showCategoryOnly",
+    "description": "Show only the category taxonomy instead of all taxonomies (true or false)."
+  },
+  {
     "text": "Show/Hide author badges in articles",
     "method": "configLoop",
     "file": "./config/_default/params.toml",
@@ -408,12 +704,28 @@
     "description": "Whether or not article word counts are displayed."
   },
   {
+    "text": "Show/hide comments in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showComments",
+    "description": "Enable comments section on articles (true or false). Requires a comments provider setup."
+  },
+  {
     "text": "Show/hide zen mode in articles",
     "method": "configLoop",
     "file": "./config/_default/params.toml",
     "parent": "article",
     "key": "showZenMode",
     "description": "Flag to activate Zen Mode reading feature for articles."
+  },
+  {
+    "text": "Force external links to open in new tab",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "externalLinkForceNewTab",
+    "description": "Force external links in articles to open in a new tab (true or false)."
   },
   {
     "text": "Show/hide hero image in lists",
@@ -472,12 +784,36 @@
     "description": "Whether or not article summaries are displayed on list pages. If a summary is not provided in the front matter, one will be auto generated using the summaryLength parameter in the site configuration."
   },
   {
+    "text": "Show/Hide views in lists",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "list",
+    "key": "showViews",
+    "description": "Display view count on list pages (true or false). Requires Firebase setup."
+  },
+  {
+    "text": "Show/Hide likes in lists",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "list",
+    "key": "showLikes",
+    "description": "Display like count on list pages (true or false). Requires Firebase setup."
+  },
+  {
     "text": "Display articles as cards in lists",
     "method": "configLoop",
     "file": "./config/_default/params.toml",
     "parent": "list",
     "key": "showCards",
     "description": "Whether or not each article is displayed as a card or as simple inline text."
+  },
+  {
+    "text": "Order by weight in lists",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "list",
+    "key": "orderByWeight",
+    "description": "Sort list items by weight instead of date (true or false)."
   },
   {
     "text": "Group content by year in lists",
@@ -544,6 +880,22 @@
     "description": "Whether or not breadcrumbs are displayed in the taxonomy header."
   },
   {
+    "text": "Show/Hide views in taxonomy pages",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "taxonomy",
+    "key": "showViews",
+    "description": "Display view count on taxonomy pages (true or false). Requires Firebase setup."
+  },
+  {
+    "text": "Show/Hide likes in taxonomy pages",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "taxonomy",
+    "key": "showLikes",
+    "description": "Display like count on taxonomy pages (true or false). Requires Firebase setup."
+  },
+  {
     "text": "Show/Hide table of contents in taxonomy pages",
     "method": "configLoop",
     "file": "./config/_default/params.toml",
@@ -584,6 +936,22 @@
     "description": "Whether or not breadcrumbs are displayed in the term header."
   },
   {
+    "text": "Show/Hide views in terms",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "term",
+    "key": "showViews",
+    "description": "Display view count on term pages (true or false). Requires Firebase setup."
+  },
+  {
+    "text": "Show/Hide likes in terms",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "term",
+    "key": "showLikes",
+    "description": "Display like count on term pages (true or false). Requires Firebase setup."
+  },
+  {
     "text": "Show/Hide table of contents in terms",
     "method": "configLoop",
     "file": "./config/_default/params.toml",
@@ -614,6 +982,238 @@
     "parent": "term",
     "key": "cardViewScreenWidth",
     "description": "Enhance the width of card galleries in lists to take the full width available."
+  },
+  {
+    "text": "Firebase API Key",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "firebase",
+    "key": "apiKey",
+    "description": "Firebase API key for views/likes functionality."
+  },
+  {
+    "text": "Firebase Auth Domain",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "firebase",
+    "key": "authDomain",
+    "description": "Firebase authentication domain."
+  },
+  {
+    "text": "Firebase Project ID",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "firebase",
+    "key": "projectId",
+    "description": "Firebase project ID."
+  },
+  {
+    "text": "Firebase Storage Bucket",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "firebase",
+    "key": "storageBucket",
+    "description": "Firebase storage bucket URL."
+  },
+  {
+    "text": "Firebase Messaging Sender ID",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "firebase",
+    "key": "messagingSenderId",
+    "description": "Firebase messaging sender ID."
+  },
+  {
+    "text": "Firebase App ID",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "firebase",
+    "key": "appId",
+    "description": "Firebase app ID."
+  },
+  {
+    "text": "Firebase Measurement ID",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "firebase",
+    "key": "measurementId",
+    "description": "Firebase measurement ID for analytics."
+  },
+  {
+    "text": "Fathom Analytics Site Code",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "fathomAnalytics",
+    "key": "site",
+    "description": "Fathom Analytics site code for tracking."
+  },
+  {
+    "text": "Fathom Analytics Custom Domain",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "fathomAnalytics",
+    "key": "domain",
+    "description": "Fathom Analytics custom domain (optional)."
+  },
+  {
+    "text": "Umami Analytics Website ID",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "umamiAnalytics",
+    "key": "websiteid",
+    "description": "Umami Analytics website ID for tracking."
+  },
+  {
+    "text": "Umami Analytics Domain",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "umamiAnalytics",
+    "key": "domain",
+    "description": "Umami Analytics custom domain."
+  },
+  {
+    "text": "Umami Analytics Data Domains",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "umamiAnalytics",
+    "key": "dataDomains",
+    "description": "Umami Analytics tracked domains (comma-separated)."
+  },
+  {
+    "text": "Umami Analytics Script Name",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "umamiAnalytics",
+    "key": "scriptName",
+    "description": "Umami Analytics script filename. Default is 'script.js'."
+  },
+  {
+    "text": "Umami Analytics Enable Track Event",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "umamiAnalytics",
+    "key": "enableTrackEvent",
+    "description": "Enable Umami event tracking (true or false)."
+  },
+  {
+    "text": "Seline Analytics Token",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "selineAnalytics",
+    "key": "token",
+    "description": "Seline Analytics token for tracking."
+  },
+  {
+    "text": "Seline Analytics Enable Track Event",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "selineAnalytics",
+    "key": "enableTrackEvent",
+    "description": "Enable Seline event tracking (true or false)."
+  },
+  {
+    "text": "Buy Me a Coffee Identifier",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "buymeacoffee",
+    "key": "identifier",
+    "description": "Your Buy Me a Coffee account identifier."
+  },
+  {
+    "text": "Buy Me a Coffee Global Widget",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "buymeacoffee",
+    "key": "globalWidget",
+    "description": "Enable global Buy Me a Coffee widget (true or false)."
+  },
+  {
+    "text": "Buy Me a Coffee Widget Message",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "buymeacoffee",
+    "key": "globalWidgetMessage",
+    "description": "Custom message for the Buy Me a Coffee widget."
+  },
+  {
+    "text": "Buy Me a Coffee Widget Color",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "buymeacoffee",
+    "key": "globalWidgetColor",
+    "description": "Color for the Buy Me a Coffee widget (hex format, e.g., #FFDD00)."
+  },
+  {
+    "text": "Buy Me a Coffee Widget Position",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "buymeacoffee",
+    "key": "globalWidgetPosition",
+    "description": "Position of the Buy Me a Coffee widget."
+  },
+  {
+    "text": "Google Site Verification",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "verification",
+    "key": "google",
+    "description": "Google Search Console verification string."
+  },
+  {
+    "text": "Bing Site Verification",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "verification",
+    "key": "bing",
+    "description": "Bing Webmaster Tools verification string."
+  },
+  {
+    "text": "Pinterest Site Verification",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "verification",
+    "key": "pinterest",
+    "description": "Pinterest verification string."
+  },
+  {
+    "text": "Yandex Site Verification",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "verification",
+    "key": "yandex",
+    "description": "Yandex Webmaster verification string."
+  },
+  {
+    "text": "Fediverse Verification Handle",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "verification",
+    "key": "fediverse",
+    "description": "Fediverse handle for verification (e.g., @user@mastodon.social)."
+  },
+  {
+    "text": "RSSNext Feed ID",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "rssnext",
+    "key": "feedId",
+    "description": "RSSNext feed ID for feed following."
+  },
+  {
+    "text": "RSSNext User ID",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "rssnext",
+    "key": "userId",
+    "description": "RSSNext user ID."
+  },
+  {
+    "text": "Google AdSense Publisher ID",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "advertisement",
+    "key": "adsense",
+    "description": "Google AdSense publisher ID for displaying ads."
   },
   {
     "text": "baseURL - The URL to the root of the website.",
