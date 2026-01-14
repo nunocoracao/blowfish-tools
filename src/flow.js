@@ -1012,7 +1012,13 @@ export default class flow {
       flow.showMain('Section already exists.');
     } else {
       utils.directoryCreate('./content/' + newSection);
-      flow.showMain('Folder ' + newSection + ' created.')
+      // Create _index.md so Hugo recognizes this as a section with its own page
+      var sectionTitle = newSection.charAt(0).toUpperCase() + newSection.slice(1);
+      var indexContent = "---\n" +
+        "title: \"" + sectionTitle + "\"\n" +
+        "---\n";
+      utils.writeContentToFile('./content/' + newSection + '/_index.md', indexContent);
+      flow.showMain('Section ' + newSection + ' created.')
     }
 
   }
