@@ -328,7 +328,7 @@
     "description": "Whether or not breadcrumbs are displayed in the article header."
   },
   {
-    "text": "Show/Hide breadcrumbs in articles",
+    "text": "Show/Hide draft label in articles",
     "method": "configLoop",
     "file": "./config/_default/params.toml",
     "parent": "article",
