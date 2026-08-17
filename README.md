@@ -9,6 +9,8 @@
 
 CLI to initialize and configure a [Blowfish](https://blowfish.page) project. Install the CLI globally and run `blowfish-tools` to start the interactive prompt that will walk you through setting up a Blowfish from scratch or configure an existing project.
 
+Starting with v3, blowfish-tools versioning follows the major version of the [Blowfish theme](https://github.com/nunocoracao/blowfish) — blowfish-tools v3 supports all the configuration options introduced in Blowfish v3 (floating header, landing homepage layout, background canvas, the burufugu colour scheme, language redirects, and more), while remaining compatible with v2 sites.
+
 ## Features
 - Interactive configuration mode - edit and see changes in real time
 - Create a new Blowfish project from scratch

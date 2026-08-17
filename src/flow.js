@@ -454,6 +454,11 @@ export default class flow {
 
   static async enterConfigMode(list) {
 
+    if (!Array.isArray(list)) {
+      // Called from the `config` subcommand without a list - use all options
+      list = configOptions;
+    }
+
     var blowfishIsInstalled = await flow.detectBlowfish();
     if (!blowfishIsInstalled) {
       console.log('Blowfish is not installed in this folder.');
@@ -490,7 +495,7 @@ export default class flow {
       return;
     }
 
-    for (var i in configOptions) {
+    for (var i in list) {
       if (list[i].text === response.option) {
         list[i].action(list);
         return
@@ -582,7 +587,7 @@ export default class flow {
 
     console.log("Configuring:\n" + chalk.blue(variable) + (description ? ' - ' + description : ''))
 
-    const response = await prompt([
+    const response = await safePrompt([
       {
         type: 'multiselect',
         name: 'value',
@@ -592,6 +597,10 @@ export default class flow {
       }
     ]);
 
+    if (!response) {
+      // User pressed ESC - return without saving
+      return;
+    }
 
     var linksQuestions = [];
     for (var i in response.value) {
@@ -603,6 +612,8 @@ export default class flow {
     }
 
     const responseLinks = await prompt(linksQuestions);
+
+    utils.installCustomIcons(response.value);
 
     if (!data.params.author)
       data.params.author = {};
@@ -815,6 +826,7 @@ export default class flow {
 
           if (iconPrompt.option != 'none') {
             newMenu.pre = iconPrompt.option;
+            utils.installCustomIcons([iconPrompt.option]);
           }
         }
 
@@ -991,13 +1003,20 @@ export default class flow {
     }
   }
 
-  static async generateNewSection() {
-    if (!utils.directoryExists('./content')) {
-      console.log('Content folder does not exist.');
-      process.exit(0);
-    }
+  static createSection(name) {
+    utils.directoryCreate('./content/' + name);
+    // Create _index.md so Hugo recognizes this as a section with its own page
+    var sectionTitle = name.charAt(0).toUpperCase() + name.slice(1);
+    var indexContent = "---\n" +
+      "title: \"" + sectionTitle + "\"\n" +
+      "---\n";
+    utils.writeContentToFile('./content/' + name + '/_index.md', indexContent);
+  }
 
-    const response = await prompt([
+  static async generateNewSection() {
+    utils.directoryCreate('./content');
+
+    const response = await safePrompt([
       {
         type: 'input',
         name: 'name',
@@ -1006,18 +1025,18 @@ export default class flow {
       }
     ]);
 
+    if (!response) {
+      // User pressed ESC - return to main menu
+      flow.showMain();
+      return;
+    }
+
     var newSection = response.name;
 
     if (utils.directoryExists('./content/' + newSection)) {
       flow.showMain('Section already exists.');
     } else {
-      utils.directoryCreate('./content/' + newSection);
-      // Create _index.md so Hugo recognizes this as a section with its own page
-      var sectionTitle = newSection.charAt(0).toUpperCase() + newSection.slice(1);
-      var indexContent = "---\n" +
-        "title: \"" + sectionTitle + "\"\n" +
-        "---\n";
-      utils.writeContentToFile('./content/' + newSection + '/_index.md', indexContent);
+      flow.createSection(newSection);
       flow.showMain('Section ' + newSection + ' created.')
     }
 
@@ -1025,76 +1044,101 @@ export default class flow {
 
   static async generateNewArticle() {
 
+    utils.directoryCreate('./content');
     var contentFolders = utils.getDirs('./content');
 
     if (contentFolders.length === 0) {
-      console.log('No sections found in content folder.');
-      console.log('Please create a section first.');
-    } else {
 
-      const response = await prompt([
-        {
-          type: 'select',
-          name: 'option',
-          message: 'Select the section where you want to create the article:',
-          choices: contentFolders
-        },
+      const sectionResponse = await safePrompt([
         {
           type: 'input',
           name: 'name',
-          default: 'new-article',
-          message: 'What is the name of the new article?'
+          default: 'posts',
+          message: 'No sections found in the content folder. What is the name of the section to create for this article?'
         }
       ]);
 
-      var newArticle = response.name;
-      var articleSlug = newArticle.toLowerCase().replaceAll(' ', '-');
-      var articlePath = response.option + '/' + articleSlug;
-
-      if (utils.directoryExists('./content/' + articlePath)) {
-        console.log('Article already exists.');
-      } else {
-        // Use hugo new to respect archetypes
-        const spinner = ora('Creating article').start();
-        const articleFilePath = './content/' + articlePath + '/index.md';
-        const result = await utils.runWithOutput('hugo new content/' + articlePath + '/index.md');
-
-        // Check if Hugo command succeeded AND the file was actually created
-        const fileCreated = utils.fileExists(articleFilePath);
-
-        if (result.code !== 0 || !fileCreated) {
-          if (result.code !== 0) {
-            spinner.fail('Failed to create article with Hugo archetypes');
-            // Show Hugo's error output to help diagnose issues
-            if (result.stderr) {
-              console.log('Hugo error: ' + result.stderr.trim());
-            }
-            if (result.stdout && result.stdout.includes('ERROR')) {
-              console.log('Hugo output: ' + result.stdout.trim());
-            }
-          } else {
-            spinner.fail('Hugo ran but file was not created');
-          }
-          console.log('Falling back to default content...');
-          // Fallback to manual creation if hugo new fails
-          var content = "---\n" +
-            "title: \"" + newArticle + "\"\n" +
-            "date: " + new Date().toISOString().split('T')[0] + "\n" +
-            "draft: true\n" +
-            "description: \"\"\n" +
-            "---\n";
-          utils.directoryCreate('./content/' + articlePath);
-          utils.writeContentToFile(articleFilePath, content);
-        } else {
-          spinner.succeed('Article created using Hugo archetypes');
-        }
-
-        // Copy banner image as featured image
-        utils.copyFile(utils.getDirname(import.meta.url) + '/../banner.png', './content/' + articlePath + '/featured.png');
-        flow.showMain('Article ' + newArticle + ' created at content/' + articlePath);
+      if (!sectionResponse) {
+        // User pressed ESC - return to main menu
+        flow.showMain();
+        return;
       }
 
+      flow.createSection(sectionResponse.name);
+      console.log('Section ' + sectionResponse.name + ' created.');
+      contentFolders = [sectionResponse.name];
     }
+
+
+    const response = await safePrompt([
+      {
+        type: 'select',
+        name: 'option',
+        message: 'Select the section where you want to create the article:',
+        choices: contentFolders
+      },
+      {
+        type: 'input',
+        name: 'name',
+        default: 'new-article',
+        message: 'What is the name of the new article?'
+      }
+    ]);
+
+    if (!response) {
+      // User pressed ESC - return to main menu
+      flow.showMain();
+      return;
+    }
+
+    var newArticle = response.name;
+    var articleSlug = newArticle.toLowerCase().replaceAll(' ', '-');
+    var articlePath = response.option + '/' + articleSlug;
+
+    if (utils.directoryExists('./content/' + articlePath)) {
+      flow.showMain('Article already exists at content/' + articlePath + '.');
+    } else {
+      // Use hugo new to respect archetypes
+      const spinner = ora('Creating article').start();
+      const articleFilePath = './content/' + articlePath + '/index.md';
+      const result = await utils.runWithOutput('hugo new content/' + articlePath + '/index.md');
+
+      // Check if Hugo command succeeded AND the file was actually created
+      const fileCreated = utils.fileExists(articleFilePath);
+
+      if (result.code !== 0 || !fileCreated) {
+        if (result.code !== 0) {
+          spinner.fail('Failed to create article with Hugo archetypes');
+          // Show Hugo's error output to help diagnose issues
+          if (result.stderr) {
+            console.log('Hugo error: ' + result.stderr.trim());
+          }
+          if (result.stdout && result.stdout.includes('ERROR')) {
+            console.log('Hugo output: ' + result.stdout.trim());
+          }
+        } else {
+          spinner.fail('Hugo ran but file was not created');
+        }
+        console.log('Check your archetype files (e.g. archetypes/default.md) for syntax errors - front matter delimited by --- must be valid YAML.');
+        console.log('Falling back to default content...');
+        // Fallback to manual creation if hugo new fails
+        var content = "---\n" +
+          "title: \"" + newArticle + "\"\n" +
+          "date: " + new Date().toISOString().split('T')[0] + "\n" +
+          "draft: true\n" +
+          "description: \"\"\n" +
+          "---\n";
+        utils.directoryCreate('./content/' + articlePath);
+        utils.writeContentToFile(articleFilePath, content);
+      } else {
+        spinner.succeed('Article created using Hugo archetypes');
+      }
+
+      // Copy banner image as featured image
+      utils.copyFile(utils.getDirname(import.meta.url) + '/../banner.png', './content/' + articlePath + '/featured.png');
+      flow.showMain('Article ' + newArticle + ' created at content/' + articlePath);
+    }
+
   }
 }
 
@@ -1103,7 +1147,7 @@ var configOptions = [{
   text: 'Configure menus',
   method: 'menus',
   action: async (list) => {
-    await flow.configMenus('./config/_default/menus.en.toml');
+    await flow.configMenus(utils.resolveConfigPath('./config/_default/menus.en.toml'));
     flow.displayConfigOptions(list);
   }
 }]
@@ -1121,7 +1165,7 @@ var configOptionsJSONList = utils.readAppJsonConfig('configOptions.json');
 function createAction(method, file, parent, key, description) {
   return async (list) => {
     await flow[method](
-      file,
+      utils.resolveConfigPath(file),
       parent,
       key,
       description);
@@ -1156,7 +1200,7 @@ var options = [
     blowfishIsInstalled: true,
     action: async () => {
       await flow.setupHugoServer();
-      await flow.configMenus('./config/_default/menus.en.toml');
+      await flow.configMenus(utils.resolveConfigPath('./config/_default/menus.en.toml'));
       await flow.showMain('Configuration mode exited.');
     }
   },
@@ -1281,6 +1325,20 @@ var options = [
       var tempList = []
       for (var i in configOptions) {
         if (configOptions[i].parent === "term" || configOptions[i].method === 'exit')
+          tempList.push(configOptions[i])
+      }
+
+      flow.enterConfigMode(tempList);
+    }
+  },
+  {
+    text: 'Configure language redirects',
+    blowfishIsInstalled: true,
+    action: async () => {
+
+      var tempList = []
+      for (var i in configOptions) {
+        if (configOptions[i].parent === "languageRedirect" || configOptions[i].method === 'exit')
           tempList.push(configOptions[i])
       }
 
