@@ -211,6 +211,16 @@ export default class utils {
     }
   }
 
+  static fileDelete(path) {
+    try {
+      if (fs.existsSync(path)) {
+        fs.rmSync(path);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   static fileChange(path, strintoreplace, replacement) {
     var data = fs.readFileSync(path, 'utf8')
     var result = data.replace(strintoreplace, replacement);
