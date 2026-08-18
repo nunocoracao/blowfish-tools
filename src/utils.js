@@ -123,6 +123,62 @@ export default class utils {
     }  
   }
 
+  static getDefaultLanguage() {
+    try {
+      const data = fs.readFileSync('./config/_default/hugo.toml', 'utf8');
+      const match = data.match(/^\s*defaultContentLanguage\s*=\s*["']([^"']+)["']/m);
+      if (match) {
+        return match[1];
+      }
+    } catch (err) {
+      // No hugo.toml or unreadable - fall back to English
+    }
+    return 'en';
+  }
+
+  static resolveConfigPath(filePath) {
+    // Config option files are declared with an ".en.toml" suffix, but sites
+    // with a different default language use e.g. "menus.pt-br.toml" instead.
+    const match = filePath.match(/^(.*[\\/])([^\\/.]+)\.en\.toml$/);
+    if (!match) {
+      return filePath;
+    }
+    const dir = match[1];
+    const base = match[2];
+    const lang = utils.getDefaultLanguage();
+
+    var candidates = [dir + base + '.' + lang + '.toml', filePath];
+    try {
+      const siblings = fs.readdirSync(dir)
+        .filter(f => f.startsWith(base + '.') && f.endsWith('.toml'))
+        .sort()
+        .map(f => dir + f);
+      candidates = candidates.concat(siblings);
+    } catch (err) {
+      // Directory unreadable - fall through to the declared path
+    }
+
+    for (const candidate of candidates) {
+      if (fs.existsSync(candidate)) {
+        return candidate;
+      }
+    }
+    return candidates[0];
+  }
+
+  static installCustomIcons(names) {
+    // Icons bundled with the CLI but not shipped by the theme are copied into
+    // the site's assets/icons folder so Hugo can resolve them.
+    const customDir = path.join(utils.getDirname(import.meta.url), '../configs/custom-icons');
+    for (const name of [].concat(names || [])) {
+      const src = path.join(customDir, name + '.svg');
+      if (fs.existsSync(src)) {
+        utils.directoryCreate('./assets/icons');
+        utils.copyFile(src, path.join('./assets/icons', name + '.svg'));
+      }
+    }
+  }
+
   static fileExists(path) {
     try {
       return fs.existsSync(path);
@@ -266,11 +322,11 @@ export default class utils {
     return fs.readdirSync(path);
   }
 
-  static getDirs(path) {
+  static getDirs(dirPath) {
     var contentFolders = [];
-    var files = fs.readdirSync(path);
+    var files = fs.readdirSync(dirPath);
     for (var i in files) {
-      if (fs.statSync('./content/' + files[i]).isDirectory()) {
+      if (fs.statSync(path.join(dirPath, files[i])).isDirectory()) {
         contentFolders.push(files[i]);
       }
     }

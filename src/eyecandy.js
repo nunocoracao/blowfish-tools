@@ -4,6 +4,7 @@ import ora from 'ora';
 import utils from './utils.js';
 
 var buffer = fs.readFileSync(path.join(utils.getDirname(import.meta.url), '../logo.txt'));
+var metadata = JSON.parse(fs.readFileSync(path.join(utils.getDirname(import.meta.url), '../package.json')));
 var firstRun = true;
 
 export default class eyecandy {
@@ -16,7 +17,7 @@ export default class eyecandy {
       const spinner = ora('Loading awesomeness...').start();
       spinner.succeed('Awesomeness loaded');
       console.log(buffer.toString());
-      console.log('Welcome to Blowfish tools.');
+      console.log('Welcome to Blowfish tools v' + metadata.version + '.');
       console.log('I can help you setup a new project from scratch or configure an existing one (or both).');
       firstRun = false;
     }

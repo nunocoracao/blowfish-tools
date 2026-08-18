@@ -133,7 +133,7 @@
     "file": "./config/_default/params.toml",
     "parent": null,
     "key": "colorScheme",
-    "description": "The theme colour scheme to use. Valid values are blowfish (default), avocado, fire, forest, princess, neon, bloody, terminal, marvel, noir, autumn, congo, slate. Custom themes are supported check Blowfish documentation."
+    "description": "The theme colour scheme to use. Valid values are blowfish (default), autumn, avocado, bloody, burufugu, congo, fire, forest, github, marvel, neon, noir, ocean, one-light, princess, slate, terminal. Custom schemes are supported, check the Blowfish documentation."
   },
   {
     "text": "Default Appearance",
@@ -206,6 +206,14 @@
     "parent": null,
     "key": "defaultBackgroundImage",
     "description": "Default background image for both background homepage layout and background hero style."
+  },
+  {
+    "text": "Enable/Disable background canvas",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "backgroundCanvas",
+    "description": "Render the default background image as a fixed site-wide backdrop that hero images dissolve into (true or false)."
   },
   {
     "text": "Configure default featured image",
@@ -296,6 +304,14 @@
     "description": "Allow external URLs for feature images instead of local files (true or false)."
   },
   {
+    "text": "Set thumbnail aspect ratio",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": null,
+    "key": "thumbnailAspectRatio",
+    "description": "Aspect ratio for article thumbnails as a number (e.g. 1.5, 1.0, 1.777)."
+  },
+  {
     "text": "Image position",
     "method": "configLoop",
     "file": "./config/_default/params.toml",
@@ -357,7 +373,15 @@
     "file": "./config/_default/params.toml",
     "parent": "header",
     "key": "layout",
-    "description": "Defines the header for the entire site, supported values are basic, fixed, fixed-fill, and fixed-fill-blur."
+    "description": "Defines the header for the entire site, supported values are basic, fixed, fixed-fill, fixed-gradient, fixed-fill-blur, and floating."
+  },
+  {
+    "text": "Select mobile menu style",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "header",
+    "key": "mobileMenuStyle",
+    "description": "Style of the menu on mobile devices. Valid values are fullscreen (default) and dropdown."
   },
   {
     "text": "Enable/Disable showing menu in footer",
@@ -405,7 +429,15 @@
     "file": "./config/_default/params.toml",
     "parent": "homepage",
     "key": "layout",
-    "description": "The layout of the homepage. Valid values are page, profile, hero, card, background, or custom. When set to custom, you must provide your own layout by creating a /layouts/partials/home/custom.html file."
+    "description": "The layout of the homepage. Valid values are page, profile, hero, card, background, landing, or custom. When set to custom, you must provide your own layout by creating a /layouts/partials/home/custom.html file."
+  },
+  {
+    "text": "Enable/Disable homepage layout switcher",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "homepage",
+    "key": "layoutSwitcher",
+    "description": "Display an interactive switcher on the homepage to preview the built-in layouts (true or false)."
   },
   {
     "text": "Select Homepage image",
@@ -648,6 +680,14 @@
     "description": "Whether or not article reading times are displayed."
   },
   {
+    "text": "Enable/Disable reading progress bar in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showReadingProgress",
+    "description": "Display a reading progress bar on articles (true or false)."
+  },
+  {
     "text": "Show/Hide table of contents in articles",
     "method": "configLoop",
     "file": "./config/_default/params.toml",
@@ -678,6 +718,30 @@
     "parent": "article",
     "key": "showTaxonomies",
     "description": "Whether or not the taxonomies related to this article are displayed."
+  },
+  {
+    "text": "Enable/Disable categories in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showCategories",
+    "description": "Display the categories of the article. Only used when showTaxonomies is true (true or false)."
+  },
+  {
+    "text": "Enable/Disable tags in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showTags",
+    "description": "Display the tags of the article. Only used when showTaxonomies is true (true or false)."
+  },
+  {
+    "text": "Enable/Disable secondary color for categories in articles",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "article",
+    "key": "showCategoriesInSecondaryColor",
+    "description": "Display category badges in a secondary color to better distinguish them from tags. Only used when showTaxonomies is true (true or false)."
   },
   {
     "text": "Show only category taxonomy",
@@ -734,6 +798,14 @@
     "parent": "list",
     "key": "showHero",
     "description": "Whether the thumbnail image will be shown as a hero image within each list page."
+  },
+  {
+    "text": "Enable/Disable feature image hover zoom in lists",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "list",
+    "key": "featureImageHover",
+    "description": "Apply a subtle zoom to card thumbnails on hover (true or false)."
   },
   {
     "text": "Select hero style in lists",
@@ -982,6 +1054,46 @@
     "parent": "term",
     "key": "cardViewScreenWidth",
     "description": "Enhance the width of card galleries in lists to take the full width available."
+  },
+  {
+    "text": "Enable/Disable language redirect",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "languageRedirect",
+    "key": "enabled",
+    "description": "Enable client-side language redirects for multilingual sites (true or false)."
+  },
+  {
+    "text": "Set language redirect storage key",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "languageRedirect",
+    "key": "storageKey",
+    "description": "localStorage key used to remember manual language selections."
+  },
+  {
+    "text": "Set language redirect fallback language",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "languageRedirect",
+    "key": "fallbackLanguage",
+    "description": "Language to use when no browser language matches. Defaults to Hugo's default content language."
+  },
+  {
+    "text": "Enable/Disable browser language redirect on home pages only",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "languageRedirect",
+    "key": "browserRedirectHomeOnly",
+    "description": "Restrict browser-language redirects to home pages (true or false)."
+  },
+  {
+    "text": "Enable/Disable stored language redirect",
+    "method": "configLoop",
+    "file": "./config/_default/params.toml",
+    "parent": "languageRedirect",
+    "key": "storedLanguageRedirect",
+    "description": "Redirect to the stored language when a matching translation exists (true or false)."
   },
   {
     "text": "Firebase API Key",
