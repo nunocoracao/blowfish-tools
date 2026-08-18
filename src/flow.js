@@ -1003,6 +1003,183 @@ export default class flow {
     }
   }
 
+  static readQuotes(file) {
+    const data = utils.openFile(file);
+    if (!data) {
+      return [];
+    }
+    try {
+      const parsed = JSON.parse(data.toString());
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (err) {
+      console.log('Could not parse ' + file + ': ' + err.message);
+      return [];
+    }
+  }
+
+  static saveQuotes(quotes) {
+    utils.directoryCreate('./data');
+    utils.saveFileSync('./data/quotes404.json', JSON.stringify(quotes, null, 2) + '\n');
+  }
+
+  static quoteLanguages(quotes) {
+    return [...new Set(quotes.map(q => q.lang || 'en'))].sort();
+  }
+
+  static async config404Quotes() {
+
+    const siteFile = './data/quotes404.json';
+    const themeFile = './themes/blowfish/data/quotes404.json';
+
+    var inQuotesConfigCycle = true;
+
+    while (inQuotesConfigCycle) {
+
+      // The site's data/quotes404.json fully shadows the theme's, so edits
+      // start from the theme defaults and are saved as a site override.
+      var usingOverride = utils.fileExists(siteFile);
+      var quotes = flow.readQuotes(usingOverride ? siteFile : themeFile);
+
+      const response = await safePrompt({
+        type: 'AutoComplete',
+        name: 'option',
+        message: 'Configure the quotes shown on the 404 page.\nCurrently using ' + (usingOverride ? 'a site override (data/quotes404.json)' : 'the theme defaults') + ' with ' + quotes.length + ' quotes.',
+        limit: 10,
+        initial: 0,
+        choices: [
+          'View quotes',
+          'Add a quote',
+          'Remove quotes',
+          'Reset to theme defaults',
+          'Go back'
+        ]
+      });
+
+      if (!response) {
+        // User pressed ESC - go back
+        inQuotesConfigCycle = false;
+        continue;
+      }
+
+      if (response.option === 'View quotes') {
+
+        var langs = flow.quoteLanguages(quotes);
+        const langResponse = await safePrompt({
+          type: 'AutoComplete',
+          name: 'lang',
+          message: 'Which language do you want to view? (start typing to search)',
+          limit: 10,
+          initial: 0,
+          choices: ['all'].concat(langs)
+        });
+
+        if (!langResponse) {
+          continue;
+        }
+
+        var list = quotes;
+        if (langResponse.lang !== 'all') {
+          list = quotes.filter(q => (q.lang || 'en') === langResponse.lang);
+        }
+        for (const q of list) {
+          console.log(chalk.blue('“' + q.line + '”') + ' — ' + q.source + ' [' + (q.lang || 'en') + ']');
+        }
+        console.log(' ');
+
+      } else if (response.option === 'Add a quote') {
+
+        const addResponse = await safePrompt([
+          {
+            type: 'input',
+            name: 'line',
+            message: 'What is the quote?'
+          },
+          {
+            type: 'input',
+            name: 'source',
+            message: 'What is the source of the quote? (e.g. The Matrix (1999))'
+          },
+          {
+            type: 'input',
+            name: 'lang',
+            default: utils.getDefaultLanguage(),
+            message: 'What language code is the quote in? (quotes are picked to match each page\'s language, with English as fallback)'
+          }
+        ]);
+
+        if (!addResponse || addResponse.line.trim() === '') {
+          continue;
+        }
+
+        quotes.push({
+          lang: addResponse.lang.trim() || 'en',
+          line: addResponse.line.trim(),
+          source: addResponse.source.trim()
+        });
+        flow.saveQuotes(quotes);
+        console.log('Quote added' + (usingOverride ? '.' : ' - site override created from the theme defaults.'));
+
+      } else if (response.option === 'Remove quotes') {
+
+        if (quotes.length === 0) {
+          console.log('No quotes to remove.');
+          continue;
+        }
+
+        var langs = flow.quoteLanguages(quotes);
+        const langResponse = await safePrompt({
+          type: 'AutoComplete',
+          name: 'lang',
+          message: 'Remove quotes of which language? (start typing to search)',
+          limit: 10,
+          initial: 0,
+          choices: langs
+        });
+
+        if (!langResponse) {
+          continue;
+        }
+
+        var candidates = [];
+        quotes.forEach((q, i) => {
+          if ((q.lang || 'en') === langResponse.lang) {
+            candidates.push({ name: String(i), message: '“' + q.line + '” — ' + q.source });
+          }
+        });
+
+        const deleteResponse = await safePrompt([
+          {
+            type: 'multiselect',
+            name: 'value',
+            message: 'Select quotes to remove (use spacebar to select and enter to confirm):',
+            limit: 10,
+            choices: candidates
+          }
+        ]);
+
+        if (!deleteResponse || deleteResponse.value.length === 0) {
+          continue;
+        }
+
+        const toDelete = new Set(deleteResponse.value.map(Number));
+        flow.saveQuotes(quotes.filter((q, i) => !toDelete.has(i)));
+        console.log(deleteResponse.value.length + ' quote(s) removed' + (usingOverride ? '.' : ' - site override created from the theme defaults.'));
+
+      } else if (response.option === 'Reset to theme defaults') {
+
+        if (usingOverride) {
+          utils.fileDelete(siteFile);
+          console.log('Site override removed - the 404 page uses the theme quotes again.');
+        } else {
+          console.log('Already using the theme defaults.');
+        }
+
+      } else if (response.option === 'Go back') {
+        inQuotesConfigCycle = false;
+      }
+    }
+  }
+
   static createSection(name) {
     utils.directoryCreate('./content/' + name);
     // Create _index.md so Hugo recognizes this as a section with its own page
@@ -1329,6 +1506,14 @@ var options = [
       }
 
       flow.enterConfigMode(tempList);
+    }
+  },
+  {
+    text: 'Configure 404 page quotes',
+    blowfishIsInstalled: true,
+    action: async () => {
+      await flow.config404Quotes();
+      flow.showMain('404 quotes configuration exited.');
     }
   },
   {

@@ -19,6 +19,7 @@ Starting with v3, blowfish-tools versioning follows the major version of the [Bl
 - Update Blowfish to the latest version
 - Configure metadata
 - Configure menu structure
+- Manage the 404 page quotes (add, remove, or reset to the theme defaults)
 - Configure overall site
 - Configure site author
 - Configure homepage
