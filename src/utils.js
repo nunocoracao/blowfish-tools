@@ -14,7 +14,8 @@ export default class utils {
 
   static run(cmd, pipe, returnExitCode = false) {
     return new Promise((resolve, reject) => {
-      const child = exec(cmd, { maxBuffer: 10 * 1024 * 1024 });
+      const [command, ...args] = cmd.split(/\s+/);
+      const child = spawn(command, args, { shell: false });
       if (pipe) {
         child.stdout.pipe(process.stdout);
         child.stderr.pipe(process.stderr);
